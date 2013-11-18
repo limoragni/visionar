@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+    {% load staticfiles %}
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Visionar Media Rental</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	
+    <!-- CSS
+  ================================================== -->
+  	<link rel="stylesheet" href="{% static "visionar/css/reset.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/ut-fontface.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/font-awesome.css" %}" media="all">
+	<link rel="stylesheet" href="{% static "visionar/css/flexslider.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/magnific-popup.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/ut-responsive-grid.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/color.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/style.css" %}" media="all">
+    
+     <!--[if lt IE 9]>
+		<script src="js/html5.js"></script>
+	<![endif]-->
+    
+   <!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="ie8-and-down.css" />
+	<style>.hero .hero-holder {
+		margin-left:-410px;
+	}
+	</style>
+    <![endif]-->
+    
+    <!--[if IE]>
+		<link rel="stylesheet" type="text/css" href="css/ie.css" />
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href= "{% static "visionar/images/favicon.ico" %}">
+	<link rel="apple-touch-icon" href= "{% static "visionar/images/apple-touch-icon.png" %}">
+	<link rel="apple-touch-icon" sizes="72x72" href= "{% static "visionar/images/apple-touch-icon-72x72.png" %}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static "visionar/images/apple-touch-icon-114x114.png" %}">
+
+	<!-- Load jQuery
+  	================================================== -->
+  	<script src="{% static "visionar/js/vendor/jquery.min.js" %}"></script>
+    <script src="{% static "visionar/js/vendor/SmoothScroll.js" %}"></script>
+	<script src="{% static "visionar/js/vendor/modernizr.js" %}"></script>
+    <script src="{% static "visionar/js/vendor/device.min.js" %}"></script>
+    <script src="{% static "visionar/js/csrf.js" %}"></script>
+ 	<style type="text/css">
+		#dropmenu{
+			background: rgb(255, 255, 255);
+			background: rgba(255, 255, 255, 0.95);
+			width: 120px;
+			height: 100px;
+			position: fixed;
+			top: 100%;
+			left: 92%;
+			z-index: 1000;
+			-webkit-transform: translateY(0%);
+			-moz-transform: translateY(0%);
+			transform: translateY(0%);
+			-webkit-transition: all 0.5s;
+			-moz-transition: all 0.5s;
+			transition: all 0.5s;
+			display: none;
+		}
+		#username-menu{
+			padding-bottom: 10px;
+			width: 100px;
+			margin: 0px;
+			float: right;
+		}
+		#dropmenu a{
+			width: 100px;
+			line-height: 25px;
+			margin: 20px 0px 0px 23px;
+		}
+		#header-section {
+			line-height: 1px;
+		}
+		#ut-navigation{
+			line-height: 80px;
+		}
+		#anchors-menu{
+			margin-top: 10px; 
+		}
+    </style>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var d = 0;
+    		$('#username-menu').hover(function() {
+    			$('#dropmenu').css('display', 'block')
+    		}, function() {
+    			window.setTimeout(function(){
+    				if(!d){
+    					$('#dropmenu').css('display', 'none')
+    				}
+    				d = 0
+    			}, 200)
+    			
+    		});
+
+    		$('#dropmenu').hover(function() {
+    			d = 1
+    			$('#dropmenu').css('display', 'block')
+    		}, function() {
+    			$('#dropmenu').css('display', 'none')
+    		});
+    	});
+    </script>
+</head>
+
+<body id="mainsite">
+
+     <!-- header section -->
+	<header id="header-section" class="ha-header">
+    	<div class="grid-container">
+				<div class="ha-header-perspective">
+					<div class="ha-header-front">
+                    <div class="grid-20 tablet-grid-20 hide-on-mobile">
+						<h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
+                        </div>
+						<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
+                        	<a class="selected" href="#top">Home</a>
+							<a href="#about-section">Nosotros</a>
+							<a href="#service-section">Servicios</a>
+                            <a href="#portfolio-section">Pantallas</a>
+                            <a href="#contact-section">Contacto</a>
+						</nav>
+						{% if user.is_authenticated %}
+							<h3 id="username-menu" style="text-align:right">{{request.user}}</h3>
+							<div id="dropmenu">
+								<div id="anchors-menu">
+									<a href="/users/profile">PERFIL</a>
+									<a href="/users/video">VIDEOS</a>
+									<a href="/users/logout">SALIR</a>
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</div><!-- close .ha-header-perspective --> 
+        </div><!-- close grid container -->  
+    </header><!-- close header -->
+	
+	{% block content %}
+        <h1>No content set</h1>
+    {% endblock %}
+     
+	
+	    <!-- Load Javascript
+  	================================================== -->
+    <script src= "{% static "visionar/js/vendor/jquery.mb.YTPlayer.js" %}"></script>
+    <script src= "{% static "visionar/js/vendor/jquery.flexslider-min.js" %}"></script>
+    <script src= "{% static "visionar/js/vendor/jquery.parallax.min.js" %}"></script>
+    <script src= "{% static "visionar/js/vendor/jquery.scrollTo.min.js" %}"></script>
+	<script src= "{% static "visionar/js/vendor/waypoints.min.js" %}"></script>
+	<script src= "{% static "visionar/js/vendor/jquery.magnific-popup.min.js" %}"></script>
+   	<script src= "{% static "visionar/js/vendor/jquery.custom.js" %}"></script>
+    
+<!-- End Document
+================================================== -->
+
+</body>
+</html>

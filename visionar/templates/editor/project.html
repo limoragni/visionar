@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+  	{% load staticfiles %}
+  	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
+	<script type="text/javascript">
+ 		var _USER = "{{request.user}}"; 
+ 	</script>
+	<script src="{% static "visionar/js/uploader.js" %}"></script>
+	<script src="{% static "editor/js/project.js" %}"></script>
+
+ <div class="nav-waypoint">
+	<section id="contact-section" class="contact-section parallax-section parallax-background">
+	<div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+			 <header class="parallax-header">
+                <h2 class="parallax-title"><span>Proyecto</span></h2>
+                
+            </header>
+			<div class="clear"></div>
+			<input type="button" value="save" id="save-project">
+			<input type="button" value="preview" id="render">
+			<div id="files-cont" class="contact-message">
+				<form id="files">
+					{% for m in media %}
+						<div data-id="{{m.id}}" class="entry entry-filled">
+							<img data-id="{{m.id}}" src="{{m.image.thumb}}"/>
+						</div>	
+					{% endfor %}
+
+					<div class="entry">
+						<input type="file"  id="file-0" name="file-0" />
+						<h3>+</h3>
+					</div>
+						
+				</form>
+				<br/>
+				
+			</div>
+			<input type="button" value="delete" id="delete-media">
+			<div class="clear"></div>
+			<div id="video">
+				
+			</div>
+		</div>
+	</section>
+ </div>	
+<div id="debug">
+	{{request.user}}
+</div>	
+{% endblock %}

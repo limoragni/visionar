@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <style type="text/css">
+	.template-preview{
+		width:400px;
+		height: 245px;
+		background-color: #000;
+		float: left;
+		margin-left: 70px;
+	}
+	.template-thumb{
+		width:400px;
+		height: 245px;
+		cursor: pointer;
+	}
+	#debug{
+		background-color: #FFF;
+		color: #000;
+	}
+ </style>
+ <div class="nav-waypoint">
+	<section id="contact-section" class="contact-section parallax-section parallax-background">
+	<div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+			 <header class="parallax-header">
+                <h2 class="parallax-title"><span>Elegi un estilo</span></h2>
+                <p class="parallax-slogan">Elegi uno de los estilos de VISIONAR y comenza a editar tu propio video</p>
+            </header>
+			
+			<div class="clear"></div>
+			{% for t in temp %}
+				<div id="{{t.name}}" class="template-preview">
+					<video width='400' height='245' controls> 
+						<source src='/media/{{t.preview}}' type='video/ogg'> 
+					</video>
+					<a href="/project/add/{{request.user}}/{{t.name}}/">SELECCIONAR</a>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+ </div>	
+<div id="debug">
+	{{request.user}}
+</div>	
+{% endblock %}

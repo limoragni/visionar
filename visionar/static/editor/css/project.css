@@ -1,0 +1,47 @@
+.entry{
+	background-color: #E4E4E4;
+	width: 150px;
+	height: 150px;
+	position: relative;
+	margin: 15px 0px 20px 20px;
+	float:left;
+}
+
+.entry input{
+	opacity:0;
+	width: 150px;
+	height: 150px;
+	position:relative;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+.entry h3{
+	text-align: center;
+	width: 50px;
+	height: 50px;
+	top:50px;
+	left:45px;
+	position: absolute;
+	font-size: 50px;
+	z-index: 100;
+}
+.entry img{
+	margin: 15px 0px 0px 15px ;
+}
+
+.entry-selected{
+	background-color: #3498db;
+}
+
+.entry-filled{
+	cursor: pointer; 
+}
+
+#files-cont{
+	overflow: hidden;
+}
+
+#video{
+	text-align: center;
+}

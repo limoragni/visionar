@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- contact section -->
+ <div class="nav-waypoint">
+ <section id="contact-section" class="contact-section parallax-section parallax-background">
+ <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+	<div class="grid-container parallax-content">
+    
+        	<!-- parallax header -->
+        	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="parallax-header">
+                    <h2 class="parallax-title"><span>Ingresar</span></h2>
+                    <p class="parallax-slogan">Bienvenido!. Crea tu cuenta o ingresá a la aplicación si ya sos usuario.</p>
+                </header>
+            </div>
+        	<!-- close parallax header -->
+        
+        <div class="clear"></div>
+        
+        <!-- contact wrap -->
+        <div class="grid-100 mobile-grid-100 tablet-grid-100">
+    	<div class="contact-wrap">
+        
+        
+        <!-- contact message -->
+        <div class="grid-parent grid-45 suffix-5 mobile-grid-100 tablet-grid-100">
+        <div class="contact-message">
+        <h3 class="grid-100">Regístrate (Nuevos Usuarios)</h3>
+        	            <!-- contact form -->
+        <form id="signup-form" method="POST" action="/users/signup/"class="contact-form">
+            {% csrf_token %}
+        	<ul class="grid-100">
+            
+            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:"></li>
+                <li><input id="password" class="password" type="text" name="password" placeholder="Password:"></li>
+                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:"></li>
+                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:"></li>
+                <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:"></li>
+				<li><input id="company" class="name" type="text" name="company" placeholder="Empresa:"></li>
+                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:"></li>
+                
+        	</ul>
+			
+            <div class="grid-100">    
+                <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Registrarse">
+                <div class="success-message">El mensaje ha sido enviado!. Muchas gracias.</div>
+                <div class="alert-message"></div>
+                <div class="error-message">No se pudo enviar el mensaje. Por favor, intente más tarde.</div>
+            </div>   
+          </form><!-- close contact form -->
+        </div>
+        </div><!-- close contact message -->
+        
+        <!-- contact form -->
+        <div class="grid-parent grid-45 prefix-5 mobile-grid-100 tablet-grid-100">
+        <div class="contact-form-holder clearfix">
+      	
+        
+        <h3 class="grid-100">Ingresa a tu cuenta</h3>
+        
+        <!-- contact form -->
+        <form id="login-form" method="POST" action="/users/login/" class="contact-form">
+            {% csrf_token %}
+        	<ul class="grid-100">
+            
+            	<li><input id="name" class="name" type="text" name="name" placeholder="Usuario"></li>
+                <li><input id="email" class="email" type="email" name="email" placeholder="Password:"></li>
+                <li><a href="#"><i class="icon-lock"> Olvidaste tu password?</i></a></li>
+        	</ul>
+
+            <div class="grid-100">    
+                <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Ingrasar">
+                <div class="success-message">El mensaje ha sido enviado!. Muchas gracias.</div>
+                <div class="alert-message"></div>
+                <div class="error-message">No se pudo enviar el mensaje. Por favor, intente más tarde.</div>
+            </div>   
+          </form><!-- close contact form -->
+                
+        </div>
+        </div><!-- close contact-form-holder -->
+        
+        </div>
+        </div><!-- close contact wrap -->
+        
+        
+	</div><!-- close container -->
+</section><!-- close contact section -->
+
+</div><!-- close nav-waypoint -->
+
+{% endblock %}

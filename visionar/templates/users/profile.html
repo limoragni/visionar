@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  	{% load staticfiles %}
+  	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
+	<script src="{% static "visionar/js/uploader.js" %}"></script>
+	<script src="{% static "editor/js/project.js" %}"></script>
+ 
+ <div class="nav-waypoint">
+	<section id="contact-section" class="contact-section parallax-section parallax-background">
+	<div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+			 <header class="parallax-header">
+                <h2 class="parallax-title"><span>Perfil</span></h2>
+                
+            </header>
+			<div class="clear"></div>
+			
+		</div>
+	</section>
+ </div>	
+<div id="debug">
+	{{request.user}}
+</div>	
+{% endblock %}
