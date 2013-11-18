@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^create/$', include('editor.urls')),
     url(r'^project/', include('editor.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', include('users.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

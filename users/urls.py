@@ -8,6 +8,8 @@ urlpatterns = patterns('',
     url(r'^video/$', views.video, name='video'),
     url(r'^profile/$', views.profile, name='profile'),
    	url(r'^login/', views.loginview, name='login'),
+   	url(r'^auth/', views.auth_and_login, name='login'),
    	url(r'^logout/$', views.logoutview, name='logout'),
    	url(r'^signup/', views.signup, name='signup'),
+   	url(r'^$', views.loginview, name='loginBlank'),
 )

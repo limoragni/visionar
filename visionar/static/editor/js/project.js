@@ -26,7 +26,15 @@ $(document).ready(function() {
 		},
 		
 		onChange : function(i){
+			console.log(i)
 			
+			$(i).css("display", "none")
+			$(i).siblings().css("display", "none")
+			$(i).parent().append("<h4>Loading...</h4>")
+			
+			upl.init();
+		},
+		success: function(d, i){
 			var p = project.inputNumber++; 
 			$("#files").append(
 				"<div class='entry'>" +
@@ -35,13 +43,12 @@ $(document).ready(function() {
 					"</div>"
 
 			);
-			upl.init();
-		},
-		success: function(d, i){
+
 			var div = $(i).parent();
 			div.addClass("entry-filled");
 			div.html('<img data-id="'+d.id+'" src="'+ d.thumb +'"/>');
 			div.click(onTouch);
+		
 		},
 		error: function(e){
 			console.log(e);
@@ -60,7 +67,7 @@ $(document).ready(function() {
 
 	       	},
 	        success: function(data, status, xhr) {
-	       		$("#video").html("<video width='650' height='400' controls> <source src='/media/renders/QK1-250.ogv' type='video/ogg' </video>")
+	       		$("#video").html("<video width='650' height='400' controls> <source src='/media/renders/"+urlhash+"1-250.ogv' type='video/ogg' </video>")
 	        },
 	        error: function(xhr, errmsg, err){
 	    		console.log(errmsg);

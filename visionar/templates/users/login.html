@@ -33,7 +33,7 @@
         	<ul class="grid-100">
             
             	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:"></li>
-                <li><input id="password" class="password" type="text" name="password" placeholder="Password:"></li>
+                <li><input id="password" class="password" type="password" name="password" placeholder="Password:"></li>
                 <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:"></li>
                 <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:"></li>
                 <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:"></li>
@@ -60,12 +60,12 @@
         <h3 class="grid-100">Ingresa a tu cuenta</h3>
         
         <!-- contact form -->
-        <form id="login-form" method="POST" action="/users/login/" class="contact-form">
+        <form id="login-form" method="POST" action="/users/auth/" class="contact-form">
             {% csrf_token %}
         	<ul class="grid-100">
             
-            	<li><input id="name" class="name" type="text" name="name" placeholder="Usuario"></li>
-                <li><input id="email" class="email" type="email" name="email" placeholder="Password:"></li>
+            	<li><input class="name" type="text" name="username" placeholder="Usuario"></li>
+                <li><input class="password" type="password" name="password" placeholder="Password:"></li>
                 <li><a href="#"><i class="icon-lock"> Olvidaste tu password?</i></a></li>
         	</ul>
 
