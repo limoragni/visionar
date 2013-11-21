@@ -19,16 +19,15 @@ def select_template(request):
     temp = Template.objects.all()
     return render(request, "editor/select_template.html", {"temp": temp})
 
+
 @login_required(login_url='/users/login/')
 def get(request, urlhash):
 	if Project.objects.get(urlhash=urlhash):
 		project = Project.objects.get(urlhash=urlhash)
-		media_set = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))#project.media_set.all()
-		#thumbs = []
-		#for media in media_set:
-		#	thumbs.append(media.image.file['avatar'].url)
-			
-		return render(request, "editor/project.html", {"project": project, "media": media_set})
+		positions = json.dumps(project.positions)
+		media_set = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
+		media_sorted = sorted(media_set, key=lambda a: a.position)
+		return render(request, "editor/project.html", {"project": project, "media": media_sorted})
 	else:
 		return redirect('/users/login/')
 	
@@ -44,6 +43,37 @@ def add(request, user, template):
 	else:
 		return redirect('/users/login/')
 
+def saveProject(request):
+	if (str(request.POST["user"]) ==str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
+		project = Project.objects.get(urlhash=request.POST["project"])
+		project.positions = request.POST["positions"]
+		project.save()
+		r = "El proyecto fue guardado con exito"
+	else:
+		r = "No se puede guardar"	
+	
+	response = JSONResponse({'response': r}, mimetype=response_mimetype(request))
+	response['Content-Disposition'] = 'inline; filename=files.json'
+	return response
+
+def updatePositions(project, id, delete=False):
+	if project.positions:
+		plist =  [ int(x) for x in json.loads(project.positions) ]
+	else:
+		plist = []
+	
+	if delete:
+		plist.remove(int(id))
+	else:
+		plist.append(int(id))
+	
+	if plist:	
+		project.positions = json.dumps(plist)
+	else:
+		project.positions = []
+	
+	project.save()
+
 def uploadImage(request):
 	project = Project.objects.get(urlhash=str(request.POST["project"]))
 	mediatype = Mediatype.objects.get(typename="Image")
@@ -54,8 +84,9 @@ def uploadImage(request):
 	img.file = ContentFile(image_data, request.POST["filename"])
 	
 	img.save()
-	
 	thumb_url = img.file['avatar'].url
+	
+	updatePositions(project, img.id)
 	
 	response = JSONResponse({'thumb': thumb_url, 'id': str(img.id)}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json'
@@ -63,9 +94,10 @@ def uploadImage(request):
 
 def deleteMedia(request):
 	media = Media.objects.get(id=int(request.POST["media"]))
+	
+	updatePositions(media.project, media.id, True)
 	media.image.file.delete()
 	media.delete()
-	
 	response = JSONResponse({'response': "DELETED"}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json'
 	return response
@@ -73,7 +105,7 @@ def deleteMedia(request):
 def renderProject(request):
 	project = Project.objects.get(urlhash=str(request.POST["project"]));
 	imgs = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
-
+	
 	data = {
 	    'imgs': [],
 	    'pathIn': str(project.getImagesPath()),

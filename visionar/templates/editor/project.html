@@ -2,10 +2,13 @@
 
 {% block content %}
   	{% load staticfiles %}
+  	
   	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
 	<script type="text/javascript">
  		var _USER = "{{request.user}}"; 
  	</script>
+ 	<script src="{% static "visionar/js/vendor/jquery-ui-10.3.js" %}"></script>
+ 	<script src="{% static "visionar/js/vendor/shapeshift.js" %}"></script>
 	<script src="{% static "visionar/js/uploader.js" %}"></script>
 	<script src="{% static "editor/js/project.js" %}"></script>
 
@@ -18,30 +21,68 @@
                 
             </header>
 			<div class="clear"></div>
-			<input type="button" value="save" id="save-project">
-			<input type="button" value="preview" id="render">
+			<input type="button" value="guardar" id="save-project">
+			<input type="button" value="vista previa" id="render">
+			
+			<button><i class="icon-large icon-camera"></i></button>
+			<button><i class="icon-large icon-font"></i></button>
+			
+			
 			<div id="files-cont" class="contact-message">
-				<form id="files">
+				<form id="files" >
+					<div class="hippster">
 					{% for m in media %}
-						<div data-id="{{m.id}}" class="entry entry-filled">
+						<div data-position="{{m.position}}" data-id="{{m.id}}" class="entry entry-filled">
 							<img data-id="{{m.id}}" src="{{m.image.thumb}}"/>
 						</div>	
 					{% endfor %}
 
 					<div class="entry">
-						<input type="file"  id="file-0" name="file-0" />
+						<input type="file" />
 						<h3>+</h3>
 					</div>
+					</div>
+					
 						
 				</form>
 				<br/>
 				
 			</div>
-			<input type="button" value="delete" id="delete-media">
+			<input type="button" value="eliminar" id="delete-media">
 			<div class="clear"></div>
 			<div id="video">
 				
 			</div>
+			
+			<!-- <div class="hippster">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div> -->
+
+
 		</div>
 	</section>
  </div>	

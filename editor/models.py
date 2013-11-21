@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from visionar.utils.baseconvert import BASE10, BASE62, baseconvert
 from easy_thumbnails.fields import ThumbnailerImageField
+import json
 import os
 
 def templates_file_upload(instance, filename):
@@ -77,7 +78,16 @@ class Media(models.Model):
 	project = models.ForeignKey(Project)
 	
 	def __unicode__(self):
-		return self.mediatype
+		return self.mediatype.typename
+
+	@property	
+	def position(self):
+		#p = json.dumps(self.project.positions)
+		p = Project.objects.get(id=self.project.id)
+		positions = json.loads(p.positions)
+		convert = [ int(x) for x in positions ]
+		return convert.index(self.id)
+
 
 class Text(Media):
 	text = models.CharField(max_length=500)

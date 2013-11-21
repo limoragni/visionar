@@ -1,1 +1,20 @@
+#Media
+
 *.ogv
+*.ogg
+*.avi
+*.mp4
+*.jpg
+*.png
+
+#Django
+
+*.log
+*.pot
+
+#Python
+
+*.pyc
+
+#Varables de entorno
+environment.py
