@@ -61,8 +61,11 @@ class Project(models.Model):
 
 	@property
 	def thumb(self):
-		media = Media.objects.filter(project=self).filter(mediatype=Mediatype.objects.get(typename="Image"))[0]	
-		return media.image.file['380'].url	
+		media = Media.objects.filter(project=self).filter(mediatype=Mediatype.objects.get(typename="Image"))	
+		if media:
+			return media[0].image.file['380'].url
+		else:
+			return 	os.path.join(settings.MEDIA_URL, 'projects/default.jpg')
 
 	def save(self):
 		super(Project, self).save()
