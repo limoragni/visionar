@@ -1,12 +1,3 @@
-#Media
-
-*.ogv
-*.ogg
-*.avi
-*.mp4
-*.jpg
-*.png
-
 #Django
 
 *.log
@@ -18,3 +9,7 @@
 
 #Varables de entorno
 environment.py
+
+#Media
+visionar/media/
+visionar/media/
