@@ -51,109 +51,64 @@
 	<link rel="apple-touch-icon" sizes="72x72" href= "{% static "visionar/images/apple-touch-icon-72x72.png" %}">
 	<link rel="apple-touch-icon" sizes="114x114" href="{% static "visionar/images/apple-touch-icon-114x114.png" %}">
 
-	<!-- Load jQuery
+	<!-- Load jQuery	
   	================================================== -->
   	<script src="{% static "visionar/js/vendor/jquery.min.js" %}"></script>
     <script src="{% static "visionar/js/vendor/SmoothScroll.js" %}"></script>
 	<script src="{% static "visionar/js/vendor/modernizr.js" %}"></script>
     <script src="{% static "visionar/js/vendor/device.min.js" %}"></script>
     <script src="{% static "visionar/js/csrf.js" %}"></script>
- 	<style type="text/css">
-		#dropmenu{
-			background: rgb(255, 255, 255);
-			background: rgba(255, 255, 255, 0.95);
-			width: 120px;
-			height: 100px;
-			position: fixed;
-			top: 100%;
-			left: 92%;
-			z-index: 1000;
-			-webkit-transform: translateY(0%);
-			-moz-transform: translateY(0%);
-			transform: translateY(0%);
-			-webkit-transition: all 0.5s;
-			-moz-transition: all 0.5s;
-			transition: all 0.5s;
-			display: none;
-		}
-		#username-menu{
-			padding-bottom: 10px;
-			width: 100px;
-			margin: 0px;
-			float: right;
-		}
-		#dropmenu a{
-			width: 100px;
-			line-height: 25px;
-			margin: 20px 0px 0px 23px;
-		}
-		#header-section {
-			line-height: 1px;
-		}
-		#ut-navigation{
-			line-height: 80px;
-		}
-		#anchors-menu{
-			margin-top: 10px; 
-		}
-    </style>
-    <script type="text/javascript">
-    	$(document).ready(function(){
-    		var d = 0;
-    		$('#username-menu').hover(function() {
-    			$('#dropmenu').css('display', 'block')
-    		}, function() {
-    			window.setTimeout(function(){
-    				if(!d){
-    					$('#dropmenu').css('display', 'none')
-    				}
-    				d = 0
-    			}, 200)
-    			
-    		});
-
-    		$('#dropmenu').hover(function() {
-    			d = 1
-    			$('#dropmenu').css('display', 'block')
-    		}, function() {
-    			$('#dropmenu').css('display', 'none')
-    		});
-    	});
-    </script>
+ 	
 </head>
 
 <body id="mainsite">
-
-     <!-- header section -->
-	<header id="header-section" class="ha-header">
-    	<div class="grid-container">
+	{% if user.is_authenticated %}
+		<!-- header section ON LOGIN-->
+		<header id="header-section" class="ha-header">
+	    	<div class="grid-container">								
 				<div class="ha-header-perspective">
 					<div class="ha-header-front">
-                    <div class="grid-20 tablet-grid-20 hide-on-mobile">
-						<h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
-                        </div>
+			        	<div class="grid-20 tablet-grid-20 hide-on-mobile">
+							  <h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
+			            </div>
 						<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
-                        	<a class="selected" href="#top">Home</a>
-							<a href="#about-section">Nosotros</a>
-							<a href="#service-section">Servicios</a>
-                            <a href="#portfolio-section">Pantallas</a>
-                            <a href="#contact-section">Contacto</a>
-						</nav>
-						{% if user.is_authenticated %}
-							<h3 id="username-menu" style="text-align:right">{{request.user}}</h3>
-							<div id="dropmenu">
-								<div id="anchors-menu">
-									<a href="/users/profile">PERFIL</a>
-									<a href="/users/video">VIDEOS</a>
-									<a href="/users/logout">SALIR</a>
-								</div>
-							</div>
-						{% endif %}
+			            	<a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a>
+							<a href="/users/video">Videoproyectos</a>
+			            	<a href="campanias.html">Campañas</a>
+			            	<a href="/users/logout"><b>Logout</b></a>
+			            </nav>
 					</div>
 				</div><!-- close .ha-header-perspective --> 
-        </div><!-- close grid container -->  
-    </header><!-- close header -->
+	        </div><!-- close grid container -->  
+	    </header><!-- close header -->
 	
+	{% else %}
+		<!-- header section NO LOGIN-->
+		<header id="header-section" class="ha-header">
+	    	<div class="grid-container">
+					<div class="ha-header-perspective">
+						<div class="ha-header-front">
+	                    <div class="grid-20 tablet-grid-20 hide-on-mobile">
+							<h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
+	                        </div>
+							<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
+	                        	<a class="selected" href="#top">Home</a>
+								<a href="#about-section">Nosotros</a>
+								<a href="#service-section">Servicios</a>
+	                            <a href="#portfolio-section">Pantallas</a>
+	                            <a href="#contact-section">Contacto</a>
+							</nav>
+						</div>
+					</div><!-- close .ha-header-perspective --> 
+	        </div><!-- close grid container -->  
+	    </header><!-- close header -->
+	{% endif %}
+     <!-- header section -->
+	
+	
+
+
+
 	{% block content %}
         <h1>No content set</h1>
     {% endblock %}

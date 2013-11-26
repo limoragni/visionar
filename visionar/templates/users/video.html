@@ -2,50 +2,225 @@
 
 {% block content %}
   	{% load staticfiles %}
-  	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
-	<style type="text/css">
-		.soft-background{
-			background-color: rgba(255,255,255, 0.6);
-			padding: 20px;
-			margin: 20px;
-		}
-		.project-show{
-			margin: 25px;
-			width: 120px;
-		}
-		.edit-project{
-			padding: 10px;
-			background-color: #FFF;
-			margin-top: 10px;
-		}
-	</style>
-<div class="nav-waypoint">
-	<section id="contact-section" class="contact-section parallax-section parallax-background">
-	<div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
-		<div class="grid-container parallax-content">
-			 <header class="parallax-header">
-                <h2 class="parallax-title"><span>Video</span></h2>
-            </header>
-			<div class="clear"></div>
-			<div class="soft-background">
-				<h2>En proceso</h2>
-				<div>
-					{% for p in projects %}
-					<div class="project-show">
-						<img src="{{p.thumb}}">
-						<a class="edit-project" href="/project/{{p.urlhash}}">EDITAR</a>
-					</div>
-					{% endfor%}
-				</div>	
-			</div>
-			<div class="soft-background">
-				<h2>Finalizados</h2>	
-			</div>
-			<div class="soft-background">
-				<h2>Subidos</h2>	
-			</div>
-		</div>
-	</section>
- </div>	
+  	<script type="application/javascript">
+	$(function () {
+    	$('.popup-modal').magnificPopup({
+    		type: 'inline',
+    		preloader: false,
+    		focus: '#username',
+    		modal: true
+    	});
+    	$(document).on('click', '.popup-modal-dismiss', function (e) {
+    		e.preventDefault();
+    		$.magnificPopup.close();
+    	});
+    });
+	</script>
 
+<!-- contact section -->
+     <div class="nav-waypoint">
+     <section id="contact-section" class="contact-section parallax-section parallax-background">
+     <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+        
+            	<!-- parallax header -->
+            	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                    <header class="parallax-header">
+                        <h2 class="parallax-title"><span>Videoproyectos</span></h2>
+                        <p class="parallax-slogan">Accedé a todos tus proyectos audiovisuales</p>
+                    </header>
+                </div>
+            	<!-- close parallax header -->
+            
+            <div class="clear"></div>
+            
+            <!-- contact wrap -->
+            <div class="grid-100 mobile-grid-100 tablet-grid-100">
+        	<div class="contact-wrap">
+            
+            <!-- contact form -->
+            <div class="grid-parent grid-100 mobile-grid-100 tablet-grid-100">
+            
+            <!-- CAMPAÑAS 1 -->
+                            <div style="text-align:right;"><button type="button" value="Page" onclick="location.href='/create'">Crear un proyecto</button></div>
+    <div id="on-process" class="portfolio-section clearfix suffix-top-5 videoprojects-box">
+ 
+        <div class="grid-100">
+             <div class="grid-100">
+               <h3 class="grid-50">En Proceso</h3>
+               <div class="grid-50">
+                  <ul class="pagination">
+                     <li><a href="#">&laquo;</a></li>
+                     <li><a href="#">1</a></li>
+                     <li><a href="#">2</a></li>
+                     <li><a href="#">3</a></li>
+                     <li><a href="#">4</a></li>
+                     <li><a href="#">5</a></li>
+                     <li><a href="#">&raquo;</a></li>
+                 </ul>
+                 </div>
+             </div>
+                     
+        {% for p in projects %}
+            {% if not p.urlrender %}
+			
+            <div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a href="/project/{{p.urlhash}}">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
+                </div><!-- close portfolio caption -->               
+                </div>
+                </a>
+                <a class="popup-modal" href="#eliminar{{p.id}}"><i class="icon-large icon-remove"></i>&nbsp;Eliminar</a>
+                <div id="eliminar{{p.id}}" class="mfp-hide">
+                   <div class="modal-display">
+	               <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
+	               <p>Estás seguro de querer borrar "{{p.title}}"?</p>
+                   <p><a href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
+                   </div>
+               </div>
+            </div><!-- close portfolio -->
+            
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <!-- /CAMPAÑAS 1 -->
+            
+           <!-- CAMPAÑAS 2 -->
+ <div id="created" class="portfolio-section clearfix suffix-top-5 videoprojects-box">
+    <div class="grid-100">
+            <div class="grid-100">
+                <h3 class="grid-50">Creados</h3>
+                <div class="grid-50">
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                 </div>
+             </div>
+                     
+        {% for p in projects %}
+            {% if p.urlrender %}              <!-- portfolio box 1 -->
+			
+            <div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a href="#">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{p.thumb}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
+                </div><!-- close portfolio caption -->               
+                </div>
+                </a>
+                <a class="popup-modal" href="#eliminar04"><i class="icon-large icon-remove"></i>&nbsp;Eliminar</a>
+                <a class="popup-modal" href="#preview04"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
+                <div id="eliminar04" class="mfp-hide">
+                   <div class="modal-display">
+	               <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
+	               <p>Estás seguro de querer borrar "CocaCola Ad"?</p>
+                   <p><a href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
+                   </div>
+               </div>
+               <div id="preview04" class="mfp-hide">
+                   <div class="modal-display">
+	               <h2><i class="icon-large icon-eye-open"></i>&nbsp;Preview</h2>
+	               <p>Aquí va el player</p>
+                   <p><a class="popup-modal-dismiss" href="#">Cerrar</a></p>
+                   </div>
+               </div>        
+			</div><!-- close portfolio -->
+        {% endif %}
+    {% endfor %}
+        </div>
+    </div>
+            <!-- /CAMPAÑAS 2 -->
+            
+           <!-- CAMPAÑAS 3 -->
+    <div id="portfolio-section" class="portfolio-section clearfix suffix-top-5 videoprojects-box">
+        <div class="grid-100">
+            <div class="grid-100">
+                <h3 class="grid-50">Publicados</h3>
+                <div class="grid-50">
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                 </div>
+            </div>
+             
+                      <!-- portfolio box 1 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a href="#">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pepsi Ad<span class="portfolio-category">Video Nov2013</span></h3>
+                </div><!-- close portfolio caption -->               
+                </div>
+                </a>              
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 2 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a href="#">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image --> 
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">CocaCola Ad<span class="portfolio-category">Video Nov2013</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>
+                </a>               
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 3 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a href="#">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Orbis<span class="portfolio-category">Video Oct2013</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>     
+                </a>          
+			</div><!-- close portfolio -->
+                     
+                     
+                </div>
+            </div>
+            <!-- /CAMPAÑAS 3 -->
+            
+            
+            
+            </div><!-- close contact-form-holder -->
+            
+            
+            </div>
+            </div><!-- close contact wrap -->
+            
+            
+		</div><!-- close container -->
+	</section><!-- close contact section -->
+    
+	</div><!-- close nav-waypoint -->
 {% endblock %}
+
+
+
+{% for p in projects %}
+<div class="project-show">
+	<img src="{{p.thumb}}">
+	<a class="edit-project" href="/project/{{p.urlhash}}">EDITAR</a>
+</div>
+{% endfor%}

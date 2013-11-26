@@ -24,8 +24,8 @@
 			<input type="button" value="guardar" id="save-project">
 			<input type="button" value="vista previa" id="render">
 			
-			<button><i class="icon-large icon-camera"></i></button>
-			<button><i class="icon-large icon-font"></i></button>
+			<button class="change-media" data-icon="camera" data-type="Imagen"><i class="icon-large icon-camera"></i></button>
+			<button class="change-media" data-icon="font" data-type="Texto"><i class="icon-large icon-font"></i></button>
 			
 			
 			<div id="files-cont" class="contact-message">
@@ -37,9 +37,9 @@
 						</div>	
 					{% endfor %}
 
-					<div class="entry">
+					<div data-mediatype="Imagen" class="entry">
 						<input type="file" />
-						<h3>+</h3>
+						<h3 class="file-input-inside"><i class='icon-large icon-camera'></i>Agregar Imagen</h3>
 					</div>
 					</div>
 					
@@ -54,33 +54,7 @@
 				
 			</div>
 			
-			<!-- <div class="hippster">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div> -->
+			
 
 
 		</div>

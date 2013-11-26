@@ -1,148 +1,67 @@
 $(document).ready(function() {
 	
 	var Project = function(){
-		
+		this.urlhash = $(location).attr('pathname').split('/')[2];
+		this.init();
 	}
 
 	Project.prototype.init = function(){
-
-	}
-
-	Project.prototype.save = function(){
-
-	}
-
-	Project.prototype.render = function(){
-
-	}
-
-	Project.prototype.createVideo = function(){
-
-	}
-
-	Project.prototype.createFileInput = function(){
-		
-	}
-
-	var Media = function(){
-
-	}
-	
-	Media.prototype.upload = function(){
-
-	}
-
-	Media.prototype.ontouch = function(){
-		
-	} 
-
-	var onTouch = function(){
+		this.setUploader();
 		var self = this;
-			$(".entry-selected").each(function(i,v){
-				if(!$(self).is(this)){
-					$(this).removeClass("entry-selected");
-				}
+		$("#render").click(function(){
+			self.render();
+		})
+
+		$("#delete-media").click(function(){
+			self.deleteMedia();
+		});
+
+		$(".hippster").shapeshift({
+		    minColumns: 3,
+		    align: "left",
+		});
+
+		$("#save-project").click(function(){
+			self.save();
+		})
+
+		$(".change-media").each(function(i, v){
+			$(v).click(function(){
+				self.changeMedia($(this));
 			})
-			$(this).toggleClass("entry-selected");
+		});  
+		this.resetDragDrop();
+		this.disableFileInputDrag();
+		this.setSelectEvent();
 	}
 
-	var disableDrag = function(){
-		var p = $("input[type=file]").parent();
-		console.log(p)
-		p.removeClass('ss-active-child');
-	}
-
-	var project = new Project();
-	var urlhash = $(location).attr('pathname').split('/')[2];
-	
-	var upl = new Uploader("/project/uploadImage/", {
-		data:{
-			project: urlhash,
-		},
-		
-		onChange : function(i){
-			console.log(i)
-			
-			$(i).css("display", "none")
-			$(i).siblings().css("display", "none")
-			$(i).parent().append("<h4>Loading...</h4>")
-			
-			var p = project.inputNumber++; 
-			$($(".hippster")[0]).append(
-				"<div class='entry'>" +
-					"<input type='file' />" +
-					"<h3>+</h3>" +
-					"</div>"
-			);
-			disableDrag();
-			upl.init();
-		},
-		success: function(d, i){
-			var div = $(i).parent();
-			div.addClass("entry-filled");
-			div.data('id', d.id); 
-			div.html('<img data-id="'+d.id+'" src="'+ d.thumb +'"/>');
-			div.click(onTouch);
-			$(".hippster").trigger("ss-rearrange")
-			$(".hippster").shapeshift({
-			    minColumns: 3,
-			    align: "left",
+	Project.prototype.setSelectEvent = function(){
+		var self = this;
+		$(".entry-filled").each(function(i,v){
+			$(v).click(function(){
+				self.setOnClick(this)
 			});
-			disableDrag()
-		},
-		error: function(e){
-			console.log(e);
-		}
-	})
+		})
+	}
+	
+	Project.prototype.uploadLoading = function(e){
+		var element = $(e)
+		element.css("display", "none")
+		element.siblings().css("display", "none")
+		element.parent().append("<h4>Loading...</h4>")
+		element.parent().removeAttr('data-mediatype')
+	}
 
-	$("#render").click(function(){
-		$("#video").html("Loading....");
-		$.ajax({
-	    	url: "/project/render/",
-	       	type: 'POST',
-	       	data: {
-	       		project: urlhash,
-	       		user: _USER,
-	       		csrfmiddlewaretoken: _csrftoken
+	Project.prototype.newFileField = function(){
+		var entry = "<div data-mediatype='Imagen' class='entry'>" +
+						"<input type='file' />" +
+						"<h3 class='file-input-inside'><i class='icon-large icon-camera'></i>Agregar Imagen</h3>" +
+					"</div>"
 
-	       	},
-	        success: function(data, status, xhr) {
-	       		$("#video").html("<video width='650' height='400' controls> <source src='/media/renders/"+urlhash+"1-250.ogv' type='video/ogg' </video>")
-	        },
-	        error: function(xhr, errmsg, err){
-	    		console.log(errmsg);
-	        	console.log(xhr);
-	        	console.log(err);
-	        }
-	    });     
-	})
-
-	$("#delete-media").click(function(){
-		if($(".entry-selected")[0]){
-			var entry = $($(".entry-selected")[0]);
-			$.ajax({
-		    	url: "/project/deleteMedia/",
-		       	type: 'POST',
-		       	data: {
-		       		media: entry.data("id"),
-		       		csrfmiddlewaretoken: _csrftoken
-				},
-		        success: function(data, status, xhr) {
-		       		entry.remove();
-		       		$(".hippster").trigger("ss-rearrange");
-		       		disableDrag();
-		        },
-		        error: function(xhr, errmsg, err){
-		    		console.log(errmsg);
-		        	console.log(xhr);
-		        	console.log(err);
-		        }
-		    }); 
-		}
-		 
-	});
-
-	var getPositions = function(){
+		$($(".hippster")[0]).append(entry);
+	}
+	
+	Project.prototype.getPositions = function(){
 		var positions = [];
 		$(".ss-active-child").each(function(i,v){
 			positions[$(this).index()] = $(this).data('id');
@@ -150,14 +69,77 @@ $(document).ready(function() {
 		return positions;
 	}
 
-	$("#save-project").click(function(){
+	Project.prototype.disableFileInputDrag = function(){
+		var p = $("input[type=file]").parent();
+		p.removeClass('ss-active-child');
+	}
+
+	Project.prototype.setContentOnUpload = function(e, d){
+		var self = this;
+		var div = $(e).parent();
+		div.addClass("entry-filled");
+		div.data('id', d.id); 
+		div.html('<img data-id="'+d.id+'" src="'+ d.thumb +'"/>');
+		div.click(function(){
+			self.setOnClick(this)
+		});
+	}
+	
+	Project.prototype.resetDragDrop = function(){
+		$(".hippster").trigger("ss-rearrange")
+		$(".hippster").shapeshift({
+		    minColumns: 3,
+		    align: "left"
+		});
+	}
+	
+	Project.prototype.setOnClick = function(obj){
+		$(".entry-selected").each(function(i,v){
+			if(!$(obj).is(this)){
+				console.log(this)
+				$(this).removeClass("entry-selected");
+			}
+		})
+		$(obj).toggleClass("entry-selected");
+	}
+	
+	Project.prototype.logErrors = function(xhr,errmsg, err){
+		console.log(errmsg);
+		console.log(xhr);
+		console.log(err);
+	}	       
+
+	Project.prototype.setUploader = function(){
+		var self = this;
+		this.uploader = new Uploader("/project/uploadImage/", {
+			data:{
+				project: self.urlhash,
+			},
+			
+			onChange : function(i){
+				self.uploadLoading(i);
+				self.newFileField();
+				self.disableFileInputDrag();
+				self.uploader.init();
+			},
+			success: function(d, i){
+				self.setContentOnUpload(i,d);
+				self.resetDragDrop();
+				self.disableFileInputDrag();
+			},
+			error: this.logErrors,
+		});
+	}
+	
+	Project.prototype.save = function(){
+		var self = this;
 		$.ajax({
 	    	url: "/project/save/",
 	       	type: 'POST',
 	       	data: {
-	       		project: urlhash,
+	       		project: self.urlhash,
 	       		user: _USER,
-	       		positions: JSON.stringify(getPositions()),
+	       		positions: JSON.stringify(self.getPositions()),
 	       		csrfmiddlewaretoken: _csrftoken
 
 	       	},
@@ -170,19 +152,63 @@ $(document).ready(function() {
 	        	console.log(err);
 	        }
 	  	})
-	})  	
+	}
+
+	Project.prototype.render = function(){
+		var self = this;
+		$("#video").html("Loading....");
+		$.ajax({
+	    	url: "/project/render/",
+	       	type: 'POST',
+	       	data: {
+	       		project: self.urlhash,
+	       		user: _USER,
+	       		csrfmiddlewaretoken: _csrftoken
+			},
+	        success: function(data, status, xhr) {
+	       		self.createVideo();
+	        },
+	        error: self.logErros,
+	    }); 
+	}
+
+	Project.prototype.deleteMedia = function(){
+		var self = this;
+		if($(".entry-selected")[0]){
+			var entry = $($(".entry-selected")[0]);
+			$.ajax({
+		    	url: "/project/deleteMedia/",
+		       	type: 'POST',
+		       	data: {
+		       		media: entry.data("id"),
+		       		csrfmiddlewaretoken: _csrftoken
+				},
+		        success: function(data, status, xhr) {
+		       		entry.remove();
+		       		$(".hippster").trigger("ss-rearrange");
+		       		self.resetDragDrop();
+		       		self.disableFileInputDrag();
+		        },
+		        error: self.logErrors,
+		    }); 
+		}
+	}
+
+	Project.prototype.createVideo = function(){
+		var self = this;
+		$("#video").html("<video width='650' height='400' controls> <source src='/media/renders/"+self.urlhash+"1-250.ogv' type='video/ogg' </video>")
+	}
+
+	Project.prototype.changeMedia = function(e){
+		
+		var html = "<i class='icon-large icon-"+e.data("icon")+"'></i>Agregar " + e.data("type")
+		$($(".file-input-inside")[0]).html(html);
+		var parent = $($(".file-input-inside")[0]).parent()
+		parent.data('mediatype', e.data("type"))
+		parent.attr('data-mediatype', e.data("type"))
+
+	}
+
+	var project = new Project();
 	
-	$(".entry-filled").each(function(i,v){
-		$(v).click(onTouch);
-	})
-	
-	$(".hippster").shapeshift({
-	    minColumns: 3,
-	    align: "left",
-	});
-	disableDrag()
-
-	console.log(getPositions());
-
-
 });

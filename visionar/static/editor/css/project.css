@@ -23,8 +23,13 @@
 	top:50px;
 	left:45px;
 	position: absolute;
-	font-size: 50px;
+	font-size: 16px;
 	z-index: 100;
+}
+
+.entry h3 i{
+	font-size: 35px;
+	margin-left: 5px;
 }
 .entry img{
 	margin: 15px 0px 0px 15px ;
@@ -37,6 +42,7 @@
 .entry-filled{
 	cursor: pointer; 
 }
+
 
 #files-cont{
 	overflow: hidden;
@@ -58,4 +64,12 @@
 .hippster .ss-placeholder-child {
     background-color: rgba(255,255,255,0.3);
    
-} 
+}
+
+[data-mediatype="Imagen"]{
+	background-color: rgba(70, 120, 170, 0.5);
+}
+
+[data-mediatype="Texto"]{
+	background-color: rgba(230, 120, 130, 0.5)
+}  

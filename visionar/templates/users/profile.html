@@ -2,24 +2,68 @@
 
 {% block content %}
   	{% load staticfiles %}
-  	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
-	<script src="{% static "visionar/js/uploader.js" %}"></script>
-	<script src="{% static "editor/js/project.js" %}"></script>
- 
- <div class="nav-waypoint">
-	<section id="contact-section" class="contact-section parallax-section parallax-background">
-	<div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+  	<!-- contact section -->
+     <div class="nav-waypoint">
+     <section id="contact-section" class="contact-section parallax-section parallax-background">
+     <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
 		<div class="grid-container parallax-content">
-			 <header class="parallax-header">
-                <h2 class="parallax-title"><span>Perfil</span></h2>
-                
-            </header>
-			<div class="clear"></div>
-			
-		</div>
-	</section>
- </div>	
-<div id="debug">
-	{{request.user}}
-</div>	
+        
+            	<!-- parallax header -->
+            	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                    <header class="parallax-header">
+                        <h2 class="parallax-title"><span>Perfil</span></h2>
+                        <p class="parallax-slogan">Estos son los datos de tu cuenta</p>
+                    </header>
+                </div>
+            	<!-- close parallax header -->
+            
+            <div class="clear"></div>
+            
+            <!-- contact wrap -->
+            <div class="grid-100 mobile-grid-100 tablet-grid-100">
+        	<div class="contact-wrap">
+            
+            <!-- contact form -->
+            <div class="grid-parent grid-60 suffix-5 mobile-grid-100 tablet-grid-100">
+            <div class="contact-form-holder clearfix">
+            
+            <!-- contact form -->
+            <form id="contact-form" class="contact-form">
+                <div class="grid-100">    
+                <div class="grid-25 suffix-5"><img src="{% static "users/img/visionar-avatar.jpg" %}" alt="you" /></div>
+                    
+                <ul class="grid-70">
+                	<li><input id="name" class="name" type="text" name="name" placeholder="User Logueado"></li>
+                    <li><input id="email" class="email" type="email" name="email" placeholder="userlogueado@gmail.com"></li>
+					<li><input id="company" class="name" type="text" name="phone" placeholder="Cyberdyne Systems"></li>
+                    <li><input id="phone" class="phone" type="text" name="phone" placeholder="15 5555 5555"></li>
+              	</ul>
+                <div style="text-align:right;"><button type="button">Guardar</button> <button type="button">Cancelar</button></div>
+                    
+                </div>   
+              </form><!-- close contact form -->
+                    
+            </div>
+            </div><!-- close contact-form-holder -->
+            
+            
+            
+                        <!-- contact message -->
+            <div class="grid-parent grid-35 mobile-grid-100 tablet-grid-100">
+            <div class="contact-message">
+            	<div class="grid-100">
+                	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
+            	</div>
+            </div>
+            </div><!-- close contact message -->
+            
+            
+            </div>
+            </div><!-- close contact wrap -->
+            
+            
+		</div><!-- close container -->
+	</section><!-- close contact section -->
+    
+	</div><!-- close nav-waypoint -->
 {% endblock %}

@@ -27,13 +27,18 @@ class Tag(models.Model):
 class Template(models.Model):
 	filename = models.CharField(max_length=100)
 	name = models.CharField(max_length=50, unique=True)
+	legend = models.CharField(max_length=100, unique=True)
 	tags = models.ManyToManyField(Tag)
-	thumb = models.FileField(upload_to=templates_file_upload)
+	thumb = ThumbnailerImageField(upload_to=templates_file_upload)
 	preview = models.FileField(upload_to=templates_file_upload)
 	
 	def __unicode__(self):
 		return self.name
 
+	@property
+	def thumbnail(self):
+		return self.thumb['380'].url	
+	
 	class Admin:
 		pass
 
@@ -44,6 +49,7 @@ class Project(models.Model):
 	title = models.CharField(max_length=200, default="Sin Titulo")
 	created = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de creacion')	
 	modified = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de modificacion')
+	urlrender = models.CharField(max_length=200)
 	istmp = models.BooleanField(verbose_name = 'Es Temporal') #Para usuarios no logueados o invitados
 	positions = models.CharField(max_length=500)
 
@@ -56,7 +62,7 @@ class Project(models.Model):
 	@property
 	def thumb(self):
 		media = Media.objects.filter(project=self).filter(mediatype=Mediatype.objects.get(typename="Image"))[0]	
-		return media.image.file['avatar'].url	
+		return media.image.file['380'].url	
 
 	def save(self):
 		super(Project, self).save()

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import External
 from editor.models import Project, Media, Mediatype
 from django.core.context_processors import csrf
+import requests
 
 def loginview(request):
     if request.user.is_authenticated():
@@ -55,7 +56,10 @@ def profile(request):
 
 @login_required(login_url='/users/login/')
 def video(request):
-    projects = Project.objects.filter(user= request.user)
+    projects = Project.objects.filter(user=request.user)
     return render(request, "users/video.html", {"projects": projects})
 
+def test(request):
+    r = requests.get('http://localhost:8100/users/')
+    return render(request, "users/test.html", {"test": r.text})
 
