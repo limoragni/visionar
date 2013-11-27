@@ -118,11 +118,12 @@ $(document).ready(function() {
 			
 			onChange : function(i){
 				self.uploadLoading(i);
+				
+			},
+			success: function(d, i){
 				self.newFileField();
 				self.disableFileInputDrag();
 				self.uploader.init();
-			},
-			success: function(d, i){
 				self.setContentOnUpload(i,d);
 				self.resetDragDrop();
 				self.disableFileInputDrag();
