@@ -43,6 +43,10 @@ def add(request, user, template):
 	else:
 		return redirect('/users/login/')
 
+@login_required(login_url='/users/login/')
+def checkout(request):
+	return render(request, 'editor/checkout.html')
+
 def saveProject(request):
 	if (str(request.POST["user"]) ==str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
 		project = Project.objects.get(urlhash=request.POST["project"])
