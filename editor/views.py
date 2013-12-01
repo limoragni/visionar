@@ -14,6 +14,8 @@ from .models import Template, Project, Image, Text, Mediatype, Media
 from base64 import b64decode
 from django.core.files.base import ContentFile
 
+import requests
+
 @login_required(login_url='/users/login/')
 def select_template(request):
     temp = Template.objects.all()
@@ -119,8 +121,8 @@ def renderProject(request):
 	for i in imgs:
 		data["imgs"].append(str(ntpath.basename(i.image.file.path)))  
 
-	response = sendToBlender(data)
-	
+	#response = sendToBlender(data)
+	r = requests.put("http://127.0.0.1:8000/render/one/")
 	response = JSONResponse({'response': 'OK'}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response  
