@@ -167,7 +167,7 @@ $(document).ready(function() {
 	       		csrfmiddlewaretoken: _csrftoken
 			},
 	        success: function(data, status, xhr) {
-	       		self.createVideo();
+	       		self.createVideo(JSON.parse(data).response);
 	        },
 	        error: self.logErros,
 	    }); 
@@ -195,9 +195,9 @@ $(document).ready(function() {
 		}
 	}
 
-	Project.prototype.createVideo = function(){
+	Project.prototype.createVideo = function(url){
 		var self = this;
-		$("#video").html("<video width='650' height='400' controls> <source src='/media/renders/"+self.urlhash+"1-250.ogv' type='video/ogg' </video>")
+		$("#video").html("<video width='650' height='400' controls> <source src='"+url+"' type='video/ogg' </video>")
 	}
 
 	Project.prototype.changeMedia = function(e){

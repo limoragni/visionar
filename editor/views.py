@@ -113,17 +113,21 @@ def renderProject(request):
 	imgs = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
 	
 	data = {
-	    'imgs': [],
-	    'pathIn': str(project.getImagesPath()),
-	    'pathOut': str(project.urlhash), 
+	    'media_data': [],
+	    'media_url': str(project.getImagesPath()),
+	    'code': str(project.urlhash), 
 	}
 
 	for i in imgs:
-		data["imgs"].append(str(ntpath.basename(i.image.file.path)))  
+		data["media_data"].append(str(ntpath.basename(i.image.file.path)))
+	
+	headers = {'content-type': 'application/json'}
+	url = 'http://127.0.0.1:8444/render/new/'
+	r = requests.post(url, data=json.dumps(data), headers=headers)
 
 	#response = sendToBlender(data)
-	r = requests.put("http://127.0.0.1:8000/render/one/")
-	response = JSONResponse({'response': 'OK'}, mimetype=response_mimetype(request))
+	#r.text
+	response = JSONResponse(r.text, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response  
 

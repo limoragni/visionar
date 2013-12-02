@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from visionar.utils import environment
 from django.contrib.auth.models import User
 from visionar.utils.baseconvert import BASE10, BASE62, baseconvert
 from easy_thumbnails.fields import ThumbnailerImageField
@@ -57,7 +58,7 @@ class Project(models.Model):
 		return self.title
 
 	def getImagesPath(self):
-		return os.path.join(settings.MEDIA_ROOT, 'projects', self.urlhash) 
+		return os.path.join(environment.HOST, 'media/projects', self.urlhash + '/') 
 
 	@property
 	def thumb(self):
