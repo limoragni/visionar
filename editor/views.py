@@ -2,7 +2,7 @@ import socket
 import ntpath
 import json
 from django.utils import simplejson
-#from django.http import HttpResponse
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -123,11 +123,13 @@ def renderProject(request):
 	
 	headers = {'content-type': 'application/json'}
 	url = 'http://127.0.0.1:8444/render/new/'
-	r = requests.post(url, data=json.dumps(data), headers=headers)
-
-	#response = sendToBlender(data)
-	#r.text
-	response = JSONResponse(r.text, mimetype=response_mimetype(request))
+	try:
+		r = requests.post(url, data=json.dumps(data), headers=headers)
+		message = r.json()
+	except Exception as e:
+		message = {'response':e}
+	
+	response = JSONResponse(message, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response  
 

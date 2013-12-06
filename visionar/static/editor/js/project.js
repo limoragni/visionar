@@ -1,13 +1,25 @@
 $(document).ready(function() {
 	
+	/*var Socket = function(){
+		this.socket = {};
+		this.init();
+	}
+
+	Socket.prototype.init = function(){
+	 	this.socket = new io.Socket(null, {port: _SOCKET, rememberTransport: false});
+      	this.socket.connect();
+    }*/
+
 	var Project = function(){
 		this.urlhash = $(location).attr('pathname').split('/')[2];
 		this.init();
 	}
 
 	Project.prototype.init = function(){
+		
 		this.setUploader();
 		var self = this;
+		
 		$("#render").click(function(){
 			self.render();
 		})
@@ -167,7 +179,7 @@ $(document).ready(function() {
 	       		csrfmiddlewaretoken: _csrftoken
 			},
 	        success: function(data, status, xhr) {
-	       		self.createVideo(JSON.parse(data).response);
+	       		self.createVideo(data.response);
 	        },
 	        error: self.logErros,
 	    }); 
@@ -210,6 +222,8 @@ $(document).ready(function() {
 
 	}
 
+	/*var socketio = new Socket();*/
 	var project = new Project();
+	/*socketio.socket.send('TEXT');*/
 	
 });

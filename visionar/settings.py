@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from visionar.utils import environment
+from visionar.config import environment
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'users',
     'editor',
     'visionar.utils',
+    'visionar.config',
     'easy_thumbnails',
 )
 

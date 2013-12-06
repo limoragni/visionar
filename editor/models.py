@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from visionar.utils import environment
+from visionar.config import environment
 from django.contrib.auth.models import User
 from visionar.utils.baseconvert import BASE10, BASE62, baseconvert
 from easy_thumbnails.fields import ThumbnailerImageField

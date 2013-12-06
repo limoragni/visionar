@@ -5,10 +5,12 @@
   	
   	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
 	<script type="text/javascript">
- 		var _USER = "{{request.user}}"; 
+ 		var _USER = "{{request.user}}";
+ 		var _SOCKET = "{{ request.environ.SERVER_PORT|default:"9000" }}" 
  	</script>
  	<script src="{% static "visionar/js/vendor/jquery-ui-10.3.js" %}"></script>
  	<script src="{% static "visionar/js/vendor/shapeshift.js" %}"></script>
+ 	<script src="http://cdn.socket.io/stable/socket.io.js"></script>
 	<script src="{% static "visionar/js/uploader.js" %}"></script>
 	<script src="{% static "editor/js/project.js" %}"></script>
 
