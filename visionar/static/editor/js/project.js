@@ -179,7 +179,8 @@ $(document).ready(function() {
 	       		csrfmiddlewaretoken: _csrftoken
 			},
 	        success: function(data, status, xhr) {
-	       		self.createVideo(data.response);
+	       		console.log(data)
+	       		//self.createVideo(data.response);
 	        },
 	        error: self.logErros,
 	    }); 

@@ -38,7 +38,7 @@ class Template(models.Model):
 
 	@property
 	def thumbnail(self):
-		return self.thumb['380'].url	
+		return self.thumb['380'].url
 	
 	class Admin:
 		pass
@@ -48,7 +48,7 @@ class Project(models.Model):
 	template = models.ForeignKey(Template)
 	urlhash = models.CharField(max_length=50 ,unique=True)
 	title = models.CharField(max_length=200, default="Sin Titulo")
-	created = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de creacion')	
+	created = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de creacion')
 	modified = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de modificacion')
 	urlrender = models.CharField(max_length=200)
 	istmp = models.BooleanField(verbose_name = 'Es Temporal') #Para usuarios no logueados o invitados
@@ -58,7 +58,7 @@ class Project(models.Model):
 		return self.title
 
 	def getImagesPath(self):
-		return os.path.join(environment.HOST, 'media/projects', self.urlhash + '/') 
+		return os.path.join(environment.HOST, 'media/projects', self.urlhash + '/')
 
 	@property
 	def thumb(self):

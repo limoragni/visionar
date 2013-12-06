@@ -15,6 +15,9 @@ from base64 import b64decode
 from django.core.files.base import ContentFile
 
 import requests
+import visionar.config.environment as env
+
+import redis
 
 @login_required(login_url='/users/login/')
 def select_template(request):
@@ -122,9 +125,8 @@ def renderProject(request):
 		data["media_data"].append(str(ntpath.basename(i.image.file.path)))
 	
 	headers = {'content-type': 'application/json'}
-	url = 'http://127.0.0.1:8444/render/new/'
 	try:
-		r = requests.post(url, data=json.dumps(data), headers=headers)
+		r = requests.post(env.BLENDER_URL, data=json.dumps(data), headers=headers)
 		message = r.json()
 	except Exception as e:
 		message = {'response':e}
@@ -141,3 +143,21 @@ def sendToBlender(data):
 	result = json.loads(s.recv(1024))
 	s.close()	
 	return result
+
+def renderDone(request):
+	if request.method == 'GET':
+		return render(request)
+	elif request.method == 'POST':
+		r = redis.StrictRedis(host='localhost', port=6379, db=0)
+		r.set('foo', 'bar')
+		
+		#project = Project.objects.get(urlhash=str(request.POST["code"]));
+		#project.preview_url = request.POST["url"]
+		#project.save()
+
+def getPreview(request):
+	r = redis.StrictRedis(host='localhost', port=6379, db=0)
+	response = r.get('foo')
+	response = JSONResponse({'response': response}, mimetype=response_mimetype(request))
+	response['Content-Disposition'] = 'inline; filename=files.json' 
+	return response 
