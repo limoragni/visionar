@@ -1,6 +1,8 @@
 import socket
 import ntpath
 import json
+from django.core.context_processors import csrf
+
 from django.utils import simplejson
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -18,6 +20,9 @@ import requests
 import visionar.config.environment as env
 
 import redis
+import logging
+
+logger = logging.getLogger(__name__)
 
 @login_required(login_url='/users/login/')
 def select_template(request):
@@ -114,14 +119,14 @@ def deleteMedia(request):
 def renderProject(request):
 	project = Project.objects.get(urlhash=str(request.POST["project"]));
 	imgs = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
-	
+	imgs_sorted = sorted(imgs, key=lambda a: a.position)
 	data = {
 	    'media_data': [],
 	    'media_url': str(project.getImagesPath()),
 	    'code': str(project.urlhash), 
 	}
 
-	for i in imgs:
+	for i in imgs_sorted:
 		data["media_data"].append(str(ntpath.basename(i.image.file.path)))
 	
 	headers = {'content-type': 'application/json'}
@@ -145,19 +150,24 @@ def sendToBlender(data):
 	return result
 
 def renderDone(request):
-	if request.method == 'GET':
-		return render(request)
-	elif request.method == 'POST':
-		r = redis.StrictRedis(host='localhost', port=6379, db=0)
-		r.set('foo', 'bar')
-		
-		#project = Project.objects.get(urlhash=str(request.POST["code"]));
-		#project.preview_url = request.POST["url"]
-		#project.save()
+	try:
+		if request.method == 'GET':
+			c = {}
+			c.update(csrf(request))
+			return render_to_response('empty.html', c)
+		elif request.method == 'POST':
+			r = redis.StrictRedis(host='localhost', port=6379, db=0)
+			r.set(request.POST["code"], request.POST["url"])
+			return HttpResponse("OKAA MAN")
+	except Exception as e:
+		logger.error(e)
+		return HttpResponse(e)
 
 def getPreview(request):
 	r = redis.StrictRedis(host='localhost', port=6379, db=0)
-	response = r.get('foo')
+	response = r.get(request.POST["project"])
+	if not response:
+		response = "PENDING"
 	response = JSONResponse({'response': response}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response 

@@ -180,6 +180,9 @@ $(document).ready(function() {
 			},
 	        success: function(data, status, xhr) {
 	       		console.log(data)
+	       		setTimeout(function(){
+	       			self.askPreview();
+	       		}, 1000)
 	       		//self.createVideo(data.response);
 	        },
 	        error: self.logErros,
@@ -221,6 +224,32 @@ $(document).ready(function() {
 		parent.data('mediatype', e.data("type"))
 		parent.attr('data-mediatype', e.data("type"))
 
+	}
+
+	Project.prototype.getPreview = function(interval){
+		var self = this;
+		$.ajax({
+		    	url: "/project/getPreview/",
+		       	type: 'POST',
+		       	data: {
+		       		project: self.urlhash,
+		       		csrfmiddlewaretoken: _csrftoken
+				},
+		        success: function(data, status, xhr) {
+		       		if(data.response != "PENDING"){
+		       			self.createVideo(data.response);
+		       			clearInterval(interval);
+		       		}
+		        },
+		        error: self.logErrors,
+		    }); 
+	}
+
+	Project.prototype.askPreview = function(){
+		var self = this;
+		var interval = setInterval(function(){
+			self.getPreview(interval);
+		}, 10000)
 	}
 
 	/*var socketio = new Socket();*/
