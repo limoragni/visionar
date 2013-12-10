@@ -13,3 +13,6 @@ environment.py
 #Media
 visionar/media/
 visionar/media/
+
+#Shell
+*.save
