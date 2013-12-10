@@ -113,7 +113,7 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = environmet.MEDIA_ROOT
+MEDIA_ROOT = environment.MEDIA_ROOT
 
 MEDIA_URL = '/media/'
 
