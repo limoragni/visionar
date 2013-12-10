@@ -113,7 +113,7 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.abspath(os.path.dirname(__file__)) + '/media/'
+MEDIA_ROOT = environmet.MEDIA_ROOT
 
 MEDIA_URL = '/media/'
 
