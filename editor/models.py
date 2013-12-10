@@ -58,7 +58,10 @@ class Project(models.Model):
 		return self.title
 
 	def getImagesPath(self):
-		return os.path.join(environment.HOST, 'media/projects', self.urlhash + '/')
+		if environment.MEDIA_HOST:
+			return os.path.join(environment.MEDIA_HOST, 'projects', self.urlhash + '/')
+		else:
+			return os.path.join(environment.HOST, 'media/projects', self.urlhash + '/')
 
 	@property
 	def thumb(self):
