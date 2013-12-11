@@ -117,6 +117,9 @@ def deleteMedia(request):
 	return response
 
 def renderProject(request):
+	red = redis.StrictRedis(host='localhost', port=6379, db=0)
+	red.delete(request.POST["project"])
+
 	project = Project.objects.get(urlhash=str(request.POST["project"]));
 	imgs = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
 	imgs_sorted = sorted(imgs, key=lambda a: a.position)
