@@ -160,7 +160,7 @@ def renderDone(request):
 			return render_to_response('empty.html', c)
 		elif request.method == 'POST':
 			r = redis.StrictRedis(host='localhost', port=6379, db=0)
-			r.set(request.POST["code"], request.POST["url"])
+			r.set(request.POST["code"], request.POST["urls"])
 			return HttpResponse("OKAA MAN")
 	except Exception as e:
 		logger.error(e)

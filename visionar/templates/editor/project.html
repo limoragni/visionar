@@ -4,12 +4,29 @@
   	{% load staticfiles %}
   	
   	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
+  	<link href="http://vjs.zencdn.net/4.2/video-js.css" rel="stylesheet">
 	<script type="text/javascript">
  		var _USER = "{{request.user}}";
  	</script>
  	<script src="{% static "visionar/js/vendor/jquery-ui-10.3.js" %}"></script>
  	<script src="{% static "visionar/js/vendor/shapeshift.js" %}"></script>
- 	<script src="http://cdn.socket.io/stable/socket.io.js"></script>
+ 	
+ 	<script type="application/javascript">
+	$(function () {
+    	$('.popup-modal').magnificPopup({
+    		type: 'inline',
+    		preloader: false,
+    		focus: '#username',
+    		modal: true
+    	});
+    	$(document).on('click', '.popup-modal-dismiss', function (e) {
+    		e.preventDefault();
+    		$.magnificPopup.close();
+    	});
+    });
+	</script>
+
+	<script src="http://vjs.zencdn.net/4.2/video.js"></script>
 	<script src="{% static "visionar/js/uploader.js" %}"></script>
 	<script src="{% static "editor/js/project.js" %}"></script>
 
@@ -28,8 +45,19 @@
 			<div class="clear"></div>
 			
 			<input type="button" value="guardar" id="save-project">
-			<input type="button" value="vista previa" id="render">
-			
+			<button style="padding:10px 0px" type="button" value="vista previa" id="render">
+				
+			<a style="color:white; padding:10px" class="popup-modal" href="#preview-button">Vista previa</a>
+                
+			</button>
+			<div id="preview-button" class="mfp-hide">
+               <div class="modal-display">
+	               <h2>Vista Previa</h2>
+	               <div id="video"></div>
+	               <a class="popup-modal-dismiss" href="#">Cerrar</a></p>
+               </div>
+           </div>	
+
 			<button class="change-media" data-icon="camera" data-type="Imagen"><i class="icon-large icon-camera"></i></button>
 			<button class="change-media" data-icon="font" data-type="Texto"><i class="icon-large icon-font"></i></button>
 			
@@ -59,9 +87,7 @@
 			<input type="button" value="eliminar" id="delete-media">
 			<a style="float:right" href="/project/checkout"><button> Finalizar</button></a>
 			<div class="clear"></div>
-			<div id="video">
-				
-			</div>
+			
 			
 			
 

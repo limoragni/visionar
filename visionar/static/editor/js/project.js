@@ -211,9 +211,13 @@ $(document).ready(function() {
 		}
 	}
 
-	Project.prototype.createVideo = function(url){
+	Project.prototype.createVideo = function(urls){
 		var self = this;
-		$("#video").html("<video width='650' height='400' controls> <source src='"+url+"' type='video/ogg' </video>")
+		$("#video").html("<video id='video-preview' class='video-js vjs-default-skin' width='650' height='400' preload='auto' controls>  <source src='"+urls.webm+"' type='video/webm'> <source src='"+urls.mp4+"' type='video/mp4'> <source src='"+urls.ogg+"' type='video/ogg'></video>")
+		videojs("video-preview", {}, function(){
+  			// Player (this) is initialized and ready.
+		}).on("ended", function(){this.src({ type: "video/webm", src: urls.webm });});
+		//myPlayer.on("ended", function () { this.src({ type: "video/mp4", src: URL }); });
 	}
 
 	Project.prototype.changeMedia = function(e){
@@ -237,7 +241,8 @@ $(document).ready(function() {
 				},
 		        success: function(data, status, xhr) {
 		       		if(data.response != "PENDING"){
-		       			self.createVideo(data.response);
+		       			console.log(JSON.parse(data.response))
+		       			self.createVideo(JSON.parse(data.response));
 		       			clearInterval(interval);
 		       		}
 		        },
