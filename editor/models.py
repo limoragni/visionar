@@ -43,6 +43,26 @@ class Template(models.Model):
 	class Admin:
 		pass
 
+class RenderState(models.Model):
+	name = models.CharField(max_length=50)
+	description = models.CharField(max_length=250)
+
+	class Admin:
+		pass
+	
+	def __unicode__(self):
+		return self.name
+
+class RenderType(models.Model):
+	name = models.CharField(max_length=50)
+	description = models.CharField(max_length=250)
+
+	class Admin:
+		pass
+
+	def __unicode__(self):
+		return self.name
+		
 class Project(models.Model):
 	user = models.ForeignKey(User)
 	template = models.ForeignKey(Template)
@@ -51,7 +71,7 @@ class Project(models.Model):
 	created = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de creacion')
 	modified = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de modificacion')
 	urlrender = models.CharField(max_length=200)
-	istmp = models.BooleanField(verbose_name = 'Es Temporal') #Para usuarios no logueados o invitados
+	state = models.ForeignKey(RenderState)
 	positions = models.CharField(max_length=500)
 
 	def __unicode__(self):

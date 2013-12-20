@@ -55,14 +55,17 @@
       <div class="grid-100 mobile-grid-100 tablet-grid-100">
               
               <div class="portfolio-box">
-                <a class="popup-modal" href="#tmpl01">
-              <figure class="portfolio-image"><img src="{% static "visionar/images/bg-ny01.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
-                <div class="portfolio-caption">
-                    <h3 class="portfolio-title">Negocios<span class="portfolio-category">Ideal para empresas de finanzas</span></h3>
-                </div><!-- close portfolio caption -->
-                </a>           
-                </div>
-                <a href="#"><i class="icon-large icon-globe"></i>&nbsp;Publicar</a>&nbsp;<a href="#"><i class="icon-large icon-edit"></i>&nbsp;Seguir Editando</a>
+                {% if urls %}
+                  <video controls preload="auto">
+                    <source src="{{urls.webm}}" type="video/webm">
+                    <source src="{{urls.mp4}}" type="video/mp4">
+                    <source src="{{urls.ogg}}" type="video/ogv">
+                  </video>
+                {% else %}
+                  <img src="{% static "visionar/images/p1.jpg" %}">
+                {% endif %}         
+              </div>
+                <a href="#"><i class="icon-large icon-globe"></i>&nbsp;Publicar</a>&nbsp;<a href="/project/{{project.urlhash}}"><i class="icon-large icon-edit"></i>&nbsp;Seguir Editando</a>
                 
                 <div id="tmpl01" class="mfp-hide">
                    <div class="modal-display">
@@ -80,15 +83,65 @@
                 </div>
             </div>
             <!-- /CAMPAÑAS 1 -->
+      <div id="portfolio-section" class="portfolio-section clearfix suffix-top-5">
+      <div class="grid-100">
+                     <!--<div class="grid-100 center">
+                       <h1 class="grid-50 center">Publique su Video</h1>
+                       <span class="grid-50 center">Seleccione unos de nuestros planes de publicación</span>
+                     </div>-->
+                     
+                      <!-- portfolio box 1 -->
+        <div class="grid-33 mobile-grid-100 tablet-grid-100 center">
+                 <ul class="list-group">
+                    <li class="list-group-item-heading">Plan Silver</li>
+                    <li class="list-group-item"><strong>60</strong> / Pasadas horario Prime</li>
+                    <li class="list-group-item"><strong>60</strong> / Pasadas horario Normal</li>
+                    <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+                    <li class="list-group-item"><strong>0%</strong> / Bonificación</li>
+                    <li class="list-group-item"><strong>$ 1.080</strong> / Costo</li>
+                    <li class="list-group-item"><strong>$ 0</strong> / Descuento</li>
+                    <li class="list-group-item"><strong>$ 1.080</strong> / Precio Final</li>
+                    <li class="list-group-item"><button>Pagar y Publicar</button></li>
+                 </ul>
+        </div><!-- close portfolio -->
             
-            </div><!-- close contact-form-holder -->
+         <div class="grid-33 mobile-grid-100 tablet-grid-100">
+           <ul class="list-group">
+              <li class="list-group-item-heading">Plan Gold</li>
+              <li class="list-group-item"><strong>90</strong> / Pasadas horario Prime</li>
+              <li class="list-group-item"><strong>100</strong> / Pasadas horario Normal</li>
+              <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+              <li class="list-group-item"><strong>3%</strong> / Bonificación</li>
+              <li class="list-group-item"><strong>$ 2.520</strong> / Costo</li>
+              <li class="list-group-item"><strong>$ 75,60</strong> / Descuento</li>
+              <li class="list-group-item"><strong>$ 2.444,40</strong> / Precio Final</li>
+              <li class="list-group-item"><button>Pagar y Publicar</button></li>
+           </ul>
+          </div><!-- close portfolio -->
+            
+          <div class="grid-33 mobile-grid-100 tablet-grid-100">
+             <ul class="list-group">
+                <li class="list-group-item-heading">Plan Platinum</li>
+                <li class="list-group-item"><strong>100</strong> / Pasadas horario Prime</li>
+                <li class="list-group-item"><strong>0</strong> / Pasadas horario Normal</li>
+                <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+                <li class="list-group-item"><strong>5%</strong> / Bonificación</li>
+                <li class="list-group-item"><strong>$ 3.2400</strong> / Costo</li>
+                <li class="list-group-item"><strong>$ 162</strong> / Descuento</li>
+                <li class="list-group-item"><strong>$ 3.078</strong> / Precio Final</li>
+                <li class="list-group-item"><button>Pagar y Publicar</button></li>
+             </ul>
+          </div><!-- close portfolio -->
+                     
+                
+        </div>
+      </div>
+    </div><!-- close contact-form-holder -->
             
             
-            </div>
-            </div><!-- close contact wrap -->
-            
-            
-    </div><!-- close container -->
+  </div>
+  </div><!-- close contact wrap -->
+  </div><!-- close container -->
   </section><!-- close contact section -->
     
   </div><!-- close nav-waypoint -->

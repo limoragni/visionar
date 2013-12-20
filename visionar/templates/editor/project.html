@@ -58,8 +58,8 @@
                </div>
            </div>	
 
-			<button class="change-media" data-icon="camera" data-type="Imagen"><i class="icon-large icon-camera"></i></button>
-			<button class="change-media" data-icon="font" data-type="Texto"><i class="icon-large icon-font"></i></button>
+			<!-- <button class="change-media" data-icon="camera" data-type="Imagen"><i class="icon-large icon-camera"></i></button>
+			<button class="change-media" data-icon="font" data-type="Texto"><i class="icon-large icon-font"></i></button> -->
 			
 			
             <p style="float:right; margin: 15px 5px 0px 0px ">Template seleccionado: {{project.template.name}}</p>
@@ -85,7 +85,7 @@
 				
 			</div>
 			<input type="button" value="eliminar" id="delete-media">
-			<a style="float:right" href="/project/checkout"><button> Finalizar</button></a>
+			<a style="float:right" href="/project/checkout/{{project.urlhash}}"><button> Finalizar</button></a>
 			<div class="clear"></div>
 			
 			

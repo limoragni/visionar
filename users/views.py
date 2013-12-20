@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template  import RequestContext
 from django.contrib.auth.models import User
 from .models import External
-from editor.models import Project, Media, Mediatype
+from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 import requests
 
@@ -56,10 +56,13 @@ def profile(request):
 
 @login_required(login_url='/users/login/')
 def video(request):
-    projects = Project.objects.filter(user=request.user)
-    return render(request, "users/video.html", {"projects": projects})
+    finished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="FINISHED"))
+    unfinished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="NONE"))
+    
+    pagination = {
+        'finished': int((finished.count() / 3) // 1),
+        'unfinished': int((unfinished.count() / 3) // 1)
+    }
+    return render(request, "users/video.html", {"finished": finished, "unfinished": unfinished, 'pagination': pagination})
 
-def test(request):
-    r = requests.get('http://localhost:8100/users/')
-    return render(request, "users/test.html", {"test": r.text})
 

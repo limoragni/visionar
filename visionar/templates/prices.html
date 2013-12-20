@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+    {% block content %}
+    {% load staticfiles %}
+	
+	<script type="application/javascript">
+	$(function () {
+		$('.popup-modal').magnificPopup({
+			type: 'inline',
+			preloader: false,
+			focus: '#username',
+			modal: true
+		});
+		$(document).on('click', '.popup-modal-dismiss', function (e) {
+			e.preventDefault();
+			$.magnificPopup.close();
+		});
+	});
+	</script>
+	
+	<!-- contact section -->
+     <div class="nav-waypoint">
+     <section id="contact-section" class="contact-section parallax-section parallax-background">
+     <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+        
+            	<!-- parallax header -->
+            	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                    <header class="parallax-header">
+                        <h2 class="parallax-title"><span>Tarifas</span></h2>
+                        <p class="parallax-slogan">Conocé nuestros planes y precios para publicar tus avisos en nuestras pantallas de led</p>
+                    </header>
+                </div>
+            	<!-- close parallax header -->
+            
+            <div class="clear"></div>
+            
+            <!-- contact wrap -->
+            <div class="grid-100 mobile-grid-100 tablet-grid-100">
+        	<div class="contact-wrap">
+            
+            <!-- contact form -->
+            <div class="grid-parent grid-100 mobile-grid-100 tablet-grid-100">
+            
+            <!-- CAMPAÑAS 1 -->
+
+ <div id="portfolio-section" class="portfolio-section clearfix suffix-top-5"><!--videoprojects-box-->
+ 
+                <div class="grid-100">
+                     <!--<div class="grid-100 center">
+                       <h1 class="grid-50 center">Publique su Video</h1>
+                       <span class="grid-50 center">Seleccione unos de nuestros planes de publicación</span>
+                     </div>-->
+                     
+                      <!-- portfolio box 1 -->
+			<div class="grid-33 mobile-grid-100 tablet-grid-100 center">
+               <ul class="list-group">
+                  <li class="list-group-item-heading">Plan Silver</li>
+                  <li class="list-group-item"><strong>60</strong> / Pasadas horario Prime</li>
+                  <li class="list-group-item"><strong>60</strong> / Pasadas horario Normal</li>
+                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+                  <li class="list-group-item"><strong>0%</strong> / Bonificación</li>
+                  <li class="list-group-item"><strong>$ 1.080</strong> / Costo</li>
+                  <li class="list-group-item"><strong>$ 0</strong> / Descuento</li>
+                  <li class="list-group-item"><strong>$ 1.080</strong> / Precio Final</li>
+               </ul>
+			</div><!-- close portfolio -->
+            
+           <div class="grid-33 mobile-grid-100 tablet-grid-100">
+               <ul class="list-group">
+                  <li class="list-group-item-heading">Plan Gold</li>
+                  <li class="list-group-item"><strong>90</strong> / Pasadas horario Prime</li>
+                  <li class="list-group-item"><strong>100</strong> / Pasadas horario Normal</li>
+                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+                  <li class="list-group-item"><strong>3%</strong> / Bonificación</li>
+                  <li class="list-group-item"><strong>$ 2.520</strong> / Costo</li>
+                  <li class="list-group-item"><strong>$ 75,60</strong> / Descuento</li>
+                  <li class="list-group-item"><strong>$ 2.444,40</strong> / Precio Final</li>
+               </ul>
+			</div><!-- close portfolio -->
+            
+           <div class="grid-33 mobile-grid-100 tablet-grid-100">
+               <ul class="list-group">
+                  <li class="list-group-item-heading">Plan Platinum</li>
+                  <li class="list-group-item"><strong>100</strong> / Pasadas horario Prime</li>
+                  <li class="list-group-item"><strong>0</strong> / Pasadas horario Normal</li>
+                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
+                  <li class="list-group-item"><strong>5%</strong> / Bonificación</li>
+                  <li class="list-group-item"><strong>$ 3.2400</strong> / Costo</li>
+                  <li class="list-group-item"><strong>$ 162</strong> / Descuento</li>
+                  <li class="list-group-item"><strong>$ 3.078</strong> / Precio Final</li>
+               </ul>
+			</div><!-- close portfolio -->
+                     
+                </div>
+            </div>
+            <!-- /CAMPAÑAS 1 -->
+            
+            </div><!-- close contact-form-holder -->
+            
+            
+            </div>
+            </div><!-- close contact wrap -->
+            
+            
+		</div><!-- close container -->
+	</section><!-- close contact section -->
+    
+	</div><!-- close nav-waypoint -->
+{% endblock %}

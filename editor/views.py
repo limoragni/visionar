@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, redirect
 
 from .response import JSONResponse, response_mimetype
-from .models import Template, Project, Image, Text, Mediatype, Media
+from .models import Template, Project, Image, Text, Mediatype, Media, RenderState, RenderType
 
 from base64 import b64decode
 from django.core.files.base import ContentFile
@@ -34,28 +34,41 @@ def select_template(request):
 def get(request, urlhash):
 	if Project.objects.get(urlhash=urlhash):
 		project = Project.objects.get(urlhash=urlhash)
-		positions = json.dumps(project.positions)
-		media_set = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
-		media_sorted = sorted(media_set, key=lambda a: a.position)
-		return render(request, "editor/project.html", {"project": project, "media": media_sorted})
+		if project.user == request.user:
+			positions = json.dumps(project.positions)
+			media_set = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
+			media_sorted = sorted(media_set, key=lambda a: a.position)
+			return render(request, "editor/project.html", {"project": project, "media": media_sorted})
+		else:
+			return redirect('/users/video/')
 	else:
 		return redirect('/users/login/')
 	
 
 @login_required(login_url='/users/login/')
 def add(request, user, template):
-	if (str(user) ==str(request.user)) & Template.objects.filter(name=template).exists():
+	if (str(user) == str(request.user)) & Template.objects.filter(name=template).exists():
 		user = User.objects.get(username=request.user)
 		template = Template.objects.get(name=template)
-		project = Project(user=user, template=template, istmp=False)
+		render_state = RenderState.objects.get(name="NONE")
+		project = Project(user=user, template=template, state=render_state)
 		project.save()
 		return redirect('/project/' + project.urlhash)
 	else:
 		return redirect('/users/login/')
 
 @login_required(login_url='/users/login/')
-def checkout(request):
-	return render(request, 'editor/checkout.html')
+def delete(request):
+	if Project.objects.get(urlhash=request.POST['urlhash']):
+		project = Project.objects.get(urlhash=request.POST['urlhash'])
+		project.delete()
+		response = "PROJECT DELETED"
+	else:
+		response = "NOT FOUND"
+	response = JSONResponse({'response': response}, mimetype=response_mimetype(request))
+	response['Content-Disposition'] = 'inline; filename=files.json'
+	return response
+
 
 def saveProject(request):
 	if (str(request.POST["user"]) ==str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
@@ -116,32 +129,71 @@ def deleteMedia(request):
 	response['Content-Disposition'] = 'inline; filename=files.json'
 	return response
 
-def renderProject(request):
-	red = redis.StrictRedis(host='localhost', port=6379, db=0)
-	red.delete(request.POST["project"])
-
-	project = Project.objects.get(urlhash=str(request.POST["project"]));
-	imgs = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
+#IN: Codigo del proyecto
+#OUT: Datos para renderizar
+def getRenderData(urlhash, render_type):
+	project = Project.objects.get(urlhash=urlhash);
+	imgs = Media.objects.filter(project = project).filter(mediatype=Mediatype.objects.get(typename="Image"))
 	imgs_sorted = sorted(imgs, key=lambda a: a.position)
 	data = {
 	    'media_data': [],
 	    'media_url': str(project.getImagesPath()),
-	    'code': str(project.urlhash), 
-	}
+	    'code': str(project.urlhash),
+	    'render_type': str(render_type),
+	    'template': str(project.template.name)
+    }
 
 	for i in imgs_sorted:
 		data["media_data"].append(str(ntpath.basename(i.image.file.path)))
-	
+
+	return data
+
+def sendRenderData(data):
 	headers = {'content-type': 'application/json'}
 	try:
 		r = requests.post(env.BLENDER_URL, data=json.dumps(data), headers=headers)
 		message = r.json()
 	except Exception as e:
 		message = {'response':e}
+	return message
+
+def renderFinal(project):
+	render_type = RenderType.objects.get(name="FINAL")
+	data = getRenderData(project, render_type.name)
+	message = sendRenderData(data)
+	return message
+
+def renderProject(request): #TODO: Agregar parametro QUALITY Cambiar nombre de funcion a renderPreview
+	red = redis.StrictRedis(host='localhost', port=6379, db=0)
+	red.delete(request.POST["project"])
+	render_type = RenderType.objects.get(name="PREVIEW")
+	data = getRenderData(request.POST["project"], render_type.name)
+	message = sendRenderData(data)
 	
 	response = JSONResponse(message, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response  
+
+@login_required(login_url='/users/login/')
+def checkout(request, urlhash):
+	if Project.objects.get(urlhash=str(urlhash)):
+		project = Project.objects.get(urlhash=str(urlhash))
+		renderFinal(str(urlhash))
+		project.state = RenderState.objects.get(name="PENDING")
+		project.urlrender = None
+		project.save()
+		return redirect('/project/video/' + urlhash)
+		#return render(request, 'editor/checkout.html', {"project": project})
+	else:	
+		return render(request, 'editor/checkout.html', {"error": "Proyecto inexistente"})
+
+def video(request, urlhash):
+	project = Project.objects.get(urlhash=str(urlhash))
+	if project.urlrender:
+		urls = json.loads(project.urlrender)
+	else:
+		urls = None
+	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls})	
 
 def sendToBlender(data):
 	js = simplejson.dumps(data)
@@ -149,7 +201,7 @@ def sendToBlender(data):
 	s.connect(('127.0.0.1', 13373))
 	s.send(js)
 	result = json.loads(s.recv(1024))
-	s.close()	
+	s.close()
 	return result
 
 def renderDone(request):
@@ -159,9 +211,16 @@ def renderDone(request):
 			c.update(csrf(request))
 			return render_to_response('empty.html', c)
 		elif request.method == 'POST':
-			r = redis.StrictRedis(host='localhost', port=6379, db=0)
-			r.set(request.POST["code"], request.POST["urls"])
-			return HttpResponse("OKAA MAN")
+			if str(request.POST["render_type"]) == str(RenderType.objects.get(name="FINAL").name):
+				logger.error(type(request.POST["render_type"]))
+				project = Project.objects.get(urlhash=request.POST["code"])
+				project.state = RenderState.objects.get(name="FINISHED")
+				project.urlrender = request.POST["urls"];
+				project.save()
+			else:
+				r = redis.StrictRedis(host='localhost', port=6379, db=0)
+				r.set(request.POST["code"], request.POST["urls"])
+			return HttpResponse("")
 	except Exception as e:
 		logger.error(e)
 		return HttpResponse(e)

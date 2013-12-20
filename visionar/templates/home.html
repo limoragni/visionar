@@ -1,0 +1,511 @@
+
+	{% extends "base.html" %}
+    {% block content %}
+    {% load staticfiles %}
+   
+    <!-- hero section -->
+    <section class="hero ha-waypoint parallax-section parallax-background" data-animate-up="ha-header-hide" data-animate-down="ha-header-hide">
+    	
+        <a id="bgndVideo" class="player" data-property="{videoURL:'http://youtu.be/gvt_YFuZ8LA',containment:'body',autoPlay:true, mute:true, startAt:0, opacity:1}">My video</a>
+        
+        <div class="parallax-overlay parallax-overlay-1"></div> 
+    	<div class="grid-container">
+    		
+            <!-- hero holder -->
+            <div class="hero-holder grid-70 mobile-grid-100 tablet-grid-100">
+            	<div class="hero-inner">
+                    <span class="hero-description">Comunicacion de alto impacto</span>
+                    <div class="hero-title-holder"><h1 class="hero-title">Visionar <span>Media Rental</span></h1></div>
+                    <span class="btn-holder"><a id="to-about-section" class="hero-btn">Conozcanos</a></span>
+                </div>
+            </div><!-- close hero-holder -->    													
+    	</div>
+    </section><!-- close hero section -->
+    
+    <div class="clear"></div>
+   
+    <div id="main-content" class="wrap">
+    
+    <!-- about section -->
+    <div class="nav-waypoint">
+	<section id="about-section" class="about-section content-section ha-waypoint" data-animate-up="ha-header-hide" data-animate-down="ha-header-small">
+		<div class="grid-container">
+        	
+            <!-- section header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="section-header">
+                    <h2 class="section-title"><span>Sobre Nosotros</span></h2>
+                    <p class="section-slogan"><strong>VISIONAR MEDIA RENTAL</strong> es una empresa (nueva unidad de negocio) que nace del Grupo Creativ S.R.L, quien cuenta con más de 25 años de trayectoria en la industria solar y de la construcción, surgiendo  a principios de 2013.</p>
+                </header>
+            </div>
+            <!-- close section header -->
+            
+            <div class="grid-50 tablet-grid-100 mobile-grid-100 about-box">
+            	<figure class="about-icon"><img src="{% static "visionar/images/app-development.png"  %}" alt="app-development"></figure>
+                
+                <div class="about-box">
+                    <h3>Objetivo</h3>
+                    <p>Crear una red de comunicación visual masiva basada en tecnología led y con alcance en todo el país.</p>
+                </div>
+            </div>
+            
+            <div class="grid-50 tablet-grid-100 mobile-grid-100 about-box">
+            	<figure class="about-icon"><img src="{% static "visionar/images/ui-design.png" %}" alt="ui-design"></figure>
+                
+                <div class="about-box">
+                    <h3>Misión</h3>
+                    <p>Desarrollar estrategias comunicacionales de alto impacto utilizando tecnología de punta para trasmitir eficazmente pautas publicitarias</p>
+                </div>
+            </div>
+            
+            <div class="grid-50 tablet-grid-100 mobile-grid-100 about-box">
+            	<figure class="about-icon"><img src="{% static "visionar/images/brand-identity.png" %}" alt="brand-identity"></figure>
+                
+                <div class="about-box">
+                    <h3>Visión</h3>
+                    <p>Ser la empresa líder en la comunicación digital de vía pública (y enmegaemprendimientos privados) en todo el territorio nacional.</p>
+                </div>
+            </div>
+            
+            <div class="grid-50 tablet-grid-100 mobile-grid-100 about-box">
+            	<figure class="about-icon"><img src="{% static "visionar/images/consultancy.png" %}" alt="consultancy"></figure>
+                
+            	<div class="about-box">
+                    <h3>Servicio</h3>
+                    <p>Publicidad, tecnología y asesoramiento para transmitir contenidos de %}" alto interés para el público.</p>
+                </div>
+            </div>
+            
+    	</div><!-- close grid-container -->
+    </section><!-- close about section -->
+            
+    <div class="clear"></div>
+    
+    </div><!-- close nav-waypoint -->
+    
+    <div class="clear"></div>
+   
+   <!-- Counter Section -->
+    <section id="counter-section" class="counter-section parallax-section parallax-background">
+     	<div class="parallax-overlay parallax-overlay-6"></div>
+		<div class="grid-container parallax-content">
+        	<div class="grid-parent grid-100 mobile-grid-100 tablet-grid-100">
+            
+            <!-- parallax header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="parallax-header">
+                    <h2 class="parallax-title"><span>Algunos números</span></h2>
+                    <p class="parallax-slogan">Nuestras experiencia se refleja en datos concretos.</p>
+                </header>
+            </div>
+            <!-- close parallax header -->
+ 
+            <!-- counter box 1 -->
+			<div class="grid-25 mobile-grid-100 tablet-grid-25">
+            	<div class="counter-box counter" data-counter="157">
+            		<span class="count">69</span>
+                 	<h3 class="counter-details">Pantallas en Bs.As.</h3>
+                </div>
+			</div><!-- close counter box -->
+            
+            <!-- counter box 2 -->
+			<div class="grid-25 mobile-grid-100 tablet-grid-25">
+            	<div class="counter-box counter" data-counter="32">
+            		<span class="count">5</span>
+                 	<h3 class="counter-details">Clientes Satisfechos</h3>
+                </div>
+			</div><!-- close counter box -->
+            
+            <!-- counter box 3 -->
+			<div class="grid-25 mobile-grid-100 tablet-grid-25">
+            	<div class="counter-box counter" data-counter="532">
+            		<span class="count">12</span>
+                 	<h3 class="counter-details">Avisos en Rotación</h3>
+                </div>
+			</div><!-- close counter box -->
+            
+            <!-- counter box 4 -->
+			<div class="grid-25 mobile-grid-100 tablet-grid-25">
+            	<div class="counter-box counter" data-counter="10893">
+            		<span class="count">344</span>
+                 	<h3 class="counter-details">Horas de publicidad</h3>
+                </div>
+			</div><!-- close counter box -->
+    
+    		</div><!-- close grid-100 -->
+		</div><!-- close grid container -->
+	</section><!-- close parallax banner 3-->
+   
+    </div><!-- close nav-waypoint -->
+         
+    <div class="clear"></div>    
+    
+    <!-- service section -->
+    <div class="nav-waypoint">
+     <section id="service-section" class="parallax-section parallax-background service-section">
+     <div class="parallax-overlay parallax-overlay-3"></div>
+		<div class="grid-container parallax-content">
+        	<div class="grid-parent grid-100 mobile-grid-100 tablet-grid-100">
+            
+            <!-- entry header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+            <header class="parallax-header">
+            <h2 class="parallax-title"><span>Servicios</span></h2>
+            <p class="parallax-slogan">La ubicación de una <strong>pantalla gigante de led</strong> es la clave de su éxito. Ubicar en zonas de exterior una pantalla gigante con gran afluencia de tráfico de vehículos o de peatones nos garantiza que la pantalla gigante de led <strong>será amortizada en pocos meses</strong>.</p>
+            </header>
+            </div>
+            <!-- close entry header -->
+ 
+            <!-- icon box 1 -->
+			<div class="grid-33 mobile-grid-100 tablet-grid-100">
+            	<div class="box-fade icon-box">
+            	<div class="arrow-right"></div>
+				<i class="icon-time icon-4x service-icon"></i>
+                </div>
+                <div class="box-fade info"> 
+                <h3>On Time</h3>
+				<p>18 horas diarias de publicidad. Actualización de contenidos online y en tiempo real. Rotación permanente de pauta.</p>
+               </div>
+			</div><!-- close icon box -->
+            
+            <!-- icon box 2 -->
+			<div class="grid-33 mobile-grid-100 tablet-grid-100">
+            	<div class="box-fade icon-box">
+            	<div class="arrow-right"></div>
+                <i class="icon-globe icon-4x service-icon"></i>
+                </div>
+                <div class="box-fade info"> 
+                <h3>Systems Integration</h3>
+				<p>Sincronización con datos de interés general: Noticias, Pronóstico y más. Monitoreo de webcams. Transmisiones en vivo.</p>
+               </div>
+              
+			</div><!-- close icon box -->
+            
+            <!-- icon box 3 -->
+			<div class="grid-33 mobile-grid-100 tablet-grid-100">	
+                <div class="box-fade icon-box">
+            	<div class="arrow-right"></div>
+				<i class="icon-umbrella icon-4x service-icon"></i>
+                </div>
+                <div class="box-fade info"> 
+                <h3>Support</h3>
+				<p>Planes a su medida para posicionar su marca y sus productos. Asesoramiento publicitario para potenciar sus ventas.</p>
+               </div>
+			</div><!-- close icon box -->
+    
+    </div><!-- close grid-100 -->
+		</div><!-- close grid container -->
+	</section><!-- close service section -->
+    
+    </div><!-- close nav-waypoint -->
+    
+
+
+ <div id="main-content" class="wrap">
+    
+    <!-- editor section -->
+    <div class="nav-waypoint">
+	<section id="team-section" class="team-section content-section">
+		<div class="grid-container">
+        	
+            <!-- section header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="section-header">
+                    <h2 class="section-title"><span>Visionar Web App</span></h2>
+                    <p class="section-slogan">Contamos con un<strong>creador de videos online</strong>, potente y muy simple, para que nuestros clientes diseñen su <strong>aviso ideal</strong>.<br />¿Cómo Funciona?</p>
+                </header>
+            </div>
+            <!-- close section header -->
+            
+            <div class="clear"></div>
+            
+            <!-- member 1 -->
+			<div class="member-box grid-33 mobile-grid-100 tablet-grid-33">
+            	<figure class="member-photo alternative"><img src="{% static "visionar/images/step01.jpg" %}" alt="step01"></figure>
+                
+                <div class="member-box" style="text-align:center;">
+                    <h3>Paso 1: Upload</h3>
+                    <span>Cargue sus imágenes y textos: Sus productos y servicios más destacadas, datos de contacto, slogan, y más!</span>
+                </div>
+                
+			</div><!-- close member -->
+            
+            <!-- member 2 -->
+			<div class="member-box grid-33 mobile-grid-100 tablet-grid-33">
+            	<figure class="member-photo alternative"><img src="{% static "visionar/images/step02.jpg" %}" alt="step02"></figure>
+                
+                <div class="member-box" style="text-align:center;">
+                    <h3>Paso 2: Elija un estilo</h3>
+                    <span>Ofrecemos una amplia gama de diseños predeterminados para crear el aviso que mejor se ajusta a su negocio.</span>
+                </div>
+                
+			</div><!-- close member -->
+            
+            <!-- member 3 -->
+			<div class="member-box grid-33 mobile-grid-100 tablet-grid-33">
+            	<figure class="member-photo alternative"><img src="{% static "visionar/images/step03.jpg" %}" alt="step03"></figure>
+                
+                <div class="member-box" style="text-align:center;">
+                    <h3>Paso 3: Aviso listo!</h3>
+                    <span>Nuestra Web App le entrega un video terminado, listo para la rotacion en nuestras Pantallas Led.</span>
+                </div>
+                
+			</div><!-- close member -->
+			
+		</div><!-- close grid-container --> 
+        
+	</section><!-- close team section -->
+    
+    <!-- cta section -->
+    <section id="cta-section" class="cta-section content-section">
+    	<div class="grid-container">    
+        	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">            
+            	<span class="cta-btn cl-effect-18"><a href="/project/" class="cl-effect-18">Ingresá a nuestra Web App</a></span>
+            </div>            
+    	</div> 
+    </section><!-- close cta section -->
+    </div><!-- close nav-waypoint -->
+            
+    <div class="clear"></div>
+    
+    </div><!-- close nav-waypoint -->
+
+    
+    
+    
+    <div class="clear"></div>
+    
+    <!-- portfolio section -->
+    <div class="nav-waypoint">
+	<section id="portfolio-section" class="portfolio-section content-section">
+		<div class="grid-container">
+        	
+            <!-- section header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="section-header">
+                    <h2 class="section-title"><span>Nuestras Pantallas</span></h2>
+                    <p class="section-slogan">Conozca la tecnología con la que trabajamos en <strong>Visionar Media Rental</strong></p>
+                </header>
+            </div>
+            <!-- close section header -->
+            
+            <div class="clear"></div>
+            
+            <!-- portfolio box 1 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup" href="images/portfolio/large/p1.jpg">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pantalla 1<span class="portfolio-category">Photography</span></h3>
+                </div><!-- close portfolio caption -->               
+                </div>
+                </a>              
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 2 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup" href="images/portfolio/large/p2.jpg">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p2.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image --> 
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pantalla 2<span class="portfolio-category">Screen</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>
+                </a>               
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 3 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup-video" href="http://www.youtube.com/watch?v=ZouARplh7iY">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p3.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Video 1<span class="portfolio-category">Video</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>     
+                </a>          
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 4 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup" href="images/portfolio/large/p4.jpg">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p4.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pantalla 3<span class="portfolio-category">Screen</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>  
+                </a>             
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 5 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup" href="{% static "visionar/images/portfolio/large/p5.jpg" %}">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p5.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pantalla 4<span class="portfolio-category">Screen</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>          
+                </a>     
+			</div><!-- close portfolio -->
+            
+            <!-- portfolio box 6 -->
+			<div class="grid-33 mobile-grid-50 tablet-grid-50">
+            	<a class="portfolio-popup" href="{% static "visionar/images/portfolio/large/p6.jpg" %}">
+            	<div class="portfolio-box">       
+            	<figure class="portfolio-image"><img src="{% static "visionar/images/portfolio/thumb/p6.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <div class="portfolio-caption">
+                    <h3 class="portfolio-title">Pantalla 5<span class="portfolio-category">Screen</span></h3>
+                </div><!-- close portfolio caption -->
+                </div>    
+                </a>           
+			</div><!-- close portfolio -->
+			
+		</div><!-- close grid-container -->
+		
+		<div class="clear"></div>
+		
+		<!-- section header -->
+            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100" style="margin-top:5%;">
+                <header class="section-header">
+                    <h2 class="section-title"><span>GEONETWORK</span></h2>
+                    <p class="section-slogan">Encontrá nuestras pantallas por toda la ciudad</p>
+                </header>
+            </div>
+            <!-- close section header -->
+        
+           <iframe width="100%" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=es-419&amp;geocode=&amp;q=medrano+535,+buenos+aires,+argentina&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=60.116586,135.263672&amp;ie=UTF8&amp;hq=&amp;hnear=Av+Medrano+535,+Almagro,+Buenos+Aires,+Argentina&amp;ll=-34.604294,-58.421075&amp;spn=0.016266,0.033023&amp;t=m&amp;z=14&amp;output=embed"></iframe>
+		
+    </section><!-- close portfolio section -->
+    
+    <div class="clear"></div>
+    
+    <!-- social section -->
+     <section id="social-section" class="parallax-section parallax-background social-section">
+     <div class="parallax-overlay parallax-overlay-4"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+        	<div class="grid-parent grid-100 mobile-grid-100 tablet-grid-100">
+            
+            	<!-- parallax header -->
+            	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                    <header class="parallax-header">
+                    <h2 class="parallax-title"><span>Sigamos en Contacto</span></h2>
+                    <p class="parallax-slogan">Buscanos en las redes sociales para conocer más sobre <strong>Visionar Media Rental</strong></p>
+                    </header>
+                </div>
+            	<!-- close parallax header -->
+            
+            <div class="clear"></div>
+            
+            <!-- social network -->
+            <ul class="social-network">
+            	<li class="facebook grid-33 tablet-grid-33 mobile-grid-50">
+                	<a class="social-link" href="#" target="_blank">
+                    <span class="social-icon"><i class="icon-facebook icon-4x"></i></span>
+                    <h3 class="social-title">Facebook</h3>
+                    <span class="social-info">Seguinos en nuestra fanpage</span>
+                    </a>
+                </li>
+                <li class="twitter grid-33 tablet-grid-33 mobile-grid-50">
+                	<a class="social-link" href="#" target="_blank">
+                    <span class="social-icon"><i class="icon-twitter icon-4x"></i></span>
+                    <h3 class="social-title">Twitter</h3> 
+                    <span class="social-info">Recibí las últimas noticias</span>
+                    </a>
+                </li>
+                <li class="youtube grid-33 tablet-grid-33 mobile-grid-50">
+                	<a class="social-link" href="#" target="_blank">
+                    <span class="social-icon"><i class="icon-youtube icon-4x"></i></span>
+                    <h3 class="social-title">YouTube</h3>
+                    <span class="social-info">Nuestros videos exclusivos</span>
+                    </a>
+                </li>
+            </ul><!-- close social network -->
+    	
+      		</div><!-- close grid-100 -->
+		</div><!-- close grid container -->
+	</section><!-- close social section -->
+    </div><!-- close nav-waypoint -->
+    
+    <div class="clear"></div>
+    
+     <!-- contact section -->
+     <div class="nav-waypoint">
+     <section id="contact-section" class="contact-section parallax-section parallax-background">
+     <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+		<div class="grid-container parallax-content">
+        
+            	<!-- parallax header -->
+            	<div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                    <header class="parallax-header">
+                        <h2 class="parallax-title"><span>Contáctenos</span></h2>
+                        <p class="parallax-slogan">Lo invitamos a conocer nuestras oficinas o envíenos un mensaje.</p>
+                    </header>
+                </div>
+            	<!-- close parallax header -->
+            
+            <div class="clear"></div>
+            
+            <!-- contact wrap -->
+            <div class="grid-100 mobile-grid-100 tablet-grid-100">
+        	<div class="contact-wrap">
+            
+            
+            <!-- contact message -->
+            <div class="grid-parent grid-40 suffix-5 mobile-grid-100 tablet-grid-100">
+            <div class="contact-message">
+            <h3 class="grid-100">Nuestras Oficinas</h3>
+            	<ul class="icons-ul">
+                	<li><i class="icon-li icon-home"></i>Av. de Mayo 5456<br> Torre Norte. <br>Buenos Aires, CABA (1414)</li>
+                    <li><i class="icon-li icon-phone"></i>(+54 11) 4555 5555</li>
+                    <li><i class="icon-li icon-envelope-alt"></i>demo@visionar.com.ar</li>
+                    <li><i class="icon-li icon-globe"></i>www.visionar.com.ar</li>
+                </ul>
+            </div>
+            </div><!-- close contact message -->
+            
+            <!-- contact form -->
+            <div class="grid-parent grid-55 mobile-grid-100 tablet-grid-100">
+            <div class="contact-form-holder clearfix">
+          	
+            
+            <h3 class="grid-100">Envíenos su consulta</h3>
+            
+            <!-- contact form -->
+            <form id="contact-form" class="contact-form">
+            
+            	<ul class="grid-50">
+                
+                	<li><input id="name" class="name" type="text" name="name" placeholder="Nombre:"></li>
+                    <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:"></li>
+                    <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:"></li>
+                    
+            	</ul>
+                
+                <ul class="grid-50">
+                    <li><textarea id="message" class="message" name="message" placeholder="Mensaje:"></textarea></li>
+                </ul>
+                
+                <div class="grid-100">    
+                    <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Enviar">
+                    <div class="success-message">El mensaje ha sido enviado!. Muchas gracias.</div>
+                    <div class="alert-message"></div>
+                    <div class="error-message">No se pudo enviar el mensaje. Por favor, intente más tarde.</div>
+                </div>   
+              </form><!-- close contact form -->
+                    
+            </div>
+            </div><!-- close contact-form-holder -->
+            
+            </div>
+            </div><!-- close contact wrap -->
+            
+            
+		</div><!-- close container -->
+	</section><!-- close contact section -->
+    
+	</div><!-- close nav-waypoint -->
+    
+{% endblock %}
