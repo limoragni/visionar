@@ -49,9 +49,9 @@
 		var ut_word_rotator = function() {
                 
 			var ut_rotator_words = [
-				'Visionar <span>Media Rental</span>',
-				'Publicidad <span>Digital</span>',
-				'En la <span>via publica</span>'
+				'Editor de <span>videos online</span>',
+				'Crea tu <span>aviso ideal</span>',
+				'Elegi la pantalla y <span>subi tu video</span>'
 			] ,
 			counter = 0;                
 			

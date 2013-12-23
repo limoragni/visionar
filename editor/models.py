@@ -70,7 +70,7 @@ class Project(models.Model):
 	title = models.CharField(max_length=200, default="Sin Titulo")
 	created = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de creacion')
 	modified = models.DateTimeField(auto_now_add=True, verbose_name = 'fecha de modificacion')
-	urlrender = models.CharField(max_length=200, null=True)
+	urlrender = models.CharField(max_length=500, null=True)
 	state = models.ForeignKey(RenderState)
 	positions = models.CharField(max_length=500)
 
