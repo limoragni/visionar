@@ -64,6 +64,18 @@ class RenderType(models.Model):
 		return self.name
 		
 class Project(models.Model):
+
+	REVISION_STATES_CHOICES = (
+		('PENDING', 'Pendiente'),
+		('OBSERV', 'En Observacion'),
+		('REJECTED', 'Rechazado por Inapropiado'),
+		('ACCEPTED', 'Aceptado')
+	)
+	PAYMENT_STATES_CHOICES = (
+		('PENDING', 'Pendiente'),
+		('PAID', 'Pagado')
+	)
+
 	user = models.ForeignKey(User)
 	template = models.ForeignKey(Template)
 	urlhash = models.CharField(max_length=50 ,unique=True)
@@ -73,6 +85,11 @@ class Project(models.Model):
 	urlrender = models.CharField(max_length=500, null=True)
 	state = models.ForeignKey(RenderState)
 	positions = models.CharField(max_length=500)
+	revision_state = models.CharField(max_length=10,choices=REVISION_STATES_CHOICES)
+	payment_state = models.CharField(max_length=10,choices=PAYMENT_STATES_CHOICES)
+
+	class Admin:
+		pass
 
 	def __unicode__(self):
 		return self.title
@@ -97,6 +114,7 @@ class Project(models.Model):
 		if not self.urlhash:
 			self.urlhash = baseconvert('100' + str(self.id),BASE10,BASE62)
 			self.save()  
+
 
 class Mediatype(models.Model):
 	typename = models.CharField(max_length=200)

@@ -317,7 +317,8 @@ img {
 	display:block;
 }
 .hero-btn {
-	background:transparent;
+	background:#3498db;
+	/* background: transparent; */
 	color:#FFFFFF;
 	border:2px solid rgba(255, 255, 255, 0.15);
 	padding:10px 15px;

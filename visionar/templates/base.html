@@ -62,6 +62,7 @@
 </head>
 
 <body id="mainsite">
+<a id="top" style="position: relative;"></a>
 	{% if user.is_authenticated %}
 		
 		{% if isHome %}
@@ -144,11 +145,11 @@
 		                        </div>
 								<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
 		                        	<a href="/">Home</a>
-		                        	<a href="#" onclick="window.location = '/#team-section'">WebApp</a>
-		                        	<a href="#" onclick="window.location = '/#service-section'">Servicios</a>
-		                            <a href="#" onclick="window.location = '/#about-section'">Nosotros</a>
-									<a href="#" onclick="window.location = '/#portfolio-section'">Pantallas</a>
-		                            <a href="#" onclick="window.location = '/#contact-section'">Contacto</a>
+		                        	<a href="#" onClick="window.location = '/#team-section'">WebApp</a>
+		                        	<a href="#" onClick="window.location = '/#service-section'">Servicios</a>
+		                            <a href="#" onClick="window.location = '/#about-section'">Nosotros</a>
+									<a href="#" onClick="window.location = '/#portfolio-section'">Pantallas</a>
+		                            <a href="#" onClick="window.location = '/#contact-section'">Contacto</a>
 		                            
 		                            <a class="selected" href="/users/login/">Login/Signup</a>
 								</nav>
