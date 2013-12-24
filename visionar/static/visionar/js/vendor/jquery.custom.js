@@ -51,7 +51,7 @@
 			var ut_rotator_words = [
 				'Editor de <span>videos online</span>',
 				'Crea tu <span>aviso ideal</span>',
-				'Elegi la pantalla y <span>subi tu video</span>'
+				'Elegi la pantalla y subi <span>tu video</span>'
 			] ,
 			counter = 0;                
 			
