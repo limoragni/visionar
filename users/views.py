@@ -78,18 +78,23 @@ def publicar(request, plan_id, project):
 def pedido(request):
     project = Project.objects.get(urlhash=request.POST["project"])
     project.state = RenderState.objects.get(name="PUBLISHED")
-    #project.save(update_fields=[])
+    project.save()
+    
     if Datos_Facturacion.objects.filter(user=request.user):
         datos = Datos_Facturacion.objects.get(user=request.user)
-        datos.tipo_iva = request.POST["tipo_iva"],
-        datos.cuit = request.POST["cuit"], 
-        datos.razon_social = request.POST["razon_social"], 
-        datos.nombre_fantasia = "",  
-        datos.direccion = str(request.POST["direccion"]), 
-        datos.localidad = str(request.POST["localidad"]), 
-        datos.provincia = str(request.POST["provincia"]), 
-        datos.pais = str(request.POST["pais"]), 
-        datos.codigo_iva = ""
+        dict_data = {
+            "tipo_iva" : request.POST["tipo_iva"],
+            "cuit" : request.POST["cuit"], 
+            "razon_social" : request.POST["razon_social"], 
+            "nombre_fantasia" : "",  
+            "direccion" : request.POST["direccion"], 
+            "localidad" : request.POST["localidad"], 
+            "provincia" : request.POST["provincia"], 
+            "pais": request.POST["pais"], 
+            "codigo_iva" : ""
+        } 
+        datos.__dict__.update(dict_data)
+        datos.save()
     else:
         datos = Datos_Facturacion(
             user= request.user,
@@ -103,8 +108,8 @@ def pedido(request):
             pais= request.POST["pais"], 
             codigo_iva= ""
         )
+        datos.save()
     
-    datos.save()
     pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"])        
     pedido.save()
     return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos})
