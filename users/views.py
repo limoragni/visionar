@@ -58,13 +58,13 @@ def profile(request):
 def video(request):
     finished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="FINISHED"))
     unfinished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="NONE"))
-   
+    published =  Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="PUBLISHED"))
 
     pagination = {
         'finished': int((finished.count() / 3) // 1),
         'unfinished': int((unfinished.count() / 3) // 1)
     }
-    return render(request, "users/video.html", {"finished": finished, "unfinished": unfinished, 'pagination': pagination})
+    return render(request, "users/video.html", {"finished": finished, "unfinished": unfinished, 'published':published, 'pagination': pagination})
 
 @login_required(login_url='/users/login/')
 def publicar(request, plan_id, project):

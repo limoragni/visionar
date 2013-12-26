@@ -115,17 +115,7 @@
     <div class="grid-100">
             <div class="grid-100">
                 <h3 class="grid-50">Creados</h3>
-                <div class="grid-50">
-                    <!-- <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul> -->
-                 </div>
+                
              </div>
                      
         {% for p in finished %}
@@ -160,65 +150,45 @@
     {% endfor %}
         </div>
     </div>
-            <!-- /CAMPAÑAS 2 -->
-            
-           <!-- CAMPAÑAS 3 -->
-    <div id="portfolio-section" class="portfolio-section clearfix suffix-top-5 videoprojects-box">
-        <div class="grid-100">
+           <div id="created" class="portfolio-section clearfix suffix-top-5 videoprojects-box">
+    <div class="grid-100">
             <div class="grid-100">
-                <h3 class="grid-50">Publicados</h3>
-                <div class="grid-50">
-                    <!-- <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul> -->
-                 </div>
-            </div>
-             
-                      <!-- portfolio box 1 -->
-			<div class="grid-33 mobile-grid-50 tablet-grid-50">
-            	<a href="#">
-            	<div class="portfolio-box" style="opacity:1;">       
-            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
+                <h3 class="grid-50">Creados</h3>
+                
+             </div>
+                     
+        {% for p in published %}
+                          <!-- portfolio box 1 -->
+      <div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
+              <a href="/project/video/{{p.urlhash}}">
+              <div class="portfolio-box" style="opacity:1;">       
+              <figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
-                    <h3 class="portfolio-title">Pepsi Ad<span class="portfolio-category">Video Nov2013</span></h3>
+                    <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
                 </div><!-- close portfolio caption -->               
                 </div>
-                </a>              
-			</div><!-- close portfolio -->
-            
-            <!-- portfolio box 2 -->
-			<div class="grid-33 mobile-grid-50 tablet-grid-50">
-            	<a href="#">
-            	<div class="portfolio-box" style="opacity:1;">       
-            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image --> 
-                <div class="portfolio-caption">
-                    <h3 class="portfolio-title">CocaCola Ad<span class="portfolio-category">Video Nov2013</span></h3>
-                </div><!-- close portfolio caption -->
-                </div>
-                </a>               
-			</div><!-- close portfolio -->
-            
-            <!-- portfolio box 3 -->
-			<div class="grid-33 mobile-grid-50 tablet-grid-50">
-            	<a href="#">
-            	<div class="portfolio-box" style="opacity:1;">       
-            	<figure class="portfolio-image"><img src="{% static "visionar/images/p1.jpg" %}" alt="portfolio image"></figure><!-- close portfolio image -->
-                <div class="portfolio-caption">
-                    <h3 class="portfolio-title">Orbis<span class="portfolio-category">Video Oct2013</span></h3>
-                </div><!-- close portfolio caption -->
-                </div>     
-                </a>          
-			</div><!-- close portfolio -->
-                     
-                     
-                </div>
-            </div>
+                </a>
+                <a class="popup-modal" href="#eliminar{{p.id}}"><i class="icon-large icon-remove"></i>&nbsp;Eliminar</a>
+                <a class="popup-modal" href="#preview04"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
+                <div id="eliminar{{p.id}}" class="mfp-hide">
+                   <div class="modal-display">
+                 <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
+                 <p>Estás seguro de querer borrar "CocaCola Ad"?</p>
+                   <p><a data-id="{{p.urlhash}}" class="delete-project" href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
+                   </div>
+               </div>
+               <div id="preview04" class="mfp-hide">
+                   <div class="modal-display">
+                 <h2><i class="icon-large icon-eye-open"></i>&nbsp;Preview</h2>
+                 <p>Aquí va el player</p>
+                   <p><a class="popup-modal-dismiss" href="#">Cerrar</a></p>
+                   </div>
+               </div>        
+      </div><!-- close portfolio -->
+        
+    {% endfor %}
+        </div>
+    </div>
             <!-- /CAMPAÑAS 3 -->
             
             

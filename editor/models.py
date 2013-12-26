@@ -109,7 +109,7 @@ class Project(models.Model):
 		if media:
 			return media[0].image.file['380'].url
 		else:
-			return 	os.path.join(settings.MEDIA_URL, 'projects/default.jpg')
+			return 	os.path.join(settings.STATIC_URL, 'visionar/images/no-image.jpg')
 
 	def save(self):
 		super(Project, self).save()
