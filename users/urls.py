@@ -14,5 +14,6 @@ urlpatterns = patterns('',
    	url(r'^auth/', views.auth_and_login, name='login'),
    	url(r'^logout/$', views.logoutview, name='logout'),
    	url(r'^signup/', views.signup, name='signup'),
+    url(r'^updateUser/', views.updateUser, name='updateUser'),
    	url(r'^$', views.loginview, name='loginBlank'),
 )
