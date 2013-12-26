@@ -12,6 +12,7 @@ from django.shortcuts import render, render_to_response, redirect
 
 from .response import JSONResponse, response_mimetype
 from .models import Template, Project, Image, Text, Mediatype, Media, RenderState, RenderType
+from users.models import Plan
 
 from base64 import b64decode
 from django.core.files.base import ContentFile
@@ -38,7 +39,11 @@ def get(request, urlhash):
 			positions = json.dumps(project.positions)
 			media_set = Media.objects.filter(project=project).filter(mediatype=Mediatype.objects.get(typename="Image"))
 			media_sorted = sorted(media_set, key=lambda a: a.position)
-			return render(request, "editor/project.html", {"project": project, "media": media_sorted})
+			if project.texts:
+				texts = json.loads(project.texts)
+			else:
+				texts = None
+			return render(request, "editor/project.html", {"project": project, "media": media_sorted, "texts": texts})
 		else:
 			return redirect('/users/video/')
 	else:
@@ -73,7 +78,8 @@ def delete(request):
 def saveProject(request):
 	if (str(request.POST["user"]) ==str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
 		project = Project.objects.get(urlhash=request.POST["project"])
-		project.positions = request.POST["positions"]
+		project.positions = request.POST["images"]
+		project.texts = request.POST["texts"]
 		project.save()
 		r = "El proyecto fue guardado con exito"
 	else:
@@ -189,11 +195,12 @@ def checkout(request, urlhash):
 
 def video(request, urlhash):
 	project = Project.objects.get(urlhash=str(urlhash))
+	plans = Plan.objects.all()
 	if project.urlrender:
 		urls = json.loads(project.urlrender)
 	else:
 		urls = None
-	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls})	
+	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls, 'plans': plans})	
 
 def sendToBlender(data):
 	js = simplejson.dumps(data)

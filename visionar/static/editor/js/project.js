@@ -1,22 +1,17 @@
 $(document).ready(function() {
 	
-	/*var Socket = function(){
-		this.socket = {};
-		this.init();
-	}
-
-	Socket.prototype.init = function(){
-	 	this.socket = new io.Socket(null, {port: _SOCKET, rememberTransport: false});
-      	this.socket.connect();
-    }*/
-
-	var Project = function(){
+	var Project = function(text){
 		this.urlhash = $(location).attr('pathname').split('/')[2];
+		this.text = text;
+		this.imageCount = 0;
+		this.imageNumber = 0;
 		this.init();
 	}
 
 	Project.prototype.init = function(){
-		
+		this.imageCount = _TEMPLATE_IMAGE_COUNT
+		this.imageNumber = _TEMPLATE_IMAGE_NUMBER
+
 		this.setUploader();
 		var self = this;
 		
@@ -28,10 +23,6 @@ $(document).ready(function() {
 			self.deleteMedia();
 		});
 
-		$(".hippster").shapeshift({
-		    minColumns: 3,
-		    align: "left",
-		});
 
 		$("#save-project").click(function(){
 			self.save();
@@ -41,10 +32,17 @@ $(document).ready(function() {
 			$(v).click(function(){
 				self.changeMedia($(this));
 			})
-		});  
+		});
+/*
+		$("#add-text").click(function(){
+
+		})*/  
 		this.resetDragDrop();
 		this.disableFileInputDrag();
 		this.setSelectEvent();
+		if(this.imageCount >= this.imageNumber){
+			this.disableAddImage();
+		}
 	}
 
 	Project.prototype.setSelectEvent = function(){
@@ -65,7 +63,9 @@ $(document).ready(function() {
 	}
 
 	Project.prototype.newFileField = function(){
+		this.imageCount++;
 		var entry = "<div data-mediatype='Imagen' class='entry'>" +
+						"<h4>"+this.imageCount+ "/" + this.imageNumber+"</h4>" +
 						"<input type='file' />" +
 						"<h3 class='file-input-inside'><i class='icon-large icon-camera'></i>Agregar Imagen</h3>" +
 					"</div>"
@@ -75,7 +75,7 @@ $(document).ready(function() {
 	
 	Project.prototype.getPositions = function(){
 		var positions = [];
-		$(".ss-active-child").each(function(i,v){
+		$(".hippster .ss-active-child").each(function(i,v){
 			positions[$(this).index()] = $(this).data('id');
 		});
 		return positions;
@@ -101,6 +101,7 @@ $(document).ready(function() {
 		$(".hippster").trigger("ss-rearrange")
 		$(".hippster").shapeshift({
 		    minColumns: 3,
+		    enableCrossDrop: false,
 		    align: "left"
 		});
 	}
@@ -108,7 +109,6 @@ $(document).ready(function() {
 	Project.prototype.setOnClick = function(obj){
 		$(".entry-selected").each(function(i,v){
 			if(!$(obj).is(this)){
-				console.log(this)
 				$(this).removeClass("entry-selected");
 			}
 		})
@@ -139,6 +139,10 @@ $(document).ready(function() {
 				self.setContentOnUpload(i,d);
 				self.resetDragDrop();
 				self.disableFileInputDrag();
+				if(self.imageCount >= self.imageNumber){
+					console.log("LSADLASLDADKADFJ")
+					self.disableAddImage()
+				}
 			},
 			error: this.logErrors,
 		});
@@ -152,7 +156,8 @@ $(document).ready(function() {
 	       	data: {
 	       		project: self.urlhash,
 	       		user: _USER,
-	       		positions: JSON.stringify(self.getPositions()),
+	       		images: JSON.stringify(self.getPositions()),
+	       		texts: JSON.stringify(self.text.getPositions()),
 	       		csrfmiddlewaretoken: _csrftoken
 
 	       	},
@@ -192,6 +197,7 @@ $(document).ready(function() {
 	Project.prototype.deleteMedia = function(){
 		var self = this;
 		if($(".entry-selected")[0]){
+			if($(".entry-selected")[0])
 			var entry = $($(".entry-selected")[0]);
 			$.ajax({
 		    	url: "/project/deleteMedia/",
@@ -250,6 +256,11 @@ $(document).ready(function() {
 		    }); 
 	}
 
+	Project.prototype.disableAddImage = function(){
+		var p = $("input[type=file]").parent();
+		$("input[type=file]").prop('disabled', true);
+	}
+
 	Project.prototype.askPreview = function(){
 		var self = this;
 		var interval = setInterval(function(){
@@ -257,8 +268,101 @@ $(document).ready(function() {
 		}, 10000)
 	}
 
-	/*var socketio = new Socket();*/
-	var project = new Project();
-	/*socketio.socket.send('TEXT');*/
+	var TextManager = function(){
+		this.fields = [];
+		this.textCount = 0;
+		this.textNumber = 0;
+		this.init();
+	}
+
+	TextManager.prototype.init = function(){
+		this.textCount = parseInt(_TEMPLATE_TEXT_COUNT);
+		this.textNumber = parseInt(_TEMPLATE_TEXT_NUMBER);
+
+		$(".shift-text").shapeshift({
+		    minColumns: 3,
+		    enableCrossDrop: false,
+		    dragWhitelist: ".dragable",
+		    align: "left",
+		});
+		var self = this;
+		$("#add-text-button").click(function(){
+			self.addTextPane();
+		})
+		$("#add-text").removeClass('ss-active-child');
+		$("#add-text-popup").removeClass('ss-active-child');
+
+		$("#add-text").click(function(){
+			$("#add-text-field").val("");
+		})
+
+		if(this.textCount >= this.textNumber){
+			this.disableAddText();
+		}
+	}
+
+	TextManager.prototype.saveText = function(){
+		var currentText = $("#add-text-field").val();
+		this.textCount++;
+		$("#add-text-number").html(this.textCount); 
+		this.fields.push(currentText)
+		return currentText;
+	}
+
+	TextManager.prototype.createPane = function(val){
+		var pane = $("<div class='entry entry-text dragable' data-text='"+ val +"'><p>" + val + "</p></div>")
+		$("#add-text").before(pane)
+		return pane;
+	}
+
+	TextManager.prototype.getPositions = function(){
+		var positions = [];
+		$(".shift-text .ss-active-child").each(function(i,v){
+			positions[$(this).index()] = $(this).data('text');
+		});
+		return positions;
+	} 
+
+	TextManager.prototype.setOnClick = function(obj){
+		$(".entry-selected").each(function(i,v){
+			if(!$(obj).is(this)){
+				$(this).removeClass("entry-selected");
+			}
+		})
+		$(obj).toggleClass("entry-selected");
+	}
+
+	TextManager.prototype.addTextPane = function(){
+		var self = this;
+		$("#add-text").appendTo("#add-text-pane");
+		var val = this.saveText()
+		var pane = this.createPane(val);
+		$(".shift-text").trigger("ss-rearrange")
+		$(".shift-text").shapeshift({
+		    align: "left",
+		    dragWhitelist: ".dragable",
+		    enableCrossDrop:false
+		});
+		$("#add-text").removeClass('ss-active-child');
+		$("#add-text-popup").removeClass('ss-active-child');
+		pane.click(function(){
+			self.setOnClick(this);
+		})
+		
+		if(this.textCount >= this.textNumber){
+			this.disableAddText();
+		}
+	} 
+
+	TextManager.prototype.disableAddText = function(){
+		$("#add-text").attr('href', "#add-text-popup-disabled")
+	}
+
+	TextManager.prototype.enableAddText = function(){
+		$("#add-text").attr('href', "#add-text-popup")
+	}
+
+	var text = new TextManager();
+	var project = new Project(text);
 	
 });

@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template  import RequestContext
 from django.contrib.auth.models import User
-from .models import External
+from .models import External, Plan, Datos_Facturacion, Pedido
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 import requests
@@ -58,11 +58,60 @@ def profile(request):
 def video(request):
     finished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="FINISHED"))
     unfinished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="NONE"))
-    
+   
+
     pagination = {
         'finished': int((finished.count() / 3) // 1),
         'unfinished': int((unfinished.count() / 3) // 1)
     }
     return render(request, "users/video.html", {"finished": finished, "unfinished": unfinished, 'pagination': pagination})
 
+@login_required(login_url='/users/login/')
+def publicar(request, plan_id, project):
+    plan = Plan.objects.get(id=plan_id)
+    if Datos_Facturacion.objects.filter(user=request.user):
+        datos = Datos_Facturacion.objects.get(user=request.user)
+    else:
+        datos = None
+    return render(request, "users/publicar.html", {"plan": plan, "datos": datos, "project": project})
 
+def pedido(request):
+    project = Project.objects.get(urlhash=request.POST["project"])
+    project.state = RenderState.objects.get(name="PUBLISHED")
+    if Datos_Facturacion.objects.filter(user=request.user):
+        datos = Datos_Facturacion.objects.get(user=request.user)
+        datos.tipo_iva = request.POST["tipo_iva"],
+        datos.cuit = request.POST["cuit"], 
+        datos.razon_social = request.POST["razon_social"], 
+        datos.nombre_fantasia = "",  
+        datos.direccion = str(request.POST["direccion"]), 
+        datos.localidad = str(request.POST["localidad"]), 
+        datos.provincia = str(request.POST["provincia"]), 
+        datos.pais = str(request.POST["pais"]), 
+        datos.codigo_iva = ""
+    else:
+        datos = Datos_Facturacion(
+            user= request.user,
+            tipo_iva= request.POST["tipo_iva"],
+            cuit= request.POST["cuit"], 
+            razon_social= request.POST["razon_social"], 
+            nombre_fantasia= "",  
+            direccion= request.POST["direccion"], 
+            localidad= request.POST["localidad"], 
+            provincia= request.POST["provincia"], 
+            pais= request.POST["pais"], 
+            codigo_iva= ""
+        )
+    
+    datos.save()
+    pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"])        
+    pedido.save()
+    return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos})
+
+def facturar(request, pedido_id):
+    pedido = Pedido.objects.get(id=pedido_id)
+    user = pedido.user
+    plan = pedido.plan
+    datos_facturacion = Datos_Facturacion.objects.get(user=user)
+    link = "/media/facturas/pdf.pdf" #TODO: link a pdf de factura
+    return render(request, "users/factura.html", {"link": link})

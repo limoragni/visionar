@@ -105,48 +105,25 @@
                </ul>
       </div><!-- close portfolio -->
                      
-                      <!-- portfolio box 1 -->
-      <div class="grid-25 mobile-grid-100 tablet-grid-100 center">
-               <ul class="list-group">
-                  <li class="list-group-item-heading">Plan Silver</li>
-                  <li class="list-group-item"><strong>60</strong> / Pasadas horario Prime</li>
-                  <li class="list-group-item"><strong>60</strong> / Pasadas horario Normal</li>
-                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
-                  <li class="list-group-item"><strong>0%</strong> / Bonificación</li>
-                  <li class="list-group-item"><strong>$ 1.080</strong> / Costo</li>
-                  <li class="list-group-item"><strong>$ 0</strong> / Descuento</li>
-                  <li class="list-group-item"><strong>$ 1.080</strong> / Precio Final</li>
-                  <li class="list-group-item"><button>Pagar y Publicar</button></li>
-               </ul>
-      </div><!-- close portfolio -->
+      {% for plan in plans %}
+
+
+        <!-- portfolio box 1 -->
+        <div class="grid-25 mobile-grid-100 tablet-grid-100 center">
+                 <ul class="list-group">
+                    <li class="list-group-item-heading">Plan {{plan.nombre}}</li>
+                    <li class="list-group-item"><strong>{{plan.pasadas_prime}}</strong> / Pasadas horario Prime</li>
+                    <li class="list-group-item"><strong>{{plan.pasadas_normal}}</strong> / Pasadas horario Normal</li>
+                    <li class="list-group-item"><strong>1 {{plan.contratacion_minima}}</strong> / Contratación Mínima</li>
+                    <li class="list-group-item"><strong>{{plan.bonificacion}}%</strong> / Bonificación</li>
+                    <li class="list-group-item"><strong>$ {{plan.costo}}</strong> / Costo</li>
+                    <li class="list-group-item"><strong>$ {{plan.descuento}}</strong> / Descuento</li>
+                    <li class="list-group-item"><strong>$ {{plan.total}}</strong> / Precio Final</li>
+                    <li class="list-group-item"><button> <a style="color:white;" href="/users/publicar/{{plan.id}}/{{project.urlhash}}">Pagar y Publicar</a></button></li>
+                 </ul>
+        </div><!-- close portfolio -->
             
-           <div class="grid-25 mobile-grid-100 tablet-grid-100">
-               <ul class="list-group">
-                  <li class="list-group-item-heading">Plan Gold</li>
-                  <li class="list-group-item"><strong>90</strong> / Pasadas horario Prime</li>
-                  <li class="list-group-item"><strong>100</strong> / Pasadas horario Normal</li>
-                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
-                  <li class="list-group-item"><strong>3%</strong> / Bonificación</li>
-                  <li class="list-group-item"><strong>$ 2.520</strong> / Costo</li>
-                  <li class="list-group-item"><strong>$ 75,60</strong> / Descuento</li>
-                  <li class="list-group-item"><strong>$ 2.444,40</strong> / Precio Final</li>
-                  <li class="list-group-item"><button>Pagar y Publicar</button></li>
-               </ul>
-      </div><!-- close portfolio -->
-            
-           <div class="grid-25 mobile-grid-100 tablet-grid-100">
-               <ul class="list-group">
-                  <li class="list-group-item-heading">Plan Platinum</li>
-                  <li class="list-group-item"><strong>100</strong> / Pasadas horario Prime</li>
-                  <li class="list-group-item"><strong>0</strong> / Pasadas horario Normal</li>
-                  <li class="list-group-item"><strong>1 Mes</strong> / Contratación Mínima</li>
-                  <li class="list-group-item"><strong>5%</strong> / Bonificación</li>
-                  <li class="list-group-item"><strong>$ 3.2400</strong> / Costo</li>
-                  <li class="list-group-item"><strong>$ 162</strong> / Descuento</li>
-                  <li class="list-group-item"><strong>$ 3.078</strong> / Precio Final</li>
-                  <li class="list-group-item"><button>Pagar y Publicar</button></li>
-               </ul>
-      </div><!-- close portfolio -->
+      {% endfor %}     
                      
                 </div></div>
             

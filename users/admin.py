@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import External, Datos_Facturacion, Factura, Item_Factura, Pedido
+from .models import External, Datos_Facturacion, Factura, Item_Factura, Pedido, Plan
 
 
 # Define an inline admin descriptor for Employee model
@@ -23,3 +23,4 @@ admin.site.register(Datos_Facturacion)
 admin.site.register(Factura)
 admin.site.register(Item_Factura)
 admin.site.register(Pedido)
+admin.site.register(Plan)

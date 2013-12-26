@@ -32,6 +32,8 @@ class Template(models.Model):
 	tags = models.ManyToManyField(Tag)
 	thumb = ThumbnailerImageField(upload_to=templates_file_upload)
 	preview = models.FileField(upload_to=templates_file_upload)
+	image_number = models.IntegerField()
+	text_number = models.IntegerField()
 	
 	def __unicode__(self):
 		return self.name
@@ -85,6 +87,7 @@ class Project(models.Model):
 	urlrender = models.CharField(max_length=500, null=True)
 	state = models.ForeignKey(RenderState)
 	positions = models.CharField(max_length=500)
+	texts = models.CharField(max_length=1000)
 	revision_state = models.CharField(max_length=10,choices=REVISION_STATES_CHOICES)
 	payment_state = models.CharField(max_length=10,choices=PAYMENT_STATES_CHOICES)
 

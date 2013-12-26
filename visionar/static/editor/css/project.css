@@ -27,6 +27,14 @@
 	z-index: 100;
 }
 
+.entry h4{
+	margin: 0px;
+	position: absolute;
+	top: 10px;
+	left: 58px;
+	font-weight: bold;
+}
+
 .entry h3 i{
 	font-size: 35px;
 	margin-left: 5px;
@@ -54,16 +62,16 @@
 	margin: auto;
 }
 
- .hippster {
+ .hippster, .shift-text {
    
     position: relative;
 }
 
-.hippster > div {
+.hippster > div, .shift-text > div {
    position: absolute;
 }
 
-.hippster .ss-placeholder-child {
+.hippster .ss-placeholder-child, .shift-text .ss-placeholder-child {
     background-color: rgba(255,255,255,0.3);
    
 }
@@ -74,4 +82,11 @@
 
 [data-mediatype="Texto"]{
 	background-color: rgba(230, 120, 130, 0.5)
-}  
+}
+
+#add-text-popup{
+	width: 50%;
+	margin: 0 auto;
+	background-color: #ddd;
+	padding: 2%;
+} 

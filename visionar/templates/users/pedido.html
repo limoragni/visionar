@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- contact section -->
+ <div class="nav-waypoint">
+ <section id="contact-section" class="contact-section parallax-section parallax-background">
+ <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+  <div class="grid-container parallax-content">
+    
+          <!-- parallax header -->
+          <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="parallax-header">
+                    <h2 class="parallax-title"><span>Facturación</span></h2>
+                    <p class="parallax-slogan"></p>
+                </header>
+            </div>
+          <!-- close parallax header -->
+
+          <div class="grid-100 mobile-grid-100 tablet-grid-100">
+            <ul>
+              <li>Razon Social: {{datos.razon_social}}</li>
+              <li>Domicilio: {{datos.direccion}}</li>
+              <li>Localidad: {{datos.localidad}}</li>
+              <li>Provincia: {{datos.provincia}}</li>
+              <li>Pais: {{datos.pais}}</li>
+              <li>Tipo de Iva: {{datos.tipo_iva}}</li>
+              <li>CUIT: {{datos.cuit}}</li>
+              <li>Tipo de Pago: {{pedido.tipo_pago}}</li>
+            </ul>
+
+            <ul>
+              <table>
+                <tr>
+                  <td>Detalle</td>
+                  <td>Cantidad</td>
+                  <td>Precio unitario</td>
+                  <td>Total</td>
+                </tr>
+                <tr>
+                  <td>{{pedido.plan.nombre}}</td>
+                  <td>1</td>
+                  <td>{{pedido.plan.total}}</td>
+                  <td>{{pedido.plan.total}}</td>
+                </tr>
+                <tr>
+                  <td style="text-align:right" colspan="4">Total: {{pedido.plan.total}}</td>
+                </tr>
+              </table>
+            </ul>
+            <button><a style="color:white" href="/users/facturar/{{pedido.id}}/">Facturar</a></button>
+          </div>
+  </div>
+        </section><!-- close contact section -->
+
+</div><!-- close nav-waypoint -->
+
+{% endblock %}

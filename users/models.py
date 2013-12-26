@@ -9,13 +9,13 @@ class External(models.Model):
 
 class Datos_Facturacion(models.Model):
 	TIPO_IVAS = (
-		('RI', 	'Responsable Inscripto'),
-		('RNI', 'Responsable No Inscripto'),
-		('EX', 	'Exento'),
-		('MON', 'Monotributista'),
-		('CF',	'Consumidor Final')
+		('Responsable Inscripto', 	'Responsable Inscripto'),
+		('Responsable No Inscripto', 'Responsable No Inscripto'),
+		('Exento', 	'Exento'),
+		('Monotributista', 'Monotributista'),
+		('Consumidor Final','Consumidor Final')
 	)
-	user			= models.ForeignKey(User)
+	user			= models.ForeignKey(User, unique=True)
 	tipo_iva		= models.CharField(max_length=100, choices=TIPO_IVAS)
 	cuit 			= models.CharField(max_length=10)
 	razon_social	= models.CharField(max_length=100)
@@ -30,13 +30,52 @@ class Datos_Facturacion(models.Model):
 	class Admin:
 		pass	
 
+class Plan(models.Model):
+	CONTRATACION_MINIMA_OPS = (
+		('DIA', 'Dia'),
+		('SEMANA', 'Semana'),
+		('MES', 'Mes')
+	)
+
+	nombre 				= models.CharField(max_length=50)
+	pasadas_prime 		= models.IntegerField()
+	pasadas_normal 		= models.IntegerField()
+	contratacion_minima = models.CharField(max_length=10, choices=CONTRATACION_MINIMA_OPS)
+	bonificacion		= models.DecimalField(max_digits=4, decimal_places=2)
+	costo				= models.DecimalField(max_digits=7, decimal_places=2)
+	disponible			= models.BooleanField()
+
+	
+	@property
+	def descuento(self):
+		percentage = self.bonificacion / 100
+		desc = self.costo * percentage
+		return desc
+
+	@property
+	def total(self):
+		return self.costo - self.descuento
+
+	def __unicode__(self):
+		return self.nombre
+
+	class Admin:
+		pass
+
 class Pedido(models.Model):
+	TIPO_PAGO_OPS = (
+		('Rapipago', 'Rapipago'),
+		('Tarjeta', 'Tarjeta'),
+		('Deposito','Deposito')
+	) 
+
 	user			= models.ForeignKey(User)	
 	project			= models.ForeignKey(Project)
-	fecha			= models.DateField()
-	plan			= models.CharField(max_length=10)
+	fecha			= models.DateField(auto_now=True)
+	plan			= models.ForeignKey(Plan)
 	detalles		= models.TextField()
-	importe			= models.DecimalField(max_digits=7,decimal_places=2)
+	cantidad		= models.IntegerField()
+	tipo_pago		= models.CharField(max_length=100, choices=TIPO_PAGO_OPS)
 
 	class Admin:
 		pass	
@@ -66,6 +105,7 @@ class Factura(models.Model):
 	fecha			= models.DateField()
 	iibb			= models.CharField(max_length=10) # Ingresos Brutos
 	pedido			= models.ForeignKey(Pedido)
+	link 			= models.CharField(max_length=200)
 
 	class Admin:
 		pass

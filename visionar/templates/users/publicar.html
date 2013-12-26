@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- contact section -->
+ <div class="nav-waypoint">
+ <section id="contact-section" class="contact-section parallax-section parallax-background">
+ <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
+  <div class="grid-container parallax-content">
+    
+          <!-- parallax header -->
+          <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                <header class="parallax-header">
+                    <h2 class="parallax-title"><span>Publicacion del proyecto</span></h2>
+                    <p class="parallax-slogan">Completá tus datos de facturación y elegí la forma de pago</p>
+                </header>
+            </div>
+          <!-- close parallax header -->
+        
+        <div class="clear"></div>
+        
+        <!-- contact wrap -->
+        <div class="grid-100 mobile-grid-100 tablet-grid-100">
+      <div class="contact-wrap">
+        
+        
+        <!-- contact message -->
+        <div class="grid-parent grid-45 suffix-5 mobile-grid-100 tablet-grid-100">
+        <div class="contact-message">
+        <h3 class="grid-100">Datos de Facturacion</h3>
+                      <!-- contact form -->
+        <form id="publicar-form" method="POST" action="/users/pedido/"class="contact-form">
+            {% csrf_token %}
+            <input type="hidden" value="{{project}}" name="project">
+            <input type="hidden" value="{{plan.id}}" name="plan">
+          <ul class="grid-100">
+            
+              <li><input id="tipo_iva" class="tipo_iva" type="text" name="tipo_iva" value="{{datos.tipo_iva}}" placeholder="Tipo de Iva:"></li>
+                <li><input id="cuit" class="cuit" type="text" name="cuit" value= "{{datos.cuit}}" placeholder="CUIT:"></li>
+                <li><input id="razon_social" class="razon_social" type="text" name="razon_social" value="{{datos.razon_social}}" placeholder="Razón social:"></li>
+              <li><input id="direccion" class="direccion" type="text" name="direccion" value="{{datos.direccion}}" placeholder="Dirección:"></li>
+                <li><input id="localidad" class="localidad" type="text" name="localidad" value="{{datos.localidad}}"placeholder="Localidad:"></li>
+        <li><input id="provincia" class="provincia" type="text" name="provincia" value="{{datos.provincia}}" placeholder="Provincia:"></li>
+                <li><input id="pais" class="pais" type="text" name="pais" value="{{datos.pais}}" placeholder="País:"></li>
+                
+          </ul>
+      
+            <div class="grid-100">    
+                <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Realizar pedido">
+                <div class="success-message">El mensaje ha sido enviado!. Muchas gracias.</div>
+                <div class="alert-message"></div>
+                <div class="error-message">No se pudo enviar el mensaje. Por favor, intente más tarde.</div>
+            </div>   
+        
+        </div>
+        </div><!-- close contact message -->
+        
+        <div class="grid-parent grid-45 prefix-5 mobile-grid-100 tablet-grid-100">
+        <div class="contact-form-holder clearfix">
+          <h3 class="grid-100">Formas de Pago</h3>
+          <ul>
+            <li style="color:black"><input type="radio" name="forma-pago" value="rapipago" checked/> Rapipago</li>
+            <li style="color:black"><input type="radio" name="forma-pago" value="tarjeta"/>Tarjeta de Crédito</li>
+            <li style="color:black"><input type="radio" name="forma-pago" value="deposito">Depósito bancario</li>
+          </ul>
+           
+        </div>
+        </div><!-- close contact-form-holder -->
+        
+        </form><!-- close contact form -->
+        
+        </div>
+        </div><!-- close contact wrap -->
+        
+        
+  </div><!-- close container -->
+</section><!-- close contact section -->
+
+</div><!-- close nav-waypoint -->
+
+{% endblock %}
