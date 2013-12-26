@@ -78,6 +78,8 @@ em { font-style: italic; }
 strong { font-weight: bold; }
 small { font-size: 80%; }
 
+.gray-text{color:#555;}
+
 /*	Blockquotes  */
 
 blockquote, blockquote p { font-size: 17px; line-height: 24px; font-style: italic; }
@@ -1098,6 +1100,7 @@ form { margin:0; }
 input[type="text"],
 input[type="password"],
 input[type="email"],
+select,
 textarea {
 	font-family:"ralewayregular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size:12px;
@@ -1128,7 +1131,7 @@ textarea {
 	-webkit-border-radius:0;
 		-moz-border-radius:0;
 			border-radius: 0;
-			-webkit-appearance: none;	
+			-webkit-appearance: none;
 }
 textarea {
 	overflow: auto; /* Removes default vertical scrollbar in IE6/7/8/9 */

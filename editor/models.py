@@ -73,10 +73,6 @@ class Project(models.Model):
 		('REJECTED', 'Rechazado por Inapropiado'),
 		('ACCEPTED', 'Aceptado')
 	)
-	PAYMENT_STATES_CHOICES = (
-		('PENDING', 'Pendiente'),
-		('PAID', 'Pagado')
-	)
 
 	user = models.ForeignKey(User)
 	template = models.ForeignKey(Template)
@@ -89,7 +85,6 @@ class Project(models.Model):
 	positions = models.CharField(max_length=500)
 	texts = models.CharField(max_length=1000)
 	revision_state = models.CharField(max_length=10,choices=REVISION_STATES_CHOICES)
-	payment_state = models.CharField(max_length=10,choices=PAYMENT_STATES_CHOICES)
 
 	class Admin:
 		pass

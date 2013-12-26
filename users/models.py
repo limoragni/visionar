@@ -71,6 +71,11 @@ class Pedido(models.Model):
 		('Tarjeta', 'Tarjeta'),
 		('Deposito','Deposito')
 	) 
+	PAYMENT_STATES_CHOICES = (
+		('PENDING', 'Pendiente'),
+		('PAID', 'Pagado')
+	)
+
 
 	user			= models.ForeignKey(User)	
 	project			= models.ForeignKey(Project)
@@ -79,6 +84,7 @@ class Pedido(models.Model):
 	detalles		= models.TextField()
 	cantidad		= models.IntegerField()
 	tipo_pago		= models.CharField(max_length=100, choices=TIPO_PAGO_OPS)
+	payment_state = models.CharField(max_length=10,choices=PAYMENT_STATES_CHOICES)
 
 	class Admin:
 		pass	
