@@ -78,6 +78,7 @@ def publicar(request, plan_id, project):
 def pedido(request):
     project = Project.objects.get(urlhash=request.POST["project"])
     project.state = RenderState.objects.get(name="PUBLISHED")
+    #project.save(update_fields=[])
     if Datos_Facturacion.objects.filter(user=request.user):
         datos = Datos_Facturacion.objects.get(user=request.user)
         datos.tipo_iva = request.POST["tipo_iva"],

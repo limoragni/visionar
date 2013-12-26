@@ -34,11 +34,18 @@
             <input type="hidden" value="{{plan.id}}" name="plan">
           <ul class="grid-100">
             
-              <li><input id="tipo_iva" class="tipo_iva" type="text" name="tipo_iva" value="{{datos.tipo_iva}}" placeholder="Tipo de Iva:"></li>
-                <li><input id="cuit" class="cuit" type="text" name="cuit" value= "{{datos.cuit}}" placeholder="CUIT:"></li>
-                <li><input id="razon_social" class="razon_social" type="text" name="razon_social" value="{{datos.razon_social}}" placeholder="Razón social:"></li>
+             
+              <li><select id="tipo_iva" name="tipo_iva" class="tipo_iva" placeholder="Tipo de Iva:">
+                  <option value="Responsable Inscripto">Responsable Inscripto</option>
+                  <option value="Responsable No Inscripto">Responsable No Inscripto</option>
+                  <option value="Exento">Exento</option>
+                  <option value="Monotributista">Monotributista</option>
+                  <option value="Consumidor Final">Consumidor Final</option>
+              </select></li>
+              <li><input id="cuit" class="cuit" type="text" name="cuit" value= "{{datos.cuit}}" placeholder="CUIT:"></li>
+              <li><input id="razon_social" class="razon_social" type="text" name="razon_social" value="{{datos.razon_social}}" placeholder="Razón social:"></li>
               <li><input id="direccion" class="direccion" type="text" name="direccion" value="{{datos.direccion}}" placeholder="Dirección:"></li>
-                <li><input id="localidad" class="localidad" type="text" name="localidad" value="{{datos.localidad}}"placeholder="Localidad:"></li>
+              <li><input id="localidad" class="localidad" type="text" name="localidad" value="{{datos.localidad}}"placeholder="Localidad:"></li>
         <li><input id="provincia" class="provincia" type="text" name="provincia" value="{{datos.provincia}}" placeholder="Provincia:"></li>
                 <li><input id="pais" class="pais" type="text" name="pais" value="{{datos.pais}}" placeholder="País:"></li>
                 
