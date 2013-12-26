@@ -50,9 +50,28 @@ def logoutview(request):
     logout(request)
     return redirect("/users/login/")
 
+def updateUser(request):
+    user = User.objects.get(username=request.user)
+    external = External.objects.get(user=user)
+    user_dict = {
+        "first_name":request.POST["first_name"],
+        "last_name":request.POST["last_name"],
+    }
+    external_dict = {
+        "company":request.POST["company"],
+        "phone":request.POST["phone"],
+    }
+    
+    user.__dict__.update(user_dict)
+    external.__dict__.update(external_dict)
+    user.save()
+    external.save()
+    return redirect("/users/profile/")
+
 @login_required(login_url='/users/login/')
 def profile(request):
-    return render(request, "users/profile.html")
+    user = User.objects.get(username=request.user)
+    return render(request, "users/profile.html", {"user":user})
 
 @login_required(login_url='/users/login/')
 def video(request):
