@@ -50,11 +50,14 @@ class Plan(models.Model):
 	def descuento(self):
 		percentage = self.bonificacion / 100
 		desc = self.costo * percentage
-		return desc
+		return "{:.2f}".format(desc)
 
 	@property
 	def total(self):
-		return self.costo - self.descuento
+		percentage = self.bonificacion / 100
+		desc = self.costo * percentage
+		total = self.costo - desc
+		return "{:.2f}".format(total)
 
 	def __unicode__(self):
 		return self.nombre
