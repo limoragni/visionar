@@ -17,7 +17,7 @@ class Datos_Facturacion(models.Model):
 	)
 	user			= models.ForeignKey(User, unique=True)
 	tipo_iva		= models.CharField(max_length=100, choices=TIPO_IVAS)
-	cuit 			= models.CharField(max_length=10)
+	cuit 			= models.CharField(max_length=11)
 	razon_social	= models.CharField(max_length=100)
 	nombre_fantasia	= models.CharField(max_length=200)
 	direccion		= models.CharField(max_length=250)

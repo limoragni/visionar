@@ -84,9 +84,32 @@
 	background-color: rgba(230, 120, 130, 0.5)
 }
 
-#add-text-popup{
+#add-text-popup, #change-title-popup{
 	width: 50%;
 	margin: 0 auto;
 	background-color: #ddd;
 	padding: 2%;
 } 
+
+#project-title-box p{
+	display: inline;
+}
+
+#change-title{
+	color:white;
+	margin-left: 5px;	
+}
+
+#change-title:hover{
+	color:black;	
+}
+
+#save-project{
+	padding: 0px;
+}
+
+#save-project a{
+	color: white;
+	display: block;
+	padding: 10px
+}

@@ -28,6 +28,10 @@ $(document).ready(function() {
 			self.save();
 		})
 
+		$("#save-title").click(function(){
+			self.saveTitle();
+		})
+
 		$(".change-media").each(function(i, v){
 			$(v).click(function(){
 				self.changeMedia($(this));
@@ -43,6 +47,31 @@ $(document).ready(function() {
 		if(this.imageCount >= this.imageNumber){
 			this.disableAddImage();
 		}
+	}
+
+	Project.prototype.saveTitle = function(){
+		var self = this;
+		$.ajax({
+	    	url: "/project/saveTitle/",
+	       	type: 'POST',
+	       	data: {
+	       		project: self.urlhash,
+	       		user: _USER,
+	       		title: $("#change-title-field").val(),
+	       		csrfmiddlewaretoken: _csrftoken
+
+	       	},
+	        success: function(data, status, xhr) {
+	        	if(data.response){
+	        		$("#project-title").html($("#change-title-field").val())
+	        	}
+	        },
+	        error: function(xhr, errmsg, err){
+	    		console.log(errmsg);
+	        	console.log(xhr);
+	        	console.log(err);
+	        }
+	  	})
 	}
 
 	Project.prototype.setSelectEvent = function(){
@@ -162,7 +191,18 @@ $(document).ready(function() {
 
 	       	},
 	        success: function(data, status, xhr) {
-	        
+	        	if(data.response){
+	        		$('#save-project-tag').fadeOut(500, function() {
+				        var self = this;
+				        var text = $(this).text();
+				        console.log(text)
+				        $(this).text('Proyecto guardado con exito!').fadeIn(500);
+				        $('#close-save-project').click(function(){
+				        	$(self).text(text)
+				        	console.log(text)
+				        })
+				    });
+	        	}
 	        },
 	        error: function(xhr, errmsg, err){
 	    		console.log(errmsg);

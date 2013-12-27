@@ -76,7 +76,7 @@ def delete(request):
 
 
 def saveProject(request):
-	if (str(request.POST["user"]) ==str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
+	if (str(request.POST["user"]) == str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
 		project = Project.objects.get(urlhash=request.POST["project"])
 		project.positions = request.POST["images"]
 		project.texts = request.POST["texts"]
@@ -85,6 +85,19 @@ def saveProject(request):
 	else:
 		r = "No se puede guardar"	
 	
+	response = JSONResponse({'response': r}, mimetype=response_mimetype(request))
+	response['Content-Disposition'] = 'inline; filename=files.json'
+	return response
+
+def saveTitle(request):
+	if (str(request.POST["user"]) == str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
+		project = Project.objects.get(urlhash=request.POST["project"])
+		project.title = request.POST["title"]
+		project.save()
+		r = True
+	else:
+		r = False
+
 	response = JSONResponse({'response': r}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json'
 	return response

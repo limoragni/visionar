@@ -40,7 +40,18 @@
 		<div class="grid-container parallax-content">
 			 <header class="parallax-header">
                 <h2 class="parallax-title"><span>Proyecto</span></h2>
-                
+                <div id="project-title-box">
+                	<p id="project-title" class="parallax-slogan">{{project.title}}</p>
+               		<a id="change-title" class="popup-modal" href="#change-title-popup"><i class="icon-large icon-edit"></i></a>
+              	</div>
+                <div id="change-title-popup" class="mfp-hide">
+                	<div class="modal-display">
+						<h2>Cambiar título de proyecto</h2>
+						<input type="text" id="change-title-field" value="{{project.title}}"/>
+						<a id="save-title" class="popup-modal-dismiss" href="#">Listo</a></p>
+                	</div>
+                </div>
+            
             </header>
 			<ul class="breadcrumb">
                 <li class="active">Paso 2 de 3</li>
@@ -48,7 +59,8 @@
 
 			<div class="clear"></div>
 			
-			<input type="button" value="guardar" id="save-project">
+			<button id="save-project"><a class="popup-modal" href="#save-project-popup">Guardar</a></button>
+			
 			<button style="padding:10px 0px" type="button" value="vista previa" id="render">
 				
 			<a style="color:white; padding:10px" class="popup-modal" href="#preview-button">Vista previa</a>
@@ -61,6 +73,13 @@
 	               <a class="popup-modal-dismiss" href="#">Cerrar</a></p>
                </div>
            </div>	
+
+           <div id="save-project-popup" class="mfp-hide">
+               <div class="modal-display">
+	               <h2 id="save-project-tag">Guardando proyecto, por favor espere</h2>
+	               <a id="close-save-project" class="popup-modal-dismiss" href="#">Cerrar</a></p>
+               </div>
+           </div>
 
 			<!-- <button class="change-media" data-icon="camera" data-type="Imagen"><i class="icon-large icon-camera"></i></button>
 			<button class="change-media" data-icon="font" data-type="Texto"><i class="icon-large icon-font"></i></button> -->

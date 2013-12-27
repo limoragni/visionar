@@ -75,7 +75,7 @@ def profile(request):
 
 @login_required(login_url='/users/login/')
 def video(request):
-    finished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="FINISHED"))
+    finished = Project.objects.filter(user=request.user).filter(state__in=[RenderState.objects.get(name="FINISHED"), RenderState.objects.get(name="PENDING")])
     unfinished = Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="NONE"))
     published =  Project.objects.filter(user=request.user).filter(state=RenderState.objects.get(name="PUBLISHED"))
 
