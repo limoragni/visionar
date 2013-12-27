@@ -129,7 +129,7 @@ def pedido(request):
         )
         datos.save()
     
-    pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"])        
+    pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"], payment_state = "Pendiente")        
     pedido.save()
     return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos})
 

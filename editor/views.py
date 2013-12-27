@@ -12,7 +12,7 @@ from django.shortcuts import render, render_to_response, redirect
 
 from .response import JSONResponse, response_mimetype
 from .models import Template, Project, Image, Text, Mediatype, Media, RenderState, RenderType
-from users.models import Plan
+from users.models import Plan, Pedido
 
 from base64 import b64decode
 from django.core.files.base import ContentFile
@@ -208,12 +208,13 @@ def checkout(request, urlhash):
 
 def video(request, urlhash):
 	project = Project.objects.get(urlhash=str(urlhash))
+	pedidos = Pedido.objects.filter(project = project)
 	plans = Plan.objects.all()
 	if project.urlrender:
 		urls = json.loads(project.urlrender)
 	else:
 		urls = None
-	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls, 'plans': plans})	
+	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls, 'plans': plans, 'pedidos':pedidos})	
 
 def sendToBlender(data):
 	js = simplejson.dumps(data)

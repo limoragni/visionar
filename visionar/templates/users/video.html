@@ -134,7 +134,7 @@
                 <div id="eliminar{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
 	               <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
-	               <p>Estás seguro de querer borrar "CocaCola Ad"?</p>
+	               <p>Estás seguro de querer borrar "{{p.title}}"?</p>
                    <p><a data-id="{{p.urlhash}}" class="delete-project" href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
                    </div>
                </div>
@@ -165,6 +165,7 @@
               <figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
+                    
                 </div><!-- close portfolio caption -->               
                 </div>
                 </a>
@@ -173,7 +174,7 @@
                 <div id="eliminar{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
                  <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
-                 <p>Estás seguro de querer borrar "CocaCola Ad"?</p>
+                 <p>Estás seguro de querer borrar "{{p.title}}"?</p>
                    <p><a data-id="{{p.urlhash}}" class="delete-project" href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
                    </div>
                </div>

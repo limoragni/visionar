@@ -48,7 +48,7 @@
  
                 <div class="grid-100">
                      <div class="grid-100">
-                       <h3 class="grid-50">Preview</h3>
+                       <h3 class="grid-50">Vista previa</h3>
                      </div>
                      
                       <!-- portfolio box 1 -->
@@ -82,6 +82,29 @@
                      
                 </div>
             </div>
+            
+            {% if pedidos %}
+            
+            <div class="portfolio-section clearfix suffix-top-5 videoprojects-box">
+              <div class="grid-100 mobile-grid-100 tablet-grid-100">
+                <div class="grid-100">
+                   <h3 class="grid-50">Pedidos</h3>
+                 </div>
+                {% for p in pedidos %}
+                  
+                  <div style="float:left;background-color: #eee; padding: 20px; margin-left:20px; color:#444">
+                    <ul style="margin:0">
+                    <li><strong>Pedido: {{p.fecha}}</strong></li>
+                    <li>Plan: {{p.plan}}</li>
+                    <li>Estado de pago: {{p.payment_state}}</li>
+                    <li>Factura: <a href="/media/facturas/pdf.pdf">Descargar</a></li>
+                  </ul>
+                  </div>
+                  
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}            
             <!-- /CAMPAÑAS 1 -->
             <div id="portfolio-section" class="portfolio-section clearfix suffix-top-5">
             <div class="grid-100">
