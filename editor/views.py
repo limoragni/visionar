@@ -158,11 +158,11 @@ def getRenderData(urlhash, render_type):
 	if not project.texts:
 		texts = ""
 	else:
-		texts = project.texts
+		texts = json.loads(project.texts)
 	
 	data = {
 	    'media_data': [],
-	    'texts': json.loads(texts),
+	    'texts': texts,
 	    'media_url': str(project.getImagesPath()),
 	    'code': str(project.urlhash),
 	    'render_type': str(render_type),
