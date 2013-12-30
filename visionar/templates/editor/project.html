@@ -4,13 +4,18 @@
   	{% load staticfiles %}
   	
   	<link rel="stylesheet" href="{% static "editor/css/project.css" %}">
-  	<link href="http://vjs.zencdn.net/4.2/video-js.css" rel="stylesheet">
+  	
 	<script type="text/javascript">
+ 		var texts = 0;
+ 		{% for t in texts %}
+ 			texts++
+ 		{% endfor %}
+ 		console.log(texts)
  		var _USER = "{{request.user}}";
  		var _TEMPLATE_IMAGE_NUMBER = "{{project.template.image_number}}";
  		var _TEMPLATE_IMAGE_COUNT = "{{media|length}}"
  		var _TEMPLATE_TEXT_NUMBER = "{{project.template.text_number}}";
- 		var _TEMPLATE_TEXT_COUNT = ("{{texts|length}}") ? "{{texts|length}}" : 0;
+ 		var _TEMPLATE_TEXT_COUNT = texts;
  	</script>
  	<script src="{% static "visionar/js/vendor/jquery-ui-10.3.js" %}"></script>
  	<script src="{% static "visionar/js/vendor/shapeshift.js" %}"></script>
@@ -30,7 +35,7 @@
     });
 	</script>
 
-	<script src="http://vjs.zencdn.net/4.2/video.js"></script>
+	
 	<script src="{% static "visionar/js/uploader.js" %}"></script>
 	<script src="{% static "editor/js/project.js" %}"></script>
 
@@ -98,7 +103,7 @@
 
 					<div data-mediatype="Imagen" class="entry">
 						<input type="file" />
-						<h4>{{media|length}}/{{project.template.image_number}}</h4>
+						<h4><span id="image-number">{{media|length}}</span>/{{project.template.image_number}}</h4>
 						<h3 class="file-input-inside"><i class='icon-large icon-camera'></i>Agregar Imagen</h3>
 					</div>
 					</div>

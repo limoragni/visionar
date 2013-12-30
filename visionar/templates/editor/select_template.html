@@ -16,6 +16,11 @@
 		});
 	});
 	</script>
+    <style type="text/css">
+        .video-js{
+            margin: 0 auto;
+        }
+    </style>
  <!-- contact section -->
      <div class="nav-waypoint">
      <section id="contact-section" class="contact-section parallax-section parallax-background">
@@ -67,7 +72,7 @@
 			<div class="grid-33 mobile-grid-50 tablet-grid-50">
             	
             	<div class="portfolio-box">
-                <a class="popup-modal" href="#tmpl01">
+                <a class="popup-modal" href="#{{t.name}}-popup">
             	<figure class="portfolio-image"><img src="{{t.thumbnail}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{t.name}}<span class="portfolio-category">{{t.legend}}</span></h3>
@@ -76,12 +81,15 @@
                 </div>
                 <a href="/project/add/{{request.user}}/{{t.name}}/"><i class="icon-large icon-hand-up"></i>&nbsp;Usar Este</a>
                 
-                <div id="tmpl01" class="mfp-hide">
+                <div id="{{t.name}}-popup" class="mfp-hide">
                    <div class="modal-display">
 	               <h2>{{t.name}}</h2>
-	               <video width='600' height='480' controls> 
-                        <source src='/media/{{t.preview}}' type='video/mp4'> 
+	               <video class="video-js vjs-default-skin vjs-big-play-centered" width="960" height="540" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' >
+                        <source src="/media/templates_blend/{{t.name}}.webm" type='video/webm' />
+                        <source src="/media/templates_blend/{{t.name}}.mp4" type='video/mp4' />
+                        <source src="/media/templates_blend/{{t.name}}.ogv" type='video/ogg' />
                     </video>
+                  
                    <p><a href="/project/add/{{request.user}}/{{t.name}}/">Usar Este</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
                    </div>
                 </div>

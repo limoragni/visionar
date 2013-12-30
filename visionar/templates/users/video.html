@@ -37,7 +37,11 @@
         })
     });
 	</script>
-
+   <style type="text/css">
+        .video-js{
+            margin: 0 auto;
+        }
+    </style>
 <!-- contact section -->
      <div class="nav-waypoint">
      <section id="contact-section" class="contact-section parallax-section parallax-background">
@@ -119,8 +123,9 @@
              </div>
                      
         {% for p in finished %}
-                          <!-- portfolio box 1 -->
-			<div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
+                         <!-- portfolio box 1 -->
+			   
+      <div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
             	<a href="/project/video/{{p.urlhash}}">
             	<div class="portfolio-box" style="opacity:1;">       
             	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
@@ -130,7 +135,7 @@
                 </div>
                 </a>
                 <a class="popup-modal" href="#eliminar{{p.id}}"><i class="icon-large icon-remove"></i>&nbsp;Eliminar</a>
-                <a class="popup-modal" href="#preview04"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
+                <a class="popup-modal" href="#preview{{p.id}}"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
                 <div id="eliminar{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
 	               <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
@@ -138,10 +143,14 @@
                    <p><a data-id="{{p.urlhash}}" class="delete-project" href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
                    </div>
                </div>
-               <div id="preview04" class="mfp-hide">
+               <div id="preview{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
 	               <h2><i class="icon-large icon-eye-open"></i>&nbsp;Preview</h2>
-	               <p>Aquí va el player</p>
+	               <video class="video-js vjs-default-skin vjs-big-play-centered" width="960" height="540" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' >
+                        <source src="{{p.url_list.webm}}" type='video/webm' />
+                        <source src="{{p.url_list.mp4}}" type='video/mp4' />
+                        <source src="{{p.url_list.ogv}}" type='video/ogg' />
+                    </video>
                    <p><a class="popup-modal-dismiss" href="#">Cerrar</a></p>
                    </div>
                </div>        
@@ -170,7 +179,7 @@
                 </div>
                 </a>
                 <a class="popup-modal" href="#eliminar{{p.id}}"><i class="icon-large icon-remove"></i>&nbsp;Eliminar</a>
-                <a class="popup-modal" href="#preview04"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
+                <a class="popup-modal" href="#preview{{p.id}}"><i class="icon-large icon-eye-open"></i>&nbsp;Preview</a>
                 <div id="eliminar{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
                  <h2><i class="icon-large icon-exclamation-sign"></i>&nbsp;Atención</h2>
@@ -178,10 +187,14 @@
                    <p><a data-id="{{p.urlhash}}" class="delete-project" href="#">Sí, Seguro</a> • <a class="popup-modal-dismiss" href="#">Cancelar</a></p>
                    </div>
                </div>
-               <div id="preview04" class="mfp-hide">
+               <div id="preview{{p.id}}" class="mfp-hide">
                    <div class="modal-display">
                  <h2><i class="icon-large icon-eye-open"></i>&nbsp;Preview</h2>
-                 <p>Aquí va el player</p>
+                 <video class="video-js vjs-default-skin vjs-big-play-centered" width="960" height="540" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' >
+                        <source src="{{p.url_list.webm}}" type='video/webm' />
+                        <source src="{{p.url_list.mp4}}" type='video/mp4' />
+                        <source src="{{p.url_list.ogv}}" type='video/ogg' />
+                    </video>
                    <p><a class="popup-modal-dismiss" href="#">Cerrar</a></p>
                    </div>
                </div>        

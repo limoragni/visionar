@@ -111,7 +111,11 @@ class Project(models.Model):
 
 		if not self.urlhash:
 			self.urlhash = baseconvert('100' + str(self.id),BASE10,BASE62)
-			self.save()  
+			self.save()
+
+	@property
+	def url_list(self):
+		return json.loads(self.urlrender)  
 
 
 class Mediatype(models.Model):

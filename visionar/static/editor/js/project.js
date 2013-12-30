@@ -20,7 +20,13 @@ $(document).ready(function() {
 		})
 
 		$("#delete-media").click(function(){
-			self.deleteMedia();
+			var entry = $($(".entry-selected")[0]);
+			if(entry.hasClass("entry-text")){
+				self.text.deleteText(entry);
+			}else{
+				self.deleteMedia();
+			}
+			
 		});
 
 
@@ -94,7 +100,7 @@ $(document).ready(function() {
 	Project.prototype.newFileField = function(){
 		this.imageCount++;
 		var entry = "<div data-mediatype='Imagen' class='entry'>" +
-						"<h4>"+this.imageCount+ "/" + this.imageNumber+"</h4>" +
+						"<h4><span id='image-number'>"+this.imageCount+ "</span>/" + this.imageNumber+"</h4>" +
 						"<input type='file' />" +
 						"<h3 class='file-input-inside'><i class='icon-large icon-camera'></i>Agregar Imagen</h3>" +
 					"</div>"
@@ -169,7 +175,6 @@ $(document).ready(function() {
 				self.resetDragDrop();
 				self.disableFileInputDrag();
 				if(self.imageCount >= self.imageNumber){
-					console.log("LSADLASLDADKADFJ")
 					self.disableAddImage()
 				}
 			},
@@ -248,6 +253,8 @@ $(document).ready(function() {
 				},
 		        success: function(data, status, xhr) {
 		       		entry.remove();
+		       		self.imageCount--;
+		       		$("#image-number").html(self.imageCount);
 		       		$(".hippster").trigger("ss-rearrange");
 		       		self.resetDragDrop();
 		       		self.disableFileInputDrag();
@@ -318,6 +325,7 @@ $(document).ready(function() {
 	TextManager.prototype.init = function(){
 		this.textCount = parseInt(_TEMPLATE_TEXT_COUNT);
 		this.textNumber = parseInt(_TEMPLATE_TEXT_NUMBER);
+		this.urlhash = $(location).attr('pathname').split('/')[2];
 
 		$(".shift-text").shapeshift({
 		    minColumns: 3,
@@ -336,6 +344,14 @@ $(document).ready(function() {
 			$("#add-text-field").val("");
 		})
 
+		$(".entry-text").each(function(i,v){
+			$(this).click(function(){
+				self.setOnClick(this)
+			})
+			
+		})
+		$("#add-text-number").html(this.textCount);
+
 		if(this.textCount >= this.textNumber){
 			this.disableAddText();
 		}
@@ -353,6 +369,39 @@ $(document).ready(function() {
 		var pane = $("<div class='entry entry-text dragable' data-text='"+ val +"'><p>" + val + "</p></div>")
 		$("#add-text").before(pane)
 		return pane;
+	}
+
+	TextManager.prototype.sendToServer = function(){
+		var self = this;
+		$.ajax({
+	    	url: "/project/save/",
+	       	type: 'POST',
+	       	data: {
+	       		project: self.urlhash,
+	       		user: _USER,
+	       		texts: JSON.stringify(self.getPositions()),
+	       		csrfmiddlewaretoken: _csrftoken
+			},
+	        success: function(data, status, xhr) {
+	        	if(data.response){
+	        		$('#save-project-tag').fadeOut(500, function() {
+				        var self = this;
+				        var text = $(this).text();
+				        console.log(text)
+				        $(this).text('Proyecto guardado con exito!').fadeIn(500);
+				        $('#close-save-project').click(function(){
+				        	$(self).text(text)
+				        	console.log(text)
+				        })
+				    });
+	        	}
+	        },
+	        error: function(xhr, errmsg, err){
+	    		console.log(errmsg);
+	        	console.log(xhr);
+	        	console.log(err);
+	        }
+	  	})
 	}
 
 	TextManager.prototype.getPositions = function(){
@@ -400,6 +449,15 @@ $(document).ready(function() {
 
 	TextManager.prototype.enableAddText = function(){
 		$("#add-text").attr('href', "#add-text-popup")
+	}
+
+	TextManager.prototype.deleteText = function(entry){
+		entry.remove()
+		this.sendToServer();
+		$(".shift-text").trigger("ss-rearrange")
+		$("#add-text").removeClass('ss-active-child');
+		this.textCount--;
+		$("#add-text-number").html(this.textCount); 
 	}
 
 	var text = new TextManager();

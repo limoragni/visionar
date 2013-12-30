@@ -78,7 +78,8 @@ def delete(request):
 def saveProject(request):
 	if (str(request.POST["user"]) == str(request.user)) & Project.objects.filter(urlhash=request.POST["project"]).exists():
 		project = Project.objects.get(urlhash=request.POST["project"])
-		project.positions = request.POST["images"]
+		if "images" in request.POST:
+			project.positions = request.POST["images"]
 		project.texts = request.POST["texts"]
 		project.save()
 		r = "El proyecto fue guardado con exito"
@@ -154,8 +155,14 @@ def getRenderData(urlhash, render_type):
 	project = Project.objects.get(urlhash=urlhash);
 	imgs = Media.objects.filter(project = project).filter(mediatype=Mediatype.objects.get(typename="Image"))
 	imgs_sorted = sorted(imgs, key=lambda a: a.position)
+	if not project.texts:
+		texts = ""
+	else:
+		texts = project.texts
+	
 	data = {
 	    'media_data': [],
+	    'texts': json.loads(texts),
 	    'media_url': str(project.getImagesPath()),
 	    'code': str(project.urlhash),
 	    'render_type': str(render_type),
