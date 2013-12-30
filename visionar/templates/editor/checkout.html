@@ -65,7 +65,7 @@
                   <img src="{% static "visionar/images/rendering.jpg" %}">
                 {% endif %}         
               </div>
-                <a href="#"><i class="icon-large icon-globe"></i>&nbsp;Publicar</a>&nbsp;<a href="/project/{{project.urlhash}}"><i class="icon-large icon-edit"></i>&nbsp;Seguir Editando</a>
+              <a href="/project/{{project.urlhash}}"><i class="icon-large icon-edit"></i>&nbsp;Seguir Editando</a>
                 
                 <div id="tmpl01" class="mfp-hide">
                    <div class="modal-display">
@@ -128,7 +128,7 @@
                     <li class="list-group-item"><strong>$ {{plan.costo}}</strong> / Costo</li>
                     <li class="list-group-item"><strong>$ {{plan.descuento}}</strong> / Descuento</li>
                     <li class="list-group-item"><strong>$ {{plan.total}}</strong> / Precio Final</li>
-                    <li class="list-group-item"><button> <a style="color:white;" href="/users/publicar/{{plan.id}}/{{project.urlhash}}">Pagar y Publicar</a></button></li>
+                    <li class="list-group-item"><button onclick="location.href='/users/publicar/{{plan.id}}/{{project.urlhash}}';">Pagar y Publicar</button></li>
                  </ul>
         </div><!-- close portfolio -->
             
