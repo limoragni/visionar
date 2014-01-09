@@ -200,8 +200,7 @@ $(document).ready(function() {
 	        		$('#save-project-tag').fadeOut(500, function() {
 				        var self = this;
 				        var text = $(this).text();
-				        console.log(text)
-				        $(this).text('Proyecto guardado con exito!').fadeIn(500);
+				    	$(this).text('Proyecto guardado con exito!').fadeIn(500);
 				        $('#close-save-project').click(function(){
 				        	$(self).text(text)
 				        	console.log(text)
@@ -210,9 +209,9 @@ $(document).ready(function() {
 	        	}
 	        },
 	        error: function(xhr, errmsg, err){
-	    		console.log(errmsg);
+	    		/*console.log(errmsg);
 	        	console.log(xhr);
-	        	console.log(err);
+	        	console.log(err);*/
 	        }
 	  	})
 	}
@@ -383,18 +382,7 @@ $(document).ready(function() {
 	       		csrfmiddlewaretoken: _csrftoken
 			},
 	        success: function(data, status, xhr) {
-	        	if(data.response){
-	        		$('#save-project-tag').fadeOut(500, function() {
-				        var self = this;
-				        var text = $(this).text();
-				        console.log(text)
-				        $(this).text('Proyecto guardado con exito!').fadeIn(500);
-				        $('#close-save-project').click(function(){
-				        	$(self).text(text)
-				        	console.log(text)
-				        })
-				    });
-	        	}
+	        	
 	        },
 	        error: function(xhr, errmsg, err){
 	    		console.log(errmsg);
@@ -441,6 +429,7 @@ $(document).ready(function() {
 		if(this.textCount >= this.textNumber){
 			this.disableAddText();
 		}
+		this.sendToServer();
 	} 
 
 	TextManager.prototype.disableAddText = function(){
