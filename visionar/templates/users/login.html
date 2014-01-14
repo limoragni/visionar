@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% load staticfiles %}
  <!-- contact section -->
  <div class="nav-waypoint">
  <section id="contact-section" class="contact-section parallax-section parallax-background">
@@ -32,13 +33,13 @@
             {% csrf_token %}
         	<ul class="grid-100">
             
-            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:"></li>
-                <li><input id="password" class="password" type="password" name="password" placeholder="Password:"></li>
-                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:"></li>
-                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:"></li>
-                <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:"></li>
-				<li><input id="company" class="name" type="text" name="company" placeholder="Empresa:"></li>
-                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:"></li>
+            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:" requiered></li>
+                <li><input id="password" class="password" type="password" name="password" placeholder="Password:" requiered></li>
+                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:" requiered></li>
+                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:" requiered></li>
+                <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:" requiered></li>
+				<li><input id="company" class="name" type="text" name="company" placeholder="Empresa:" requiered></li>
+                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:" requiered></li>
                 
         	</ul>
 			
@@ -66,15 +67,18 @@
             
             	<li><input class="name" type="text" name="username" placeholder="Usuario"></li>
                 <li><input class="password" type="password" name="password" placeholder="Password:"></li>
-                <li><a href="#"><i class="icon-lock"></i> Olvidaste tu password?</a></li>
+                {% if failed %}
+                    <div class="validation-error">Usuario o contraseña incorrectos!</div>
+                {% endif %}
+                <li><a href="/users/recover"><i class="icon-lock"></i> Olvidaste tu password?</a></li>
         	</ul>
-
-            <div class="grid-100">    
+            
+            <!-- <div class="grid-100">    
                 <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Ingresar">
                 <div class="success-message">El mensaje ha sido enviado!. Muchas gracias.</div>
                 <div class="alert-message"></div>
-                <div class="error-message">No se pudo enviar el mensaje. Por favor, intente más tarde.</div>
-            </div>   
+                <div class="error-message">Usuario o contraseña incorrectos!</div>
+            </div>    -->
           </form><!-- close contact form -->
                 
         </div>
@@ -88,5 +92,11 @@
 </section><!-- close contact section -->
 
 </div><!-- close nav-waypoint -->
+<!-- <script type="text/javascript" src="{% static "visionar/js/vendor/jquery.validate.min.js" %}"></script> -->
+<script type="text/javascript">
+    //$("#signup-form").validate();
+    $(document).ready(function(){
 
+    });
+</script>
 {% endblock %}

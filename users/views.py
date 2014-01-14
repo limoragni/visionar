@@ -13,16 +13,19 @@ def loginview(request):
     if request.user.is_authenticated():
         return redirect('/users/profile')
     else:
-        return render(request, 'users/login.html')
+        return render(request, 'users/login.html', {'failed': False})
     
-
 def auth_and_login(request, onsuccess='/create', onfail="/users/login/"):
     user = authenticate(username=request.POST['username'], password=request.POST['password'])
     if user is not None:
         login(request, user)
         return redirect(onsuccess)
     else:
-        return redirect(onfail)  
+        #return redirect(onfail)
+        return render(request, 'users/login.html', {"failed": True}) 
+
+def recover(request):
+    return render(request, 'users/recover.html')
 
 def create_user(username, email, password, first_name, last_name, company, phone):
 	user = User(username=username, email=email, first_name=first_name, last_name=last_name)
@@ -40,11 +43,17 @@ def user_exists(username):
 
 def signup(request):
     post = request.POST
+    #val = validate(post)
     if not user_exists(post['username']): 
         user = create_user(username=post['username'], email=post['email'], password=post['password'], first_name = post['first_name'], last_name = post['last_name'], company = post['company'], phone=post['phone'])
     	return auth_and_login(request)
     else:
     	return redirect("/users/login/")
+
+def validate(data):
+    user_valid = data['username'] 
+    if not user_exists(data['username']):
+        if data['username']
 
 def logoutview(request):
     logout(request)
