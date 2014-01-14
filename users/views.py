@@ -52,7 +52,7 @@ def signup(request):
 
 def validate(data):
     user_valid = data['username'] 
-    if not user_exists(data['username']):
+    #if not user_exists(data['username']):
         #if data['username']:
 
 def logoutview(request):
