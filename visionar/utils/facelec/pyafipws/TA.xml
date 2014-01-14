@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1">
+    <header>
+        <source>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>C=ar, O=vicente, SERIALNUMBER=CUIT 20276595955, CN=menta</destination>
+        <uniqueId>4180192459</uniqueId>
+        <generationTime>2014-01-14T11:17:13.086-03:00</generationTime>
+        <expirationTime>2014-01-14T23:17:13.086-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgdW5pcXVlX2lkPSIzMzg0MDM0MzU2IiBzcmM9IkNOPXdzYWFob21vLCBPPUFGSVAsIEM9QVIsIFNFUklBTE5VTUJFUj1DVUlUIDMzNjkzNDUwMjM5IiBnZW5fdGltZT0iMTM4OTcwODk3MyIgZXhwX3RpbWU9IjEzODk3NTIyMzMiIGRzdD0iQ049d3NmZSwgTz1BRklQLCBDPUFSIi8+CiAgICA8b3BlcmF0aW9uIHZhbHVlPSJncmFudGVkIiB0eXBlPSJsb2dpbiI+CiAgICAgICAgPGxvZ2luIHVpZD0iQz1hciwgTz12aWNlbnRlLCBTRVJJQUxOVU1CRVI9Q1VJVCAyMDI3NjU5NTk1NSwgQ049bWVudGEiIHNlcnZpY2U9IndzZmUiIHJlZ21ldGhvZD0iMjIiIGVudGl0eT0iMzM2OTM0NTAyMzkiIGF1dGhtZXRob2Q9ImNtcyI+CiAgICAgICAgICAgIDxyZWxhdGlvbnM+CiAgICAgICAgICAgICAgICA8cmVsYXRpb24gcmVsdHlwZT0iNCIga2V5PSIyMDI3NjU5NTk1NSIvPgogICAgICAgICAgICA8L3JlbGF0aW9ucz4KICAgICAgICA8L2xvZ2luPgogICAgPC9vcGVyYXRpb24+Cjwvc3NvPgoK</token>
+        <sign>ZeaHxWQ8h2iM6DJbg9kW1WQD6rD8biRnqZZiIRhDODG/S+bHHD3A4dRad/vK79hm0gKPQ6q/KbiHl2G7+7RCwz9vrDz9ysI20boO0mrVDbkwyCVSpWW8wQInK6u1NO4ykfHBp59vthQDKa0k1+oqU8JtpO3jHkUcKN7I1cq1NKg=</sign>
+    </credentials>
+</loginTicketResponse>
+

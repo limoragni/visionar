@@ -33,8 +33,8 @@ except ImportError:
 
 # Constantes (si se usa el script de linea de comandos)
 WSDL = "https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl"  # El WSDL correspondiente al WSAA 
-CERT = "reingart.crt"        # El certificado X.509 obtenido de Seg. Inf.
-PRIVATEKEY = "reingart.key"  # La clave privada del certificado CERT
+CERT = "/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/certificado.crt"   # El certificado X.509 obtenido de Seg. Inf.
+PRIVATEKEY = "/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/privada"  # La clave privada del certificado CERT
 PASSPHRASE = "xxxxxxx"  # La contraseña para firmar (si hay)
 SERVICE = "wsfe"        # El nombre del web service al que se le pide el TA
 
