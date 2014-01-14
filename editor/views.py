@@ -1,6 +1,7 @@
 import socket
 import ntpath
 import json
+import redis
 from django.core.context_processors import csrf
 
 from django.utils import simplejson
@@ -80,7 +81,8 @@ def saveProject(request):
 		project = Project.objects.get(urlhash=request.POST["project"])
 		if "images" in request.POST:
 			project.positions = request.POST["images"]
-		project.texts = request.POST["texts"]
+		if "texts" in request.POST:
+			project.texts = request.POST["texts"]
 		project.save()
 		r = "El proyecto fue guardado con exito"
 	else:
@@ -260,4 +262,4 @@ def getPreview(request):
 		response = "PENDING"
 	response = JSONResponse({'response': response}, mimetype=response_mimetype(request))
 	response['Content-Disposition'] = 'inline; filename=files.json' 
-	return response 
+	return response
