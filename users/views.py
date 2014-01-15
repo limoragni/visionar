@@ -19,7 +19,7 @@ from visionar.utils.facelec.pyafipws.wsfev1 import *
 from visionar.utils.facelec.pyafipws import wsaa
 import datetime
 import decimal
-import os
+import os, time
 import socket
 import sys
 import traceback
@@ -177,7 +177,7 @@ def publicar(request, plan_id, project):
 
 def pedido(request):
     project = Project.objects.get(urlhash=request.POST["project"])
-    project.state = RenderState.objects.get(name="PENDING")
+    project.state = RenderState.objects.get(name="PUBLISHED")
     project.save()
     
     if Datos_Facturacion.objects.filter(user=request.user):
@@ -215,6 +215,7 @@ def pedido(request):
     return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos, "proyecto":project})
 
 def facturar(request, pedido_id):
+	import time
 	pedido = Pedido.objects.get(id=pedido_id)
 	user = pedido.user
 	plan = pedido.plan
@@ -234,9 +235,8 @@ def facturar(request, pedido_id):
 	if not ok:
 		raise RuntimeError(wsfev1.Excepcion)
 
-
 	# obteniendo el TA
-	TA = "TA.xml"
+	TA = "/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/pyafipws/TA.xml"
 	if 'wsaa' in sys.argv or not os.path.exists(TA) or os.path.getmtime(TA)+(60*60*5)<time.time():
 		tra = wsaa.create_tra(service="wsfe")
 		cms = wsaa.sign_tra(tra,"/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/certificado.crt","/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/privada")
@@ -257,14 +257,13 @@ def facturar(request, pedido_id):
 	sign = str(ta.credentials.sign)
 	wsfev1.SetParametros(cuit, token, sign)
 
-
-
-	tipo_cbte = 2
+	tipo_cbte = 1 	# Factura A
 	punto_vta = 0001
 	cbte_nro = long(wsfev1.CompUltimoAutorizado(tipo_cbte, punto_vta) or 0)
 	fecha = datetime.datetime.now().strftime("%Y%m%d")
-	concepto = 2
-	tipo_doc = 80; nro_doc = "30500010912" # CUIT BNA
+	concepto = 2 				# Servicio
+	tipo_doc = 80 				# CUIT
+	nro_doc = "30500010912" 	
 	cbt_desde = cbte_nro + 1; cbt_hasta = cbte_nro + 1
 	imp_total = "122.00"; imp_tot_conc = "0.00"; imp_neto = "100.00"
 	imp_iva = "21.00"; imp_trib = "1.00"; imp_op_ex = "0.00"
