@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 from .models import External, Plan, Datos_Facturacion, Pedido
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
+from visionar.utils import validation
 import requests
 
 def loginview(request):
@@ -41,19 +43,50 @@ def user_exists(username):
         return False
     return True
 
+def email_exists(email):
+    user_count = User.objects.filter(email=email).count()
+    if user_count == 0:
+        return False
+    return True
+
 def signup(request):
     post = request.POST
-    #val = validate(post)
-    if not user_exists(post['username']): 
+    val = validate(post)
+    if val == True:
         user = create_user(username=post['username'], email=post['email'], password=post['password'], first_name = post['first_name'], last_name = post['last_name'], company = post['company'], phone=post['phone'])
-    	return auth_and_login(request)
+        return auth_and_login(request)
     else:
-    	return redirect("/users/login/")
+        return render(request, 'users/login.html', {"messages":val, "fields": request.POST})
+    	
 
 def validate(data):
-    user_valid = data['username'] 
-    #if not user_exists(data['username']):
-        #if data['username']:
+    messages = {}
+    if not user_exists(data['username']):
+        if not validation.lengthValidation(data['username'], 4, 13):
+            messages["username"] = u"El nombre debe tener un mínimo de 4 caractéres y un máximo de 13"
+        if not validation.lengthValidation(data['password'], 4, 20):
+            messages["password"] = u"El password debe tener un mínimo de 6 caractéres y un máximo de 20"
+        if not validation.lengthValidation(data['first_name'], 3, 30):
+            messages["first_name"] = u"El nombre debe tener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(data['last_name'], 3, 50):
+            messages["last_name"] = u"El apellido debe tener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(data['company'], 3, 50):
+            messages["company"] = u"La empresa debe contener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(data['phone'], 6, 20): 
+            messages["phone"] = u"El número debe contener un mínimo de 6 caractéres"
+        if not validation.is_number(data['phone']):
+            messages["phone"] = u"El teléfono debe contener solamente números"
+        if not validation.mailValidation(data['email']):
+            messages["email"] = u"Ingrese un email válido"
+        if email_exists(data['email']):
+            messages["email"] = u"Ya existe una cuenta con este email asociado"
+    else:
+        messages["username"] = u"Usuario no disponible"
+    if len(messages) == 0:
+        return True
+    else:
+        return messages       
+    
 
 def logoutview(request):
     logout(request)

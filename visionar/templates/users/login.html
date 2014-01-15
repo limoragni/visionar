@@ -32,14 +32,20 @@
         <form id="signup-form" method="POST" action="/users/signup/"class="contact-form">
             {% csrf_token %}
         	<ul class="grid-100">
-            
-            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:" requiered></li>
-                <li><input id="password" class="password" type="password" name="password" placeholder="Password:" requiered></li>
-                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:" requiered></li>
-                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:" requiered></li>
-                <li><input id="email" class="email" type="email" name="email" placeholder="E-Mail:" requiered></li>
-				<li><input id="company" class="name" type="text" name="company" placeholder="Empresa:" requiered></li>
-                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:" requiered></li>
+                {{messages.username}}
+            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:" value = "{{fields.username}}"></li>
+                {{messages.password}}
+                <li><input id="password" class="password" type="password" name="password" placeholder="Password:"></li>
+                {{messages.first_name}}
+                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:" value = "{{fields.first_name}}"></li>
+                {{messages.last_name}}
+                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:" value = "{{fields.last_name}}"></li>
+                {{messages.email}}
+                <li><input id="email" class="email" type="text" name="email" placeholder="E-Mail:" value = "{{fields.email}}"></li>
+				{{messages.company}}
+                <li><input id="company" class="name" type="text" name="company" placeholder="Empresa:" value = "{{fields.company}}"></li>
+                {{messages.phone}}
+                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:" value = "{{fields.phone}}"></li>
                 
         	</ul>
 			
