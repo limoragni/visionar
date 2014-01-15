@@ -11,6 +11,20 @@ from django.core.context_processors import csrf
 from visionar.utils import validation
 import requests
 
+from visionar.utils.facelec.pyafipws.utils import verifica
+from visionar.utils.facelec.pyafipws.wsfev1 import *
+from visionar.utils.facelec.pyafipws import wsaa
+import datetime
+import decimal
+import os
+import socket
+import sys
+import traceback
+from cStringIO import StringIO
+from visionar.utils.facelec.pysimplesoap.pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
+
+
+
 def loginview(request):
     if request.user.is_authenticated():
         return redirect('/users/profile')
@@ -129,16 +143,17 @@ def video(request):
 
 @login_required(login_url='/users/login/')
 def publicar(request, plan_id, project):
-    plan = Plan.objects.get(id=plan_id)
-    if Datos_Facturacion.objects.filter(user=request.user):
-        datos = Datos_Facturacion.objects.get(user=request.user)
-    else:
-        datos = None
-    return render(request, "users/publicar.html", {"plan": plan, "datos": datos, "project": project})
+	plan = Plan.objects.get(id=plan_id)
+	proyecto = Project.objects.get(urlhash=project)
+	if Datos_Facturacion.objects.filter(user=request.user):
+		datos = Datos_Facturacion.objects.get(user=request.user)
+	else:
+		datos = None
+	return render(request, "users/publicar.html", {"plan": plan, "datos": datos, "project": project, "proyecto":proyecto})
 
 def pedido(request):
     project = Project.objects.get(urlhash=request.POST["project"])
-    project.state = RenderState.objects.get(name="PUBLISHED")
+    project.state = RenderState.objects.get(name="PENDING")
     project.save()
     
     if Datos_Facturacion.objects.filter(user=request.user):
@@ -171,14 +186,105 @@ def pedido(request):
         )
         datos.save()
     
-    pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"], payment_state = "Pendiente")        
+    pedido = Pedido(user=request.user, project=project, plan=Plan.objects.get(id=request.POST["plan"]), cantidad=1, tipo_pago=request.POST["forma-pago"], payment_state = "Pendiente", detalles=request.POST["detalles"])        
     pedido.save()
-    return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos})
+    return render(request, "users/pedido.html", {"pedido": pedido, "datos": datos, "proyecto":project})
 
 def facturar(request, pedido_id):
-    pedido = Pedido.objects.get(id=pedido_id)
-    user = pedido.user
-    plan = pedido.plan
-    datos_facturacion = Datos_Facturacion.objects.get(user=user)
-    link = "/media/facturas/pdf.pdf" #TODO: link a pdf de factura
-    return render(request, "users/factura.html", {"link": link})
+	pedido = Pedido.objects.get(id=pedido_id)
+	user = pedido.user
+	plan = pedido.plan
+	datos_facturacion = Datos_Facturacion.objects.get(user=user)
+
+	wsfev1 = WSFEv1()
+	wsfev1.LanzarExcepciones = True
+
+	cache = None
+	wsdl = "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL"
+	proxy = ""
+	wrapper = "" #"pycurl"
+	cacert = None #geotrust.crt"
+
+	ok = wsfev1.Conectar(cache, wsdl, proxy, wrapper, cacert)
+
+	if not ok:
+		raise RuntimeError(wsfev1.Excepcion)
+
+
+	# obteniendo el TA
+	TA = "TA.xml"
+	if 'wsaa' in sys.argv or not os.path.exists(TA) or os.path.getmtime(TA)+(60*60*5)<time.time():
+		tra = wsaa.create_tra(service="wsfe")
+		cms = wsaa.sign_tra(tra,"/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/certificado.crt","/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/privada")
+		url = "" # "https://wsaa.afip.gov.ar/ws/services/LoginCms"
+		ta_string = wsaa.call_wsaa(cms, url)
+		open(TA,"w").write(ta_string)
+	ta_string=open(TA).read()
+	ta = SimpleXMLElement(ta_string)
+	# fin TA
+
+	if '--cuit' in sys.argv:
+		cuit = sys.argv[sys.argv.index("--cuit")+1]
+	else:
+		cuit = "20276595955"
+
+	#wsfev1.Cuit = cuit
+	token = str(ta.credentials.token)
+	sign = str(ta.credentials.sign)
+	wsfev1.SetParametros(cuit, token, sign)
+
+
+
+	tipo_cbte = 2
+	punto_vta = 0001
+	cbte_nro = long(wsfev1.CompUltimoAutorizado(tipo_cbte, punto_vta) or 0)
+	fecha = datetime.datetime.now().strftime("%Y%m%d")
+	concepto = 2
+	tipo_doc = 80; nro_doc = "30500010912" # CUIT BNA
+	cbt_desde = cbte_nro + 1; cbt_hasta = cbte_nro + 1
+	imp_total = "122.00"; imp_tot_conc = "0.00"; imp_neto = "100.00"
+	imp_iva = "21.00"; imp_trib = "1.00"; imp_op_ex = "0.00"
+	fecha_cbte = fecha; fecha_venc_pago = fecha
+	# Fechas del periodo del servicio facturado (solo si concepto = 1?)
+	fecha_serv_desde = fecha; fecha_serv_hasta = fecha
+	moneda_id = 'PES'; moneda_ctz = '1.000'
+
+	resFact = wsfev1.CrearFactura(concepto, tipo_doc, nro_doc, tipo_cbte, punto_vta,
+		cbt_desde, cbt_hasta, imp_total, imp_tot_conc, imp_neto,
+		imp_iva, imp_trib, imp_op_ex, fecha_cbte, fecha_venc_pago, 
+		fecha_serv_desde, fecha_serv_hasta, #--
+		moneda_id, moneda_ctz)
+
+	if tipo_cbte not in (1, 2):
+		tipo = 19
+		pto_vta = 2
+		nro = 1234
+		wsfev1.AgregarCmpAsoc(tipo, pto_vta, nro)
+
+	id = 99
+	desc = 'Impuesto Municipal Matanza'
+	base_imp = 100
+	alic = 1
+	importe = 1
+	wsfev1.AgregarTributo(id, desc, base_imp, alic, importe)
+
+	id = 5 # 21%
+	base_im = 100
+	importe = 21
+	wsfev1.AgregarIva(id, base_imp, importe)
+
+	import time
+	t0 = time.time()
+	cae = wsfev1.CAESolicitar()
+	t1 = time.time()
+	cae += "CAE: "
+	cae += wsfev1.CAE
+
+	link = "/media/facturas/pdf.pdf" #TODO: link a pdf de factura
+	return render(request, "users/factura.html", {"link": link,
+												"CAE": cae, 
+												"CAE2":'34343434343',
+												"resultado": wsfev1.Resultado,
+												"ultcomp":cbte_nro,
+												"res":resFact}
+				)

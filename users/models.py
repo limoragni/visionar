@@ -67,9 +67,8 @@ class Plan(models.Model):
 
 class Pedido(models.Model):
 	TIPO_PAGO_OPS = (
-		('Rapipago', 'Rapipago'),
-		('Tarjeta', 'Tarjeta'),
-		('Deposito','Deposito')
+		('Rapipago', 'Mercadopago'),
+		('Tarjeta', 'Deposito')
 	) 
 	PAYMENT_STATES_CHOICES = (
 		('Pendiente', 'Pendiente'),
@@ -84,6 +83,9 @@ class Pedido(models.Model):
 	cantidad		= models.IntegerField()
 	tipo_pago		= models.CharField(max_length=100, choices=TIPO_PAGO_OPS)
 	payment_state 	= models.CharField(max_length=10,choices=PAYMENT_STATES_CHOICES)
+
+	def __unicode__(self):
+		return self.detalles
 
 	class Admin:
 		pass	

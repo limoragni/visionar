@@ -925,7 +925,7 @@ def main():
 
 
     # obteniendo el TA
-    TA = "TA-wsfe.xml"
+    TA = "TA.xml"
     if 'wsaa' in sys.argv or not os.path.exists(TA) or os.path.getmtime(TA)+(60*60*5)<time.time():
         import wsaa
         tra = wsaa.create_tra(service="wsfe")
@@ -940,7 +940,7 @@ def main():
     if '--cuit' in sys.argv:
         cuit = sys.argv[sys.argv.index("--cuit")+1]
     else:
-        cuit = "20267565393"
+        cuit = "20276595955"
 
     #wsfev1.Cuit = cuit
     token = str(ta.credentials.token)
@@ -948,10 +948,10 @@ def main():
     wsfev1.SetParametros(cuit, token, sign)
     
     if "--prueba" in sys.argv:
-        print wsfev1.client.help("FECAESolicitar").encode("latin1")
+        #print wsfev1.client.help("FECAESolicitar").encode("latin1")
 
         tipo_cbte = 2
-        punto_vta = 4001
+        punto_vta = 0001
         cbte_nro = long(wsfev1.CompUltimoAutorizado(tipo_cbte, punto_vta) or 0)
         fecha = datetime.datetime.now().strftime("%Y%m%d")
         concepto = 2
