@@ -90,7 +90,7 @@
         
         {% for p in unfinished %}
             
-			<div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
+			<div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50">
             	<a href="/project/{{p.urlhash}}">
             	<div class="portfolio-box" style="opacity:1;">
             	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
@@ -125,7 +125,7 @@
         {% for p in finished %}
                          <!-- portfolio box 1 -->
 			   
-      <div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
+      <div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50">
             	<a href="/project/video/{{p.urlhash}}">
             	<div class="portfolio-box" style="opacity:1;">       
             	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
@@ -168,7 +168,7 @@
                      
         {% for p in published %}
                           <!-- portfolio box 1 -->
-      <div id="{{p.urlhash}}" class="grid-33 mobile-grid-50 tablet-grid-50">
+      <div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50 member-box">
               <a href="/project/video/{{p.urlhash}}">
               <div class="portfolio-box" style="opacity:1;">       
               <figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
