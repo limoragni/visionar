@@ -1,11 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
 from editor.models import Project
+import base64
+import hashlib
 
 class External(models.Model):
-	user = models.OneToOneField(User)
-	phone = models.CharField(max_length=100)
+	user 	= models.OneToOneField(User)
+	phone 	= models.CharField(max_length=100)
 	company = models.CharField(max_length=100)
+
+class Email_Confirmation(models.Model):
+	user = models.OneToOneField(User)
+	key  = models.CharField(max_length=200)
+	
+	def save(self):
+		super(Project, self).save()
+		if not self.key:
+			hasher = hashlib.sha1(self.user.username)
+			base64.urlsafe_b64encode(hasher.digest()[0:10])
 
 class Datos_Facturacion(models.Model):
 	TIPO_IVAS = (

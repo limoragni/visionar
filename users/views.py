@@ -9,7 +9,10 @@ from .models import External, Plan, Datos_Facturacion, Pedido
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 from visionar.utils import validation
+import visionar.config.environment as env
+import smtplib
 import requests
+
 
 from visionar.utils.facelec.pyafipws.utils import verifica
 from visionar.utils.facelec.pyafipws.wsfev1 import *
@@ -44,12 +47,34 @@ def recover(request):
     return render(request, 'users/recover.html')
 
 def create_user(username, email, password, first_name, last_name, company, phone):
-	user = User(username=username, email=email, first_name=first_name, last_name=last_name)
-	user.set_password(password)
-	user.save()
-	external = External(user=user ,company=company, phone=phone)
-	external.save()
-	return user
+    user = User(username=username, email=email, first_name=first_name, last_name=last_name)
+    user.set_password(password)
+    user.is_active = False
+    user.save()
+    external = External(user=user ,company=company, phone=phone)
+    external.save()
+    key = Email_Confirmation(user=user)
+    key.save()
+    #s = smtplib.SMTP('localhost')
+    #url = env.HOST + "users/validate/" + user.username + "/" + key.key
+    s.sendmail('no_responder@visionar.com.ar', user.email , 'mensaje de prueba')
+    return user
+
+#corresponde a /users/validate/
+def email_confirmation(request, user, key):
+    user = User.objects.filter(username=user)
+    if user.count() == 0:
+        message = "El usuario no existe"
+    else:
+        confirmation_key = Email_Confirmation.objects.get(user=user).key
+        if confirmation_key == key:
+            user.is_active = True
+            login(request, user)
+            return redirect("/project/")
+        else:
+            message = "La clave es incorrecta"
+
+    return render(request, 'users/recovercheck.html', {"message": message})
 
 def user_exists(username):
     user_count = User.objects.filter(username=username).count()
@@ -101,7 +126,6 @@ def validate(data):
     else:
         return messages       
     
-
 def logoutview(request):
     logout(request)
     return redirect("/users/login/")
