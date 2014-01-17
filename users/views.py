@@ -13,7 +13,6 @@ import visionar.config.environment as env
 import smtplib
 import requests
 
-
 from visionar.utils.facelec.pyafipws.utils import verifica
 from visionar.utils.facelec.pyafipws.wsfev1 import *
 from visionar.utils.facelec.pyafipws import wsaa
@@ -26,7 +25,8 @@ import traceback
 from cStringIO import StringIO
 from visionar.utils.facelec.pysimplesoap.pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
 
-
+import logging
+logger = logging.getLogger(__name__)
 
 def loginview(request):
     if request.user.is_authenticated():
@@ -57,9 +57,41 @@ def create_user(username, email, password, first_name, last_name, company, phone
     external.save()
     key = Email_Confirmation(user=user)
     key.save()
+    
+    sender = 'info@visionar.com.ar'
+    receivers = [email]
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = "Link"
+    msg['From'] = sender
+    msg['To'] = email
+    
     s = smtplib.SMTP('localhost')
     url = env.HOST + "users/validate/" + username + "/" + key.key
-    s.sendmail('info@visionar.com.ar', email, str(url))#str(user.email) , str(url))
+
+    text = "Ingrese a este link" + url
+    html = '''
+    <html>
+      <head></head>
+      <body>
+        <p>Hi!<br>
+           How are you?<br>
+           Here is the <a href="''' + url + '''">click here</a> you wanted.
+        </p>
+      </body>
+    </html>
+    '''
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
+
+    msg.attach(part1)
+    msg.attach(part2)
+    
+
+    s.sendmail(sender, receivers, msg.as_string())
+
+    s.quit()
+    logger.error(url)
+    #s.sendmail('info@visionar.com.ar', email, 'adsdsdkisjdunendaldalla')#str(user.email) , str(url))
     return user
 
 #corresponde a /users/validate/

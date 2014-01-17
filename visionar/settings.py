@@ -157,5 +157,9 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
         },
+        'users': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
     }
 }
