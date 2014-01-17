@@ -59,7 +59,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
     key.save()
     s = smtplib.SMTP('localhost')
     url = env.HOST + "users/validate/" + user.username + "/" + key.key
-    s.sendmail('info@visionar.com.ar', str(user.email) , str(url))
+    s.sendmail('info@visionar.com.ar', 'emirk22@gmail.com', 'Holandaravia')#str(user.email) , str(url))
     return user
 
 #corresponde a /users/validate/
