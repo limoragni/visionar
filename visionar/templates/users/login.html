@@ -76,6 +76,9 @@
                 {% if failed %}
                     <div class="validation-error">Usuario o contraseña incorrectos!</div>
                 {% endif %}
+                {% if no_confirm %}
+                    <div class="validation-error">La cuenta no a sido certificada!</div>
+                {% endif %}
                 <li><a href="/users/recover"><i class="icon-lock"></i> Olvidaste tu password?</a></li>
         	</ul>
             

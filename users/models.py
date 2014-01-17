@@ -14,10 +14,12 @@ class Email_Confirmation(models.Model):
 	key  = models.CharField(max_length=200)
 	
 	def save(self):
-		super(Project, self).save()
+		super(Email_Confirmation, self).save()
 		if not self.key:
 			hasher = hashlib.sha1(self.user.username)
-			base64.urlsafe_b64encode(hasher.digest()[0:10])
+			self.key = base64.urlsafe_b64encode(hasher.digest()[0:10])
+			self.save()
+
 
 class Datos_Facturacion(models.Model):
 	TIPO_IVAS = (

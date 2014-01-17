@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template  import RequestContext
 from django.contrib.auth.models import User
-from .models import External, Plan, Datos_Facturacion, Pedido
+from .models import External, Plan, Datos_Facturacion, Pedido, Email_Confirmation
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 from visionar.utils import validation
@@ -37,8 +37,10 @@ def loginview(request):
 def auth_and_login(request, onsuccess='/create', onfail="/users/login/"):
     user = authenticate(username=request.POST['username'], password=request.POST['password'])
     if user is not None:
-        login(request, user)
-        return redirect(onsuccess)
+        if user.is_active:
+            login(request, user)
+            return redirect(onsuccess)
+        return render(request, 'users/login.html', {"no_confirm": True})
     else:
         #return redirect(onfail)
         return render(request, 'users/login.html', {"failed": True}) 
@@ -55,26 +57,28 @@ def create_user(username, email, password, first_name, last_name, company, phone
     external.save()
     key = Email_Confirmation(user=user)
     key.save()
-    #s = smtplib.SMTP('localhost')
-    #url = env.HOST + "users/validate/" + user.username + "/" + key.key
-    s.sendmail('no_responder@visionar.com.ar', user.email , 'mensaje de prueba')
+    s = smtplib.SMTP('localhost')
+    url = env.HOST + "users/validate/" + user.username + "/" + key.key
+    s.sendmail('no_responder@visionar.com.ar', user.email , url)
     return user
 
 #corresponde a /users/validate/
 def email_confirmation(request, user, key):
-    user = User.objects.filter(username=user)
-    if user.count() == 0:
+    us = User.objects.get(username=user)
+    if not us:
         message = "El usuario no existe"
     else:
-        confirmation_key = Email_Confirmation.objects.get(user=user).key
-        if confirmation_key == key:
-            user.is_active = True
-            login(request, user)
+        em = Email_Confirmation.objects.get(user=us)
+        if str(em.key) == str(key):
+            us.is_active = True
+            us.save()
+            us.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, us)
             return redirect("/project/")
         else:
             message = "La clave es incorrecta"
 
-    return render(request, 'users/recovercheck.html', {"message": message})
+    return render(request, 'users/confirmation.html', {"message": message})
 
 def user_exists(username):
     user_count = User.objects.filter(username=username).count()
@@ -93,7 +97,8 @@ def signup(request):
     val = validate(post)
     if val == True:
         user = create_user(username=post['username'], email=post['email'], password=post['password'], first_name = post['first_name'], last_name = post['last_name'], company = post['company'], phone=post['phone'])
-        return auth_and_login(request)
+        #return auth_and_login(request)
+        return render(request, 'users/confirmation.html')
     else:
         return render(request, 'users/login.html', {"messages":val, "fields": request.POST})
     	
