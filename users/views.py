@@ -11,6 +11,8 @@ from django.core.context_processors import csrf
 from visionar.utils import validation
 import visionar.config.environment as env
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import requests
 
 from visionar.utils.facelec.pyafipws.utils import verifica
