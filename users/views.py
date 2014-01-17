@@ -75,9 +75,10 @@ def create_user(username, email, password, first_name, last_name, company, phone
     <html>
       <head></head>
       <body>
-           Hola, ''' + username + '''
-           Dirigite a <a href="''' + url + '''">este link</a> para activar tu cuenta.
-        </p>
+           <h3>Confirmacion de mail visionar.com.ar</h3>
+           <p>Hola, <strong>''' + username + '''<strong></p>
+           <p>Dirigite a <a href="''' + url + '''">este link</a> para activar tu cuenta.</p>
+           <p>Si no solicitaste una cuenta en visionar.com.ar podes obvia este mail</p>
       </body>
     </html>
     '''
