@@ -92,7 +92,7 @@
             
 			<div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50">
             	<a href="/project/{{p.urlhash}}">
-            	<div class="portfolio-box" style="opacity:1;">
+            	<div class="portfolio-box suffix-top-15" style="opacity:1;">
             	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created }}</span></h3>
@@ -127,7 +127,7 @@
 			   
       <div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50">
             	<a href="/project/video/{{p.urlhash}}">
-            	<div class="portfolio-box" style="opacity:1;">       
+            	<div class="portfolio-box suffix-top-15" style="opacity:1;">       
             	<figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
@@ -168,9 +168,9 @@
                      
         {% for p in published %}
                           <!-- portfolio box 1 -->
-      <div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50 member-box">
+      <div id="{{p.urlhash}}" class="grid-25 mobile-grid-50 tablet-grid-50">
               <a href="/project/video/{{p.urlhash}}">
-              <div class="portfolio-box" style="opacity:1;">       
+              <div class="portfolio-box suffix-top-15" style="opacity:1;">       
               <figure class="portfolio-image"><img src="{{p.thumb}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{p.title}}<span class="portfolio-category">Video {{p.created}}</span></h3>
