@@ -1428,6 +1428,7 @@ textarea:focus {
 }
 
 /*------------------------------------------------- */
+.suffix-top-15 {margin-top:15%;}
 .suffix-top-5 {margin-top:5%;}
 
 ul.pagination{float:right;}

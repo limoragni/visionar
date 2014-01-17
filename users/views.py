@@ -267,12 +267,18 @@ def facturar(request, pedido_id):
 	cbte_nro = long(wsfev1.CompUltimoAutorizado(tipo_cbte, punto_vta) or 0)
 	fecha = datetime.datetime.now().strftime("%Y%m%d")
 	concepto = 2 				# Servicio
-	tipo_doc = 80 				# CUIT
-	nro_doc = "30500010912" 	
-	cbt_desde = cbte_nro + 1; cbt_hasta = cbte_nro + 1
-	imp_total = "122.00"; imp_tot_conc = "0.00"; imp_neto = "100.00"
-	imp_iva = "21.00"; imp_trib = "1.00"; imp_op_ex = "0.00"
-	fecha_cbte = fecha; fecha_venc_pago = fecha
+	tipo_doc = 80 				# Tipo CUIT
+	nro_doc = datos.cuit		# Numero CUIT
+	cbt_desde = cbte_nro + 1
+	cbt_hasta = cbte_nro + 1
+	imp_total = "122.00"
+	imp_tot_conc = "0.00"
+	imp_neto = "100.00"
+	imp_iva = "21.00"
+	imp_trib = "1.00"
+	imp_op_ex = "0.00"
+	fecha_cbte = fecha
+	fecha_venc_pago = fecha
 	# Fechas del periodo del servicio facturado (solo si concepto = 1?)
 	fecha_serv_desde = fecha; fecha_serv_hasta = fecha
 	moneda_id = 'PES'; moneda_ctz = '1.000'
