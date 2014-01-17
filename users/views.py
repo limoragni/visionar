@@ -70,14 +70,13 @@ def create_user(username, email, password, first_name, last_name, company, phone
     s = smtplib.SMTP('localhost')
     url = env.HOST + "users/validate/" + username + "/" + key.key
 
-    text = "Ingrese a este link" + url
+    text = "Ingrese a el siguiente link para activar su cuenta... " + url
     html = '''
     <html>
       <head></head>
       <body>
-        <p>Hi!<br>
-           How are you?<br>
-           Here is the <a href="''' + url + '''">click here</a> you wanted.
+           Hola, ''' + username + '''
+           Dirigite a <a href="''' + url + '''">este link</a> para activar tu cuenta.
         </p>
       </body>
     </html>
