@@ -90,7 +90,7 @@ class Project(models.Model):
 		pass
 
 	def __unicode__(self):
-		return self.title
+		return self.user.username+" - "+self.title+" - "+self.urlhash+" - "+self.template.name 
 
 	def getImagesPath(self):
 		if environment.MEDIA_HOST:
