@@ -302,7 +302,7 @@ def facturar(request, pedido_id):
 	fecha = datetime.datetime.now().strftime("%Y%m%d")
 	concepto = 2 				# Servicio
 	tipo_doc = 80 				# Tipo CUIT
-	nro_doc = datos.cuit		# Numero CUIT
+	nro_doc = datos_facturacion.cuit		# Numero CUIT
 	cbt_desde = cbte_nro + 1
 	cbt_hasta = cbte_nro + 1
 	imp_total = "122.00"
@@ -329,12 +329,7 @@ def facturar(request, pedido_id):
 		nro = 1234
 		wsfev1.AgregarCmpAsoc(tipo, pto_vta, nro)
 
-	id = 99
-	desc = 'Impuesto Municipal Matanza'
 	base_imp = 100
-	alic = 1
-	importe = 1
-	wsfev1.AgregarTributo(id, desc, base_imp, alic, importe)
 
 	id = 5 # 21%
 	base_im = 100
@@ -353,6 +348,7 @@ def facturar(request, pedido_id):
 												"CAE": cae, 
 												"CAE2":'34343434343',
 												"resultado": wsfev1.Resultado,
+												"msg":wsfev1.ErrMsg,
 												"ultcomp":cbte_nro,
 												"res":resFact}
 				)
