@@ -64,6 +64,7 @@
 
 <body id="mainsite">
 <a id="top" style="position: relative;"></a>
+	<!-- SI EL USUARIO ESTA LOGUEADO -->
 	{% if user.is_authenticated %}
 		
 		{% if isHome %}
@@ -111,6 +112,7 @@
 	        </div><!-- close grid container -->  
 	    </header><!-- close header -->
 		{% endif %}
+	<!-- SI EL USUARIO NO ESTA LOGUEADO -->
 	{% else %}
 		{% if isHome %}
 		<!-- header section NO LOGIN-->

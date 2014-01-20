@@ -78,7 +78,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
            <h3>Confirmacion de mail visionar.com.ar</h3>
            <p>Hola, <strong>''' + username + '''<strong></p>
            <p>Dirigite a <a href="''' + url + '''">este link</a> para activar tu cuenta.</p>
-           <p>Si no solicitaste una cuenta en visionar.com.ar podes obvia este mail</p>
+           <p>Si no solicitaste una cuenta en visionar.com.ar podes obviar este mail</p>
       </body>
     </html>
     '''
@@ -88,12 +88,10 @@ def create_user(username, email, password, first_name, last_name, company, phone
     msg.attach(part1)
     msg.attach(part2)
     
-
     s.sendmail(sender, receivers, msg.as_string())
 
     s.quit()
     logger.error(url)
-    #s.sendmail('info@visionar.com.ar', email, 'adsdsdkisjdunendaldalla')#str(user.email) , str(url))
     return user
 
 #corresponde a /users/validate/
