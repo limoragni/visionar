@@ -72,14 +72,14 @@
 			<div class="grid-33 mobile-grid-50 tablet-grid-50">
             	
             	<div class="portfolio-box">
-                <a class="popup-modal" href="#{{t.name}}-popup">
+                <a href="/project/add/{{request.user}}/{{t.name}}/">
             	<figure class="portfolio-image"><img src="{{t.thumbnail}}" alt="portfolio image"></figure><!-- close portfolio image -->
                 <div class="portfolio-caption">
                     <h3 class="portfolio-title">{{t.name}}<span class="portfolio-category">{{t.legend}}</span></h3>
                 </div><!-- close portfolio caption -->
                 </a>           
                 </div>
-                <a href="/project/add/{{request.user}}/{{t.name}}/"><i class="icon-large icon-hand-up"></i>&nbsp;Usar Este</a>
+                <a  class="popup-modal" href="#{{t.name}}-popup"><i class="icon-large icon-hand-up"></i>&nbsp;Vista Previa</a>
                 
                 <div id="{{t.name}}-popup" class="mfp-hide">
                    <div class="modal-display">
