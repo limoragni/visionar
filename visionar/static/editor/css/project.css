@@ -43,6 +43,14 @@
 	margin: 15px 0px 0px 15px ;
 }
 
+.entry-text{
+	word-wrap: break-word;
+}
+
+.entry-text p{
+	padding: 20px;
+}
+
 .entry-selected{
 	background-color: #3498db;
 }

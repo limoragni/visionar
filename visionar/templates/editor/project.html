@@ -73,7 +73,7 @@
 			</button>
 			<div id="preview-button" class="mfp-hide">
                <div class="modal-display">
-	               <h2>Vista Previa</h2>
+	               <h2 id="preview-title">Vista Previa</h2>
 	               <div id="video"></div>
 	               <a class="popup-modal-dismiss" href="#">Cerrar</a></p>
                </div>
@@ -129,14 +129,14 @@
 					
 				</div>
 				<div id="add-text-popup" class="mfp-hide">
-						<div class="modal-display">
-							<h2>Ingrese el Texto</h2>
-							<input type="text" id="add-text-field">
-							<p id="text-warnings" style="text-align:left"><strong>Caracteres restantes: </strong><span id="text-length"></span></p>
-							<p><a id="add-text-button" class="popup-modal-dismiss" href="#">Ok</a>   •  
-							<a class="popup-modal-dismiss" href="#">Cerrar</a></p>
-						</div>
+					<div class="modal-display">
+						<h2>Ingrese el Texto</h2>
+						<input type="text" id="add-text-field">
+						<p id="text-warnings" style="text-align:left"><strong>Caracteres restantes: </strong><span id="text-length"></span></p>
+						<p><a id="add-text-button" class="popup-modal-dismiss" href="#">Ok</a>   •  
+						<a class="popup-modal-dismiss" href="#">Cerrar</a></p>
 					</div>
+				</div>
 				<br/>
 				<div id="add-text-popup-disabled" class="mfp-hide">
 					<div class="modal-display">
@@ -152,9 +152,14 @@
 				</div>
 			</div>
 			<input type="button" value="eliminar text" id="delete-text">
-			<a style="float:right" href="/project/checkout/{{project.urlhash}}"><button> Finalizar</button></a>
+			<a id="final-render-button" style="float:right" class="popup-modal" href="#final-render-popup"><button> Finalizar</button></a>
 			<div class="clear"></div>
-			
+			<div id="final-render-popup" class="mfp-hide">
+					<div class="modal-display">
+						<h2 id="final-render-title">Por favor, cargue todas las imagenes y textos antes de Finalizar</h2>
+						<a class="popup-modal-dismiss" href="#">OK</a></p>
+					</div>
+				</div>
 		</div>
 	</section>
  </div>	

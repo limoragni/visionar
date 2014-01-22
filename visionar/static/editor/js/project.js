@@ -15,8 +15,23 @@ $(document).ready(function() {
 		this.setUploader();
 		var self = this;
 		
+		$("#final-render-button").click(function(e){
+			if(!self.validate()){
+				e.preventDefault();
+				
+			}else{
+				$("#final-render-title").html("Aguarde a ser redireccionado")
+				window.location = "/project/checkout/"+ self.urlhash;
+			}
+		})
+
 		$("#render").click(function(){
-			self.render();
+			if(self.validate()){
+				$("#preview-title").html("Vista Previa")
+				self.render();	
+			}else{
+				$("#preview-title").html("Por favor, cargue todos los textos e imagenes necesarios")
+			}
 		})
 
 		$("#delete-text").click(function(){
@@ -218,6 +233,14 @@ $(document).ready(function() {
 	        	console.log(err);*/
 	        }
 	  	})
+	}
+
+	Project.prototype.validate = function(){
+		if(this.text.textCount == this.text.textNumber && this.imageCount == this.imageNumber){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	Project.prototype.render = function(){
