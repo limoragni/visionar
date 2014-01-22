@@ -128,7 +128,6 @@ class Factura(models.Model):
 	letra			= models.CharField(max_length=1)
 	fecha			= models.DateField()
 	iibb			= models.CharField(max_length=10) # Ingresos Brutos
-	pedido			= models.ForeignKey(Pedido)
 	link 			= models.CharField(max_length=200)
 
 	class Admin:
