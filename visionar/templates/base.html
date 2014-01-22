@@ -81,8 +81,7 @@
 	<!-- SI EL USUARIO ESTA LOGUEADO -->
 	{% if user.is_authenticated %}
 		
-	
-			<!-- header section NO LOGIN-->
+		<!-- header section NO LOGIN-->
 		<header id="header-section" class="ha-header ha-header-small">
 	    	<div class="grid-container">
 					<div class="ha-header-perspective">
@@ -90,7 +89,31 @@
 	                    <div class="grid-20 tablet-grid-20 hide-on-mobile">
 							<h1 class="logo"><a href="/"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
 	                        </div>
+	                            {% if isHome %}   
 	                               <nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
+									
+											<ul id="amenu-list">
+									        <li><a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a></li>
+									        <li><a href="/create/">Crear Video</a></li>
+								            <li><a href="/users/video">Videoproyectos</a></li>
+								            <li><a href="/prices/">Tarifas</a></li>
+								            
+								            <li>
+									            <a href="#top">Info</a>
+									            <ul>
+                     					            <li><a href="#team-section">Webapp</a></li>
+                     					            <li><a href="#service-section">Servicios</a></li>
+                     					            <li><a href="#about-section">Nosotros</a></li>
+                     					            <li><a href="#portfolio-section">Pantallas</a></li>
+                     					            <li><a href="#contact-section">Contacto</a></li>
+									            </ul>
+								            </li>
+                                            <li><a href="/users/logout">Logout</a></li>
+							            </ul>
+							            
+							        </nav>
+								{% else %}
+									<nav class="grid-80 tablet-grid-80 hide-on-mobile">
 									
 											<ul id="amenu-list">
 									        <li><a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a></li>
@@ -112,7 +135,7 @@
 							            </ul>
 							            
 							        </nav>
-
+								{% endif %}
 						</div>
 					</div><!-- close .ha-header-perspective --> 
 	        </div><!-- close grid container -->  
