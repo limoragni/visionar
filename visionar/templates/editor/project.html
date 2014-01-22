@@ -110,6 +110,7 @@
 				</form>
 				<br/>
 			</div>
+			<input type="button" value="eliminar imagen" id="delete-media">
 			<br/>
 			<div class="contact-message">
 				<div id="add-text-box" class="shift-text">
@@ -131,6 +132,7 @@
 						<div class="modal-display">
 							<h2>Ingrese el Texto</h2>
 							<input type="text" id="add-text-field">
+							<p id="text-warnings" style="text-align:left"><strong>Caracteres restantes: </strong><span id="text-length"></span></p>
 							<p><a id="add-text-button" class="popup-modal-dismiss" href="#">Ok</a>   •  
 							<a class="popup-modal-dismiss" href="#">Cerrar</a></p>
 						</div>
@@ -149,14 +151,11 @@
 					</div>
 				</div>
 			</div>
-			<input type="button" value="eliminar" id="delete-media">
+			<input type="button" value="eliminar text" id="delete-text">
 			<a style="float:right" href="/project/checkout/{{project.urlhash}}"><button> Finalizar</button></a>
 			<div class="clear"></div>
 			
 		</div>
 	</section>
  </div>	
-<div id="debug">
-	{{request.user}}
-</div>	
 {% endblock %}

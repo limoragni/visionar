@@ -19,14 +19,18 @@ $(document).ready(function() {
 			self.render();
 		})
 
-		$("#delete-media").click(function(){
+		$("#delete-text").click(function(){
 			var entry = $($(".entry-selected")[0]);
 			if(entry.hasClass("entry-text")){
 				self.text.deleteText(entry);
-			}else{
+			}
+		})
+
+		$("#delete-media").click(function(){
+			var entry = $($(".entry-selected")[0]);
+			if(!entry.hasClass("entry-text")){
 				self.deleteMedia();
 			}
-			
 		});
 
 
@@ -257,6 +261,9 @@ $(document).ready(function() {
 		       		$(".hippster").trigger("ss-rearrange");
 		       		self.resetDragDrop();
 		       		self.disableFileInputDrag();
+		       		if(self.imageCount < self.imageNumber){
+		       			self.enableAddImage();
+		       		}
 		        },
 		        error: self.logErrors,
 		    }); 
@@ -307,6 +314,11 @@ $(document).ready(function() {
 		$("input[type=file]").prop('disabled', true);
 	}
 
+	Project.prototype.enableAddImage = function(){
+		var p = $("input[type=file]").parent();
+		$("input[type=file]").prop('disabled', false);
+	}
+
 	Project.prototype.askPreview = function(){
 		var self = this;
 		var interval = setInterval(function(){
@@ -318,10 +330,14 @@ $(document).ready(function() {
 		this.fields = [];
 		this.textCount = 0;
 		this.textNumber = 0;
+		this.limit = 30;
+		this.textValid = true;
 		this.init();
 	}
 
 	TextManager.prototype.init = function(){
+		var self = this;
+
 		this.textCount = parseInt(_TEMPLATE_TEXT_COUNT);
 		this.textNumber = parseInt(_TEMPLATE_TEXT_NUMBER);
 		this.urlhash = $(location).attr('pathname').split('/')[2];
@@ -332,15 +348,24 @@ $(document).ready(function() {
 		    dragWhitelist: ".dragable",
 		    align: "left",
 		});
-		var self = this;
-		$("#add-text-button").click(function(){
-			self.addTextPane();
+		
+		$("#add-text-button").click(function(e){
+			if(self.textValid){
+				self.addTextPane();
+			}else{
+				e.preventDefault();
+			}
 		})
 		$("#add-text").removeClass('ss-active-child');
 		$("#add-text-popup").removeClass('ss-active-child');
 
 		$("#add-text").click(function(){
 			$("#add-text-field").val("");
+			$("#add-text-button").removeClass('popup-modal-dismiss')
+			$("#add-text-button").css('color', '#666666')
+			$("#text-length").html(self.limit)
+			$("#text-length").css('color', '#444444')
+			self.textValid = false;
 		})
 
 		$(".entry-text").each(function(i,v){
@@ -354,6 +379,34 @@ $(document).ready(function() {
 		if(this.textCount >= this.textNumber){
 			this.disableAddText();
 		}
+
+		$("#add-text-field").keyup(function(event) {
+			
+
+			if($(this).val().length > self.limit){
+				$(this).css('color', '#CC0077')
+				$("#text-length").html(0)
+				$("#text-length").css('color', '#CC0077')
+				self.textValid = false;
+				$("#add-text-button").removeClass('popup-modal-dismiss')
+				$("#add-text-button").css('color', '#666666')
+			
+			}else{
+				self.textValid = true
+				$("#add-text-button").addClass('popup-modal-dismiss')
+				$(this).css('color', '#EEEEEE')
+				$("#text-length").html(self.limit - $(this).val().length)
+				$("#text-length").css('color', '#444444')
+				$("#add-text-button").css('color', '#3498db')
+
+				if($(this).val().length == 0){
+					$("#add-text-button").removeClass('popup-modal-dismiss')
+					$("#add-text-button").css('color', '#666666')
+					self.textValid = false;
+				}
+			}
+			
+		});
 	}
 
 	TextManager.prototype.saveText = function(){
@@ -446,7 +499,10 @@ $(document).ready(function() {
 		$(".shift-text").trigger("ss-rearrange")
 		$("#add-text").removeClass('ss-active-child');
 		this.textCount--;
-		$("#add-text-number").html(this.textCount); 
+		$("#add-text-number").html(this.textCount);
+		if(this.textCount < this.textNumber){
+			this.enableAddText();
+		} 
 	}
 
 	var text = new TextManager();
