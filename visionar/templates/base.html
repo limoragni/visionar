@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{% static "visionar/css/ut-responsive-grid.css" %}" media="all">
     <link rel="stylesheet" href="{% static "visionar/css/color.css" %}" media="all">
     <link rel="stylesheet" href="{% static "visionar/css/style.css" %}" media="all">
+    <link rel="stylesheet" href="{% static "visionar/css/amenu.css" %}" media="all">
     <link href="http://vjs.zencdn.net/4.2/video-js.css" rel="stylesheet">
     
      <!--[if lt IE 9]>
@@ -59,6 +60,12 @@
 	<script src="{% static "visionar/js/vendor/modernizr.js" %}"></script>
     <script src="{% static "visionar/js/vendor/device.min.js" %}"></script>
     <script src="{% static "visionar/js/csrf.js" %}"></script>
+
+
+ 	<!-- Menu and Submenu	
+  	================================================== -->  
+  	
+
  	
 </head>
 
@@ -72,20 +79,45 @@
 		<header id="header-section" class="ha-header">
 	    	<div class="grid-container">
 					<div class="ha-header-perspective">
-						<div class="ha-header-front">
+						<div class="ha-header-front drop-menu-height">
 	                    <div class="grid-20 tablet-grid-20 hide-on-mobile">
 							<h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
 	                        </div>
-							<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
+	                               <nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
+									
+
+											<ul id="amenu-list">
+									        <li><a href="/users/profile"><i class="icon-user"></i> Usuario</a></li>
+								            <li><a href="/users/video">Videoproyectos</a></li>
+								            <li><a href="/prices/">Tarifas</a></li>
+								            
+								            <li>
+									            <a href="#top">Info</a>
+									            <ul>
+                     					            <li><a href="#team-section">Webapp</a></li>
+                     					            <li><a href="#service-section">Servicios</a></li>
+                     					            <li><a href="#about-section">Nosotros</a></li>
+                     					            <li><a href="#portfolio-section">Pantallas</a></li>
+                     					            <li><a href="#contact-section">Contacto</a></li>
+									            </ul>
+								            </li>
+                                            <li><a href="/users/logout">Logout</a></li>
+							            </ul>
+							            
+							        </nav>
+
+							<!--<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
 	                        	<a class="selected" href="#top">Home</a>
 	                        	<a href="#team-section">WebApp</a>
 	                        	<a href="#service-section">Servicios</a>
 	                        	<a href="#about-section">Nosotros</a>
 								<a href="#portfolio-section">Pantallas</a>
 	                            <a href="#contact-section">Contacto</a>
-	                            <!-- <a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a> -->
 	                            <a href="/users/login/">Logout</a>
-							</nav>
+							</nav>-->
+
+
+
 						</div>
 					</div><!-- close .ha-header-perspective --> 
 	        </div><!-- close grid container -->  
@@ -96,16 +128,29 @@
 		<header id="header-section" class="ha-header">
 	    	<div class="grid-container">								
 				<div class="ha-header-perspective">
-					<div class="ha-header-front">
+					<div class="ha-header-front drop-menu-height">
 			        	<div class="grid-20 tablet-grid-20 hide-on-mobile">
 							  <h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
 			            </div>
 						<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
-			            	<a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a>
-							<a href="/">Home</a>
-							<a href="/prices/">Tarifas</a>
-							<a href="/users/video">Videoproyectos</a>
-			            	<a href="/users/logout"><b>Logout</b></a>
+
+											<ul id="amenu-list">
+									        <li><a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a></li>
+								            <li><a href="/users/video">Videoproyectos</a></li>
+								            <li><a href="/prices/">Tarifas</a></li>
+								            
+								            <li>
+									            <a href="#top">Info</a>
+									            <ul>
+                     					            <li><a href="#team-section">Webapp</a></li>
+                     					            <li><a href="#service-section">Servicios</a></li>
+                     					            <li><a href="#about-section">Nosotros</a></li>
+                     					            <li><a href="#portfolio-section">Pantallas</a></li>
+                     					            <li><a href="#contact-section">Contacto</a></li>
+									            </ul>
+								            </li>
+                                            <li><a href="/users/logout">Logout</a></li>
+							            </ul>
 			            </nav>
 					</div>
 				</div><!-- close .ha-header-perspective --> 
@@ -191,7 +236,15 @@
 	<script src= "{% static "visionar/js/vendor/jquery.magnific-popup.min.js" %}"></script>
    	<script src= "{% static "visionar/js/vendor/jquery.custom.js" %}"></script>
    	<script src="http://vjs.zencdn.net/4.2/video.js"></script>
-    
+    <script src="{% static "visionar/js/amenu.js" %}"></script>
+        <script language="JavaScript">
+        $(document).ready(function(){
+			$('#amenu-list').amenu({
+				'speed': 90,
+				'animation': 'fade'
+			});
+        });
+    </script>
 <!-- End Document
 ================================================== -->
 

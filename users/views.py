@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template  import RequestContext
 from django.contrib.auth.models import User
-from .models import External, Plan, Datos_Facturacion, Pedido, Email_Confirmation
+from .models import External, Plan, Datos_Facturacion, Pedido, Email_Confirmation, Factura
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 from visionar.utils import validation
@@ -253,20 +253,21 @@ def pedido(request):
 
 def facturar(request, pedido_id):
 	import time
+	# Datos de facturacion
 	pedido = Pedido.objects.get(id=pedido_id)
 	user = pedido.user
 	plan = pedido.plan
 	datos_facturacion = Datos_Facturacion.objects.get(user=user)
-
-	wsfev1 = WSFEv1()
-	wsfev1.LanzarExcepciones = True
-
+	# Datos de conexion
 	cache = None
 	wsdl = "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL"
 	proxy = ""
 	wrapper = "" #"pycurl"
 	cacert = None #geotrust.crt"
-
+	
+	#Conectar
+	wsfev1 = WSFEv1()
+	wsfev1.LanzarExcepciones = True
 	ok = wsfev1.Conectar(cache, wsdl, proxy, wrapper, cacert)
 
 	if not ok:
@@ -275,9 +276,9 @@ def facturar(request, pedido_id):
 	# obteniendo el TA
 	TA = "/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/pyafipws/TA.xml"
 	if 'wsaa' in sys.argv or not os.path.exists(TA) or os.path.getmtime(TA)+(60*60*5)<time.time():
-		tra = wsaa.create_tra(service="wsfe")
+		tra = wsaa.create_tra(service="wsfe",ttl=36000)
 		cms = wsaa.sign_tra(tra,"/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/certificado.crt","/home/vhcs2-virtual/videoeditor.com.ar/visionar/visionar/utils/facelec/certs/privada")
-		url = "" # "https://wsaa.afip.gov.ar/ws/services/LoginCms"
+		url = "https://wsaahomo.afip.gov.ar/ws/services/LoginCms" # "https://wsaa.afip.gov.ar/ws/services/LoginCms"
 		ta_string = wsaa.call_wsaa(cms, url)
 		open(TA,"w").write(ta_string)
 	ta_string=open(TA).read()
@@ -298,17 +299,20 @@ def facturar(request, pedido_id):
 	punto_vta = 0001
 	cbte_nro = long(wsfev1.CompUltimoAutorizado(tipo_cbte, punto_vta) or 0)
 	fecha = datetime.datetime.now().strftime("%Y%m%d")
+	fecha2 = datetime.datetime.now().strftime("%Y-%m-%d")
 	concepto = 2 				# Servicio
 	tipo_doc = 80 				# Tipo CUIT
 	nro_doc = datos_facturacion.cuit		# Numero CUIT
 	cbt_desde = cbte_nro + 1
 	cbt_hasta = cbte_nro + 1
+	
 	imp_total = "122.00"
 	imp_tot_conc = "0.00"
 	imp_neto = "100.00"
 	imp_iva = "21.00"
 	imp_trib = "1.00"
 	imp_op_ex = "0.00"
+
 	fecha_cbte = fecha
 	fecha_venc_pago = fecha
 	# Fechas del periodo del servicio facturado (solo si concepto = 1?)
@@ -340,6 +344,27 @@ def facturar(request, pedido_id):
 	t1 = time.time()
 	cae += "CAE: "
 	cae += wsfev1.CAE
+
+	factura = Factura(user=pedido.user,	
+						cae = wsfev1.CAE,
+						subtotal = imp_total,
+						subtotal_neto = imp_neto,
+						total_iva_1 = imp_iva,
+						total_iva_2 = 0,
+						otros_imp1 = 0,
+						otros_imp2 = 0,
+						descuento = 0,
+						remito = '0',
+						pedido = pedido,
+						forma_pago = 'EF',
+						pto_venta = punto_vta,
+						numero = cbt_desde,
+						letra = 'A',
+						fecha = fecha2,
+						iibb = 'Ing Brutos',
+						link = ''
+						)
+	factura.save()
 
 	link = "/media/facturas/pdf.pdf" #TODO: link a pdf de factura
 	return render(request, "users/factura.html", {"link": link,
