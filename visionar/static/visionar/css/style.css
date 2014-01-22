@@ -176,7 +176,7 @@ img {
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 	transition: all 0.5s;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 .ha-header-front {
 	z-index: 2;
