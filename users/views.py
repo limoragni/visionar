@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template  import RequestContext
 from django.contrib.auth.models import User
-from .models import External, Plan, Datos_Facturacion, Pedido, Email_Confirmation, Factura
+from .models import External, Plan, Datos_Facturacion, Pedido, Email_Confirmation, Factura, Password_Recovery
 from editor.models import Project, Media, Mediatype, RenderState
 from django.core.context_processors import csrf
 from visionar.utils import validation
@@ -48,7 +48,73 @@ def auth_and_login(request, onsuccess='/create', onfail="/users/login/"):
         return render(request, 'users/login.html', {"failed": True}) 
 
 def recover(request):
-    return render(request, 'users/recover.html')
+    if "email" in request.POST:
+        email = request.POST['email']
+        if User.objects.filter(email=request.POST['email']).exists():
+            user = User.objects.get(email=request.POST['email'])
+            if Password_Recovery.objects.filter(user=user).exists():
+                Password_Recovery.objects.get(user=user).delete()
+            pass_key = Password_Recovery(user=user)
+            pass_key.save()
+            
+            sender = 'info@visionar.com.ar'
+            receivers = [email]
+            msg = MIMEMultipart('alternative')
+            msg['Subject'] = "Recuperar password"
+            msg['From'] = sender
+            msg['To'] = email
+            
+            s = smtplib.SMTP('localhost')
+            url = env.HOST + "users/recover_pass/" + user.username + "/" + pass_key .key
+
+            text = "Ingrese a el siguiente link para cambiar el pass... " + url
+            html = u'<html><head></head><body><h3>Recuperación de contraseña en visionar.com.ar</h3><p>Hola, <strong>' + user.username + '<strong></p><p>Dirigite a <a href="' + url + '">este link</a> para recuperar tu contraseña.</p></body></html>'.decode("utf-8")
+            part1 = MIMEText(text, 'plain')
+            part2 = MIMEText(html, 'html', 'utf-8')
+
+            msg.attach(part1)
+            msg.attach(part2)
+            
+            s.sendmail(sender, receivers, msg.as_string())
+            s.quit()
+            return render(request, 'users/recovercheck.html')
+        else:
+            message = "Este mail no existe en nuestra base de datos"
+    else:
+        message = ""    
+    
+    return render(request, 'users/recover.html', {"message": message})
+
+def recover_pass(request, username = "", key = ""):
+    if username:
+        try:
+            us = User.objects.get(username=username)
+            pr = Password_Recovery.objects.get(user=us)
+            if str(pr.key) == str(key):
+                return render(request, 'users/recover_fields.html', {'key': pr.key, 'username': us.username})
+            else:
+                return redirect("/users/login")
+        except Exception, e:
+            message = str(e)
+            pass
+        return redirect("/users/login")
+    if "key" in request.POST:
+        try:
+            us = User.objects.get(username=str(request.POST["username"]))
+            pr = Password_Recovery.objects.get(user=us)
+            if pr.key == request.POST["key"]:
+                us.set_password(request.POST["password"])
+                us.save()
+                pr.delete()
+                return render(request, 'users/recover_fields.html', {'success': True})
+            else:
+                message = "El link utilizado no es valido"
+        except Exception, e:
+            message = "El link ha caducado o ya ha sido utilizado, por favor intente nuevamente" 
+            pass
+        return render(request, 'users/recover_fields.html', {'message': message})
+    return redirect("/users/login/")
+
 
 def create_user(username, email, password, first_name, last_name, company, phone):
     user = User(username=username, email=email, first_name=first_name, last_name=last_name)
@@ -63,7 +129,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
     sender = 'info@visionar.com.ar'
     receivers = [email]
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Link"
+    msg['Subject'] = "Confirmación de email"
     msg['From'] = sender
     msg['To'] = email
     
@@ -75,7 +141,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
     <html>
       <head></head>
       <body>
-           <h3>Confirmacion de mail visionar.com.ar</h3>
+           <h3>Confirmación de mail visionar.com.ar</h3>
            <p>Hola, <strong>''' + username + '''<strong></p>
            <p>Dirigite a <a href="''' + url + '''">este link</a> para activar tu cuenta.</p>
            <p>Si no solicitaste una cuenta en visionar.com.ar podes obviar este mail</p>
@@ -96,10 +162,8 @@ def create_user(username, email, password, first_name, last_name, company, phone
 
 #corresponde a /users/validate/
 def email_confirmation(request, user, key):
-    us = User.objects.get(username=user)
-    if not us:
-        message = "El usuario no existe"
-    else:
+    try:
+        us = User.objects.get(username=user)
         em = Email_Confirmation.objects.get(user=us)
         if str(em.key) == str(key):
             us.is_active = True
@@ -109,7 +173,9 @@ def email_confirmation(request, user, key):
             return redirect("/project/")
         else:
             message = "La clave es incorrecta"
-
+    except Exception as e:
+        message = "El usuario no existe"
+        pass
     return render(request, 'users/confirmation.html', {"message": message})
 
 def user_exists(username):

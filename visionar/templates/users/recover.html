@@ -30,11 +30,12 @@
         <h3 class="grid-100">Recuperá tu Acceso</h3>
         
         <!-- contact form -->
-        <form id="login-form" method="POST" action="/users/auth/" class="contact-form">
+        <form id="login-form" method="POST" action="/users/recover/" class="contact-form">
             {% csrf_token %}
         	<ul class="grid-100">
-            	<li><input class="name" type="text" name="username" placeholder="Mail"></li>
-                <li><input class="password" type="password" name="password" placeholder="Nueva Password"></li>
+            	<li><input class="name" type="text" name="email" placeholder="Mail"></li>
+                <li>{{message}}</li>
+                <!-- <li><input class="password" type="password" name="password" placeholder="Nueva Password"></li> -->
         	</ul>
 
             <div class="grid-100">    

@@ -20,6 +20,17 @@ class Email_Confirmation(models.Model):
 			self.key = base64.urlsafe_b64encode(hasher.digest()[0:10])
 			self.save()
 
+class Password_Recovery(models.Model):
+	user = models.OneToOneField(User)
+	key  = models.CharField(max_length=200)
+	
+	def save(self):
+		super(Password_Recovery, self).save()
+		if not self.key:
+			hasher = hashlib.sha1(self.user.username)
+			self.key = base64.urlsafe_b64encode(hasher.digest()[0:10])
+			self.save()
+
 
 class Datos_Facturacion(models.Model):
 	TIPO_IVAS = (
