@@ -72,11 +72,14 @@
 
 }
 
-#amenu-list li a:hover, #amenu-list li a.active {
-	color: #f39249;
+#amenu-list li a:hover, #amenu-list li a.active{
+	color: #3498db;
 	/*background-color: #2E0F21;*/
-
 }
+
+/*color: #e52881; magenta */
+
+
 
 #amenu-list ul {
 
@@ -88,14 +91,16 @@
 
 #amenu-list ul li {
 	height: 20px;
-	/*background-color: #fff;*/
+	background-color: #fff;
 	font-size: 11px;
-
+	padding: 5px 0px;
 }
 
 #amenu-list ul li.parent > a {
 	background: url(images/arrow-right.png) no-repeat 95% 50%;
 }
+
+
 #amenu-list ul li a:link, #amenu-list ul li a:visited {
 	height: 20px;
 	line-height: 20px;
@@ -106,8 +111,9 @@
 }
 #amenu-list ul li a:hover, #amenu-list ul li a.active {
 	/*background-color: #A80C66;*/
-    color: #f39249;
+    color: #3498db; /* cyan */
 }
+
 
 
 /* -------------------------------------- */

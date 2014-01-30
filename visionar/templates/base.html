@@ -94,7 +94,7 @@
 									
 											<ul id="amenu-list">
 									        <li><a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a></li>
-									        <li><a href="/create/">Crear Video</a></li>
+									        <li><a href="/create/">Crear Proyecto</a></li>
 								            <li><a href="/users/video">Videoproyectos</a></li>
 								            <li><a href="/prices/">Tarifas</a></li>
 								            
@@ -117,7 +117,7 @@
 									
 											<ul id="amenu-list">
 									        <li><a href="/users/profile"><i class="icon-user"></i>&nbsp;{{request.user}}</a></li>
-									        <li><a href="/create/">Crear Video</a></li>
+									        <li><a href="/create/">Crear Proyecto</a></li>
 								            <li><a href="/users/video">Videoproyectos</a></li>
 								            <li><a href="/prices/">Tarifas</a></li>
 								            
@@ -151,14 +151,15 @@
 							<h1 class="logo"><a href="#top"><img src="{% static "visionar/images/logo.png" %}" alt="logo"></a></h1>
 	                        </div>
 							<nav id="ut-navigation" class="grid-80 tablet-grid-80 hide-on-mobile">
-	                        	
-	                        	<a class="selected" href="#top">Home</a>
-	                        	<a href="#team-section">WebApp</a>
-	                        	<a href="#service-section">Servicios</a>
-	                            <a href="#about-section">Nosotros</a>
-								<a href="#portfolio-section">Pantallas</a>
-	                            <a href="#contact-section">Contacto</a>
-	                            <a href="/users/login/">Login/Signup</a>
+	                        	<ul id="amenu-list">
+	                        	<li><a class="selected" href="#top">Home</a></li>
+	                        	<li><a href="#team-section">WebApp</a></li>
+	                        	<li><a href="#service-section">Servicios</a></li>
+	                            <li><a href="#about-section">Nosotros</a></li>
+								<li><a href="#portfolio-section">Pantallas</a></li>
+	                            <li><a href="#contact-section">Contacto</a></li>
+	                            <li><a href="/users/login/">Login/Signup</a></li>
+	                            </ul>
 							</nav>
 						</div>
 					</div><!-- close .ha-header-perspective --> 
