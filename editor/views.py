@@ -275,18 +275,8 @@ def sendRenderNotification(title, key, username, email):
 	s = smtplib.SMTP('localhost')
 	url = env.HOST + "project/video/" + key
 
-	text = "Su proyecto "+ title +" ha finalizado el render, dirigíte al siguiente link... " + url
-	html = '''
-	<html>
-	  <head></head>
-	  <body>
-	       <h3>Render Finalizado</h3>
-	       <p>Hola, <strong>''' + username + '''<strong></p>
-	       <p>El render del proyecto '''+ title + '''a finalizado.</p>
-	       <p>Dirigíte a <a href="''' + url + '''">este link</a> para verlo y realizar el pago.</p>
-	  </body>
-	</html>
-	'''
+	text = u"Su proyecto "+ title +" ha finalizado el render, dirigíte al siguiente link... " + url
+	html = '<html><head></head><body><h3>Render Finalizado</h3><p>Hola, <strong>' + username + '<strong></p><p>El render del proyecto '+ title + 'a finalizado.</p><p>Dirigíte a <a href="' + url + '">este link</a> para verlo y realizar el pago.</p></body></html>'.decode('utf-8')
 	part1 = MIMEText(text, 'plain')
 	part2 = MIMEText(html, 'html')
 
