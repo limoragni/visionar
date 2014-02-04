@@ -396,11 +396,7 @@ def facturar(request, pedido_id):
 	ta = SimpleXMLElement(ta_string)
 	# fin TA
 
-	if '--cuit' in sys.argv:
-		cuit = sys.argv[sys.argv.index("--cuit")+1]
-	else:
-		cuit = "20276595955"
-
+	cuit = "20276595955"
 	#wsfev1.Cuit = cuit
 	token = str(ta.credentials.token)
 	sign = str(ta.credentials.sign)
