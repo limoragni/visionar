@@ -273,7 +273,7 @@ def sendRenderNotification(title, key, username, email):
 	msg['To'] = email
 
 	s = smtplib.SMTP('localhost')
-	url = env.HOST + "project/video/" + key + 
+	url = env.HOST + "project/video/" + key
 
 	text = "Su proyecto "+ title +" ha finalizado el render, dirigíte al siguiente link... " + url
 	html = '''
