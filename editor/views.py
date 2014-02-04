@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import socket
 import ntpath
 import json
@@ -23,6 +24,10 @@ import visionar.config.environment as env
 
 import redis
 import logging
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 logger = logging.getLogger(__name__)
 
@@ -181,9 +186,12 @@ def sendRenderData(data):
 	try:
 		r = requests.post(env.BLENDER_URL, data=json.dumps(data), headers=headers)
 		message = r.json()
+		if data['render_type'] == "FINAL":
+			sendRenderNotification()
 	except Exception as e:
 		message = {'response':e}
 	return message
+
 
 def renderFinal(project):
 	render_type = RenderType.objects.get(name="FINAL")
@@ -247,6 +255,7 @@ def renderDone(request):
 				project.state = RenderState.objects.get(name="FINISHED")
 				project.urlrender = request.POST["urls"];
 				project.save()
+				sendRenderNotification(project.title, project.urlhash, project.user.username, project.user.email)
 			else:
 				r = redis.StrictRedis(host='localhost', port=6379, db=0)
 				r.set(request.POST["code"], request.POST["urls"])
@@ -254,6 +263,39 @@ def renderDone(request):
 	except Exception as e:
 		logger.error(e)
 		return HttpResponse(e)
+
+def sendRenderNotification(title, key, username, email):
+	sender = 'info@visionar.com.ar'
+	receivers = [email]
+	msg = MIMEMultipart('alternative')
+	msg['Subject'] = "Confirmación de email"
+	msg['From'] = sender
+	msg['To'] = email
+
+	s = smtplib.SMTP('localhost')
+	url = env.HOST + "project/video/" + key + 
+
+	text = "Su proyecto "+ title +" ha finalizado el render, dirigíte al siguiente link... " + url
+	html = '''
+	<html>
+	  <head></head>
+	  <body>
+	       <h3>Render Finalizado</h3>
+	       <p>Hola, <strong>''' + username + '''<strong></p>
+	       <p>El render del proyecto '''+ title + '''a finalizado.</p>
+	       <p>Dirigíte a <a href="''' + url + '''">este link</a> para verlo y realizar el pago.</p>
+	  </body>
+	</html>
+	'''
+	part1 = MIMEText(text, 'plain')
+	part2 = MIMEText(html, 'html')
+
+	msg.attach(part1)
+	msg.attach(part2)
+
+	s.sendmail(sender, receivers, msg.as_string())
+
+	s.quit()
 
 def getPreview(request):
 	r = redis.StrictRedis(host='localhost', port=6379, db=0)

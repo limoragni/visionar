@@ -1,13 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
+from easy_thumbnails.fields import ThumbnailerImageField
 from editor.models import Project
 import base64
 import hashlib
+import os
+
+def avatar_file_upload(instance, filename):
+    _, ext = os.path.splitext(filename)
+    format =  str(instance.user.username) + ext
+    return os.path.join("avatars", format)
 
 class External(models.Model):
 	user 	= models.OneToOneField(User)
 	phone 	= models.CharField(max_length=100)
 	company = models.CharField(max_length=100)
+	avatar  = ThumbnailerImageField(upload_to=avatar_file_upload, null=True)
+
+	@property
+	def thumb(self):
+		return self.avatar['profile'].url
 
 class Email_Confirmation(models.Model):
 	user = models.OneToOneField(User)

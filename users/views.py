@@ -15,6 +15,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import requests
 
+from base64 import b64decode
+from django.core.files.base import ContentFile
+from .response import JSONResponse, response_mimetype
+
 from visionar.utils.facelec.pyafipws.utils import verifica
 from visionar.utils.facelec.pyafipws.wsfev1 import *
 from visionar.utils.facelec.pyafipws import wsaa
@@ -234,22 +238,63 @@ def logoutview(request):
     return redirect("/users/login/")
 
 def updateUser(request):
-    user = User.objects.get(username=request.user)
-    external = External.objects.get(user=user)
-    user_dict = {
-        "first_name":request.POST["first_name"],
-        "last_name":request.POST["last_name"],
-    }
-    external_dict = {
-        "company":request.POST["company"],
-        "phone":request.POST["phone"],
-    }
-    
-    user.__dict__.update(user_dict)
-    external.__dict__.update(external_dict)
-    user.save()
-    external.save()
+    try:
+        user = User.objects.get(username=request.user)
+        external = External.objects.get(user=user)
+        messages = {}
+        if not validation.lengthValidation(request.POST['first_name'], 3, 30):
+            messages["first_name"] = u"El nombre debe tener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(request.POST['last_name'], 3, 50):
+            messages["last_name"] = u"El apellido debe tener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(request.POST['company'], 3, 50):
+            messages["company"] = u"La empresa debe contener un mínimo de 3 caractéres"
+        if not validation.lengthValidation(request.POST['phone'], 6, 20): 
+            messages["phone"] = u"El número debe contener un mínimo de 6 caractéres"
+        if not validation.is_number(request.POST['phone']):
+            messages["phone"] = u"El teléfono debe contener solamente números"
+        
+        if len(messages) == 0:
+            user_dict = {
+                "first_name":request.POST["first_name"],
+                "last_name":request.POST["last_name"],
+            }
+            external_dict = {
+                "company":request.POST["company"],
+                "phone":request.POST["phone"],
+            }
+            
+            user.__dict__.update(user_dict)
+            external.__dict__.update(external_dict)
+            user.save()
+            external.save()
+        else:
+            return render(request, 'users/profile.html', {"messages": messages})
+    except Exception, e:
+        pass
     return redirect("/users/profile/")
+
+def avatar(request):
+    try:
+        if request.user.username == request.POST["username"]:
+            user = User.objects.get(username=request.user)
+            external = External.objects.get(user=user)
+
+            _, b64data = request.POST["data"].split(',')
+            image_data = b64decode(b64data)
+            external.avatar = ContentFile(image_data, request.POST["filename"])
+            external.save()
+
+            response = JSONResponse({'thumb': external.thumb}, mimetype=response_mimetype(request))
+            response['Content-Disposition'] = 'inline; filename=files.json'
+            return response
+        else:
+            message = "Corrupted information"
+    except Exception, e:
+        message = str(e)
+
+    response = JSONResponse({'state': message}, mimetype=response_mimetype(request))
+    response['Content-Disposition'] = 'inline; filename=files.json'
+    return response
 
 @login_required(login_url='/users/login/')
 def profile(request):

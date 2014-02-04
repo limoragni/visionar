@@ -19,5 +19,6 @@ urlpatterns = patterns('',
    	url(r'^signup/', views.signup, name='signup'),
     url(r'^validate/(?P<user>\w+)/(?P<key>.*)$', views.email_confirmation, name='validate'),
     url(r'^updateUser/', views.updateUser, name='updateUser'),
+    url(r'^avatar/', views.avatar, name='avatar'),
     url(r'^$', views.loginview, name='loginBlank'),
 )

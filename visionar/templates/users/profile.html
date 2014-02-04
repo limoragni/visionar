@@ -2,7 +2,28 @@
 
 {% block content %}
   	{% load staticfiles %}
-  	<!-- contact section -->
+  	<style type="text/css">
+        #avatar{
+            opacity:0;
+            width: 120px;
+            position:relative;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        #avatar-container{
+            cursor: pointer;
+            position:relative;
+            width: 130px;
+            height: 20px;
+        }
+        #avatar-link{
+            position: absolute;
+            top:0;
+            left:0;
+            cursor: pointer;
+        }
+    </style>
+    <!-- contact section -->
      <div class="nav-waypoint">
      <section id="contact-section" class="contact-section parallax-section parallax-background">
      <div class="parallax-overlay parallax-overlay-5"></div><!-- parallax overlay -->
@@ -31,30 +52,47 @@
             <form id="profile-form" class="contact-form" method="POST" action="/users/updateUser/">
                 {% csrf_token %}
                 <div class="grid-100">    
-                <div class="grid-25 suffix-5"><img src="{% static "users/img/visionar-avatar.jpg" %}" alt="you" /></div>
+                    <div class="grid-25 suffix-5">
+                        {% if not user.external %}
+                            <img id="avatar-image" src="{% static "users/img/visionar-avatar.jpg" %}" alt="you" />
+                        {% else %}
+                            <img id="avatar-image" src="{{user.external.thumb}}" alt="you" />
+                        {% endif %}
+                        <div id="avatar-container">
+                            <input type="file" name="avatar" id="avatar">
+                            <a id="avatar-link" href="#">Cambiar Imagen</a>
+                        </div>
+                        
+
+                    </div>
+                
                     
                 <ul class="grid-70">
-                	<li><input id="first_name" class="first_name" type="text" name="first_name" value="{{user.first_name}}" placeholder="Nombre:"></li>
+                	<li>Nombre</li>
+                    <li><input id="first_name" class="first_name" type="text" name="first_name" value="{{user.first_name}}" placeholder="Nombre:"></li>
+                    <li>{{messages.first_name}}</li>
+                    <li>Apellido</li>
                     <li><input id="last_name" class="last_name" type="text" name="last_name" value="{{user.last_name}}" placeholder="Apellido"></li>
+                    <li>{{messages.last_name}}</li>
+                    <li>Empresa</li>
                     <li><input id="company" class="name" type="text" name="company" value="{{user.external.company}}" placeholder="Empresa:"></li>
+                    <li>{{messages.company}}</li>
+                    <li>Teléfono</li>
                     <li><input id="phone" class="phone" type="text" name="phone" value="{{user.external.phone}}" placeholder="Telefono:"></li>
+                    <li>{{messages.phone}}</li>
               	</ul>
                 {% if update %}
                     <p>Datos actualizados con exito</p>
                 {% else %}
-                    <div style="text-align:right;"> <input id="send-btn" class="send-btn" type="submit" value="Guardar"></div>     
+                    <div style="text-align:right;"> <input id="send-btn" class="send-btn" type="submit" value="Guardar"></div>
                 {% endif %}
                 
-                    
                 </div>   
               </form><!-- close contact form -->
                     
             </div>
             </div><!-- close contact-form-holder -->
             
-            
-            
-                        <!-- contact message -->
             <div class="grid-parent grid-35 mobile-grid-100 tablet-grid-100">
             <div class="contact-message">
             	<div class="grid-100">
@@ -72,4 +110,32 @@
 	</section><!-- close contact section -->
     
 	</div><!-- close nav-waypoint -->
+    <script src="{% static "visionar/js/uploader.js" %}"></script>
+    <script type="text/javascript">
+       $(document).ready(function() {
+            var up = new Uploader("/users/avatar/", {
+                data:{
+                    username: "{{user.username}}",
+                },
+                
+                onChange : function(i){
+                    $("#avatar-image").attr('src', '{% static "users/img/visionar-avatar.jpg" %}')
+                },
+                success: function(d, i){
+                    $("#avatar-image").attr('src', d.thumb);
+                },
+                error: function(){
+
+                },
+            });
+
+            $("#avatar").mouseover(function(event) {
+                $("#avatar-link").css('color', 'black')
+            }); 
+
+            $("#avatar").mouseout(function(event) {
+                $("#avatar-link").css('color', '#3498db')
+            });   
+        });
+    </script>
 {% endblock %}

@@ -21,7 +21,6 @@ Uploader.prototype.init = function(){
 			self.send();
 		}
 		reader.readAsDataURL(self.file);
-		
 	})
 }
 

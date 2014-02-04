@@ -123,6 +123,7 @@ TPS_PREVIEW = '/editor/tpspreview/'
 THUMBNAIL_ALIASES = {
     '': {
         'avatar': {'size': (120, 120), 'crop': True},
+        'profile': {'size': (147, 147), 'crop': True},
         '380': {'size': (270, 227), 'crop': "smart", 'upscale': True},
     },
 }
