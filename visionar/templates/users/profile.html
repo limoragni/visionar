@@ -80,6 +80,11 @@
                     <li>Teléfono</li>
                     <li><input id="phone" class="phone" type="text" name="phone" value="{{user.external.phone}}" placeholder="Telefono:"></li>
                     <li>{{messages.phone}}</li>
+                    <li>Contraseña</li>
+                    <li><input id="password" type="password" name="password"></li>
+                    <li>{{messages.password}}</li>
+                    <li>Confirme Contraseña</li>
+                    <li><input id="password_confirm" type="password" name="password_confirm"></li>
               	</ul>
                 {% if update %}
                     <p>Datos actualizados con exito</p>
@@ -135,7 +140,44 @@
 
             $("#avatar").mouseout(function(event) {
                 $("#avatar-link").css('color', '#3498db')
-            });   
+            });
+
+
+            $("#password_confirm").focusout(function(event) {
+                var pass = $("#password").val();
+                if(pass == $("#password_confirm").val()){
+                    $("#send-btn").removeAttr('disabled');
+                    $("#password_confirm").css("border-color", "transparent")
+                }else{
+                    $("#password_confirm").css("border-color", "#EE2200")
+                    $("#password").css("border-color", "#EE2200")
+                }
+
+                if(!$("#password_confirm").val()){
+                    $("#send-btn").removeAttr('disabled');
+                    $("#password_confirm").css("border-color", "transparent")
+                }
+            });
+            $("#password_confirm").focusin(function(event){
+                $("#send-btn").attr('disabled', 'disabled')
+                $("#password_confirm").css("border-color", "transparent")
+            });
+
+            $("#password").focusin(function(event){
+                $("#send-btn").attr('disabled', 'disabled')
+                $("#password").css("border-color", "transparent")
+            });
+
+            $("password").focusin(function(){
+                if(!$("#password").val()){
+                    $("#send-btn").removeAttr('disabled');
+                    $("#password").css("border-color", "transparent")
+                }
+            });
+
+
+      
+  
         });
     </script>
 {% endblock %}

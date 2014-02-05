@@ -232,6 +232,9 @@ def updateUser(request):
         user = User.objects.get(username=request.user)
         external = External.objects.get(user=user)
         messages = {}
+        if request.POST['password']:
+            if not validation.lengthValidation(request.POST['password'], 4, 20):
+                messages["password"] = u"El password debe tener un mínimo de 6 caractéres y un máximo de 20"
         if not validation.lengthValidation(request.POST['first_name'], 3, 30):
             messages["first_name"] = u"El nombre debe tener un mínimo de 3 caractéres"
         if not validation.lengthValidation(request.POST['last_name'], 3, 50):
@@ -255,8 +258,10 @@ def updateUser(request):
             
             user.__dict__.update(user_dict)
             external.__dict__.update(external_dict)
+            user.set_password(request.POST["password"])
             user.save()
             external.save()
+
         else:
             return render(request, 'users/profile.html', {"messages": messages})
     except Exception, e:
