@@ -72,7 +72,7 @@ def recover(request):
             url = env.HOST + "users/recover_pass/" + user.username + "/" + pass_key .key
 
             text = "Ingrese a el siguiente link para cambiar el pass... " + url
-            html = u'<html><head></head><body><h3>Recuperación de contraseña en visionar.com.ar</h3><p>Hola, <strong>' + user.username + '<strong></p><p>Dirigite a <a href="' + url + '">este link</a> para recuperar tu contraseña.</p></body></html>'.decode("utf-8")
+            html = u'<html><head></head><body><h3>Recuperación de contraseña en visionar.com.ar</h3><p>Hola, <strong>' + user.username + u'<strong></p><p>Dirigite a <a href="' + url + u'">este link</a> para recuperar tu contraseña.</p></body></html>'
             part1 = MIMEText(text, 'plain')
             part2 = MIMEText(html, 'html', 'utf-8')
 

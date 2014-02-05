@@ -104,8 +104,9 @@ class Plan(models.Model):
 
 class Pedido(models.Model):
 	TIPO_PAGO_OPS = (
-		('Rapipago', 'Mercadopago'),
-		('Tarjeta', 'Deposito')
+		('Mercadopago', 'Mercadopago'),
+		('Tarjeta', 'Tarjeta'),
+		('Deposito', 'Deposito')
 	) 
 	PAYMENT_STATES_CHOICES = (
 		('Pendiente', 'Pendiente'),

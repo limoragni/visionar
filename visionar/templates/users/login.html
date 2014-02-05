@@ -2,6 +2,7 @@
 
 {% block content %}
     {% load staticfiles %}
+   
  <!-- contact section -->
  <div class="nav-waypoint">
  <section id="contact-section" class="contact-section parallax-section parallax-background">
@@ -33,21 +34,20 @@
             {% csrf_token %}
         	<ul class="grid-100">
                 {{messages.username}}
-            	<li><input id="username" class="username" type="text" name="username" placeholder="Usuario:" value = "{{fields.username}}"></li>
+            	<li><input id="username" class="username {{ messages.username|yesno:"error-field,," }}" type="text" name="username" placeholder="Usuario:" value = "{{fields.username}}"></li>
                 {{messages.password}}
-                <li><input id="password" class="password" type="password" name="password" placeholder="Password:"></li>
+                <li><input id="password" class="password {{ messages.password|yesno:"error-field,," }}" type="password" name="password" placeholder="Password:"></li>
                 {{messages.first_name}}
-                <li><input id="first_name" class="first_name" type="text" name="first_name" placeholder="Nombre:" value = "{{fields.first_name}}"></li>
+                <li><input id="first_name" class="first_name {{ messages.first_name|yesno:"error-field,," }}" type="text" name="first_name" placeholder="Nombre:" value = "{{fields.first_name}}"></li>
                 {{messages.last_name}}
-                <li><input id="last_name" class="last_name" type="text" name="last_name" placeholder="Apellido:" value = "{{fields.last_name}}"></li>
+                <li><input id="last_name" class="last_name {{ messages.last_name|yesno:"error-field,," }}" type="text" name="last_name" placeholder="Apellido:" value = "{{fields.last_name}}"></li>
                 {{messages.email}}
-                <li><input id="email" class="email" type="text" name="email" placeholder="E-Mail:" value = "{{fields.email}}"></li>
+                <li><input id="email" class="email {{ messages.email|yesno:"error-field,," }}" type="text" name="email" placeholder="E-Mail:" value = "{{fields.email}}"></li>
 				{{messages.company}}
-                <li><input id="company" class="name" type="text" name="company" placeholder="Empresa:" value = "{{fields.company}}"></li>
+                <li><input id="company" class="name {{ messages.company|yesno:"error-field,," }}" type="text" name="company" placeholder="Empresa:" value = "{{fields.company}}"></li>
                 {{messages.phone}}
-                <li><input id="phone" class="phone" type="text" name="phone" placeholder="Télefono:" value = "{{fields.phone}}"></li>
-                
-        	</ul>
+                <li><input id="phone" class="phone {{ messages.phone|yesno:"error-field,," }}" type="text" name="phone" placeholder="Télefono:" value = "{{fields.phone}}"></li>
+            </ul>
 			
             <div class="grid-100">    
                 <input id="send-btn" class="send-btn" type="submit" name="send-btn" value="Registrarse">
@@ -70,8 +70,7 @@
         <form id="login-form" method="POST" action="/users/auth/" class="contact-form">
             {% csrf_token %}
         	<ul class="grid-100">
-            
-            	<li><input class="name" type="text" name="username" placeholder="Usuario"></li>
+                <li><input class="name" type="text" name="username" placeholder="Usuario"></li>
                 <li><input class="password" type="password" name="password" placeholder="Password:"></li>
                 {% if failed %}
                     <div class="validation-error">Usuario o contraseña incorrectos!</div>
@@ -101,11 +100,5 @@
 </section><!-- close contact section -->
 
 </div><!-- close nav-waypoint -->
-<!-- <script type="text/javascript" src="{% static "visionar/js/vendor/jquery.validate.min.js" %}"></script> -->
-<script type="text/javascript">
-    //$("#signup-form").validate();
-    $(document).ready(function(){
 
-    });
-</script>
 {% endblock %}
