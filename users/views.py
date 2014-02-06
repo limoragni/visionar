@@ -294,7 +294,8 @@ def avatar(request):
 @login_required(login_url='/users/login/')
 def profile(request):
     user = User.objects.get(username=request.user)
-    return render(request, "users/profile.html", {"user":user})
+    pedidos = Pedido.objects.filter(user=user)
+    return render(request, "users/profile.html", {"user":user, 'pedidos': pedidos})
 
 @login_required(login_url='/users/login/')
 def video(request):
