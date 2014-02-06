@@ -291,6 +291,7 @@ def avatar(request):
     response['Content-Disposition'] = 'inline; filename=files.json'
     return response
 
+
 @login_required(login_url='/users/login/')
 def profile(request):
     user = User.objects.get(username=request.user)

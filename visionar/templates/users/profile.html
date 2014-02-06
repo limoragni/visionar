@@ -103,6 +103,18 @@
             	<div class="grid-100">
                 	<p>Tenés dudas sobre el funcionamiento de nuestra webapp?</p>
                     <p><a href="http://visionar.nodall.com.ar/#contact-section" target="_blank"><i class="icon-envelope-alt"></i> Envíanos un mail</a> y consultanos</p>
+                    {% for p in pedidos %}
+                  
+                      <div style="float:left;background-color: #eee; padding: 20px; margin-left:20px; color:#444">
+                        <ul style="margin:0">
+                        <li><strong>Pedido: {{p.fecha}}</strong></li>
+                        <li>Plan: {{p.plan}}</li>
+                        <li>Estado de pago: {{p.payment_state}}</li>
+                        <li>Factura: <a href="/media/facturas/pdf.pdf">Descargar</a></li>
+                      </ul>
+                      </div>
+                  
+                    {% endfor %}
             	</div>
             </div>
             </div><!-- close contact message -->
