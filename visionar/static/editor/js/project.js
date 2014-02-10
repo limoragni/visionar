@@ -62,15 +62,13 @@ $(document).ready(function() {
 				self.changeMedia($(this));
 			})
 		});
-/*
-		$("#add-text").click(function(){
 
-		})*/  
 		this.resetDragDrop();
 		this.disableFileInputDrag();
 		this.setSelectEvent();
 		if(this.imageCount >= this.imageNumber){
 			this.disableAddImage();
+			
 		}
 	}
 
@@ -122,6 +120,7 @@ $(document).ready(function() {
 						"<h4><span id='image-number'>"+this.imageCount+ "</span>/" + this.imageNumber+"</h4>" +
 						"<input type='file' />" +
 						"<h3 class='file-input-inside'><i class='icon-large icon-camera'></i>Agregar Imagen</h3>" +
+						"<span id='cover-add-image' ></span>" +
 					"</div>"
 
 		$($(".hippster")[0]).append(entry);
@@ -255,11 +254,13 @@ $(document).ready(function() {
 	       		csrfmiddlewaretoken: _csrftoken
 			},
 	        success: function(data, status, xhr) {
-	       		console.log(data)
-	       		setTimeout(function(){
-	       			self.askPreview();
-	       		}, 1000)
-	       		//self.createVideo(data.response);
+	       		if(data.error){
+	       			//TODO: POPUP AVISANDO QUE EL SERVER ESTA CAIDO 
+	       		}else{
+	       			setTimeout(function(){
+		       			self.askPreview();
+		       		}, 1000)
+	       		}
 	        },
 	        error: self.logErros,
 	    }); 
@@ -335,11 +336,29 @@ $(document).ready(function() {
 	Project.prototype.disableAddImage = function(){
 		var p = $("input[type=file]").parent();
 		$("input[type=file]").prop('disabled', true);
+		$("#cover-add-image").css({
+			width: 150,
+			height: 150,
+			zIndex: 99000,
+			position:'absolute',
+			top: 0,
+			left:0
+		})
+
+		$("#cover-add-image").click(function(){
+			$.magnificPopup.open({
+		        items: {
+		            src: '#add-image-popup-disabled' 
+		        },
+		        type: 'inline'
+		    });
+		})
 	}
 
 	Project.prototype.enableAddImage = function(){
 		var p = $("input[type=file]").parent();
 		$("input[type=file]").prop('disabled', false);
+		$("#cover-add-image").css('z-index', 0)
 	}
 
 	Project.prototype.askPreview = function(){

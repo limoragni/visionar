@@ -186,10 +186,10 @@ def sendRenderData(data):
 	try:
 		r = requests.post(env.BLENDER_URL, data=json.dumps(data), headers=headers)
 		message = r.json()
-		if data['render_type'] == "FINAL":
-			sendRenderNotification()
-	except Exception as e:
-		message = {'response':e}
+	except requests.ConnectionError, e:
+		logger.error(str(e))
+		message = {'error':True}
+		pass
 	return message
 
 
@@ -268,7 +268,7 @@ def sendRenderNotification(title, key, username, email):
 	sender = 'info@visionar.com.ar'
 	receivers = [email]
 	msg = MIMEMultipart('alternative')
-	msg['Subject'] = "Confirmación de email"
+	msg['Subject'] = u"Su render a finalizado"
 	msg['From'] = sender
 	msg['To'] = email
 
@@ -276,7 +276,7 @@ def sendRenderNotification(title, key, username, email):
 	url = env.HOST + "project/video/" + key
 
 	text = u"Su proyecto "+ title + u" ha finalizado el render, dirigíte al siguiente link... " + url
-	html = u'<html><head></head><body><h3>Render Finalizado</h3><p>Hola, <strong>' + username + u'<strong></p><p>El render del proyecto '+ title + u'a finalizado.</p><p>Dirigíte a <a href="' + url + u'">este link</a> para verlo y realizar el pago.</p></body></html>'.decode('utf-8')
+	html = u'<html><head></head><body><h3>Render Finalizado</h3><p>Hola, <strong>' + username + u'<strong></p><p>El render del proyecto '+ title + u'a finalizado.</p><p>Dirigíte a <a href="' + url + u'">este link</a> para verlo y realizar el pago.</p></body></html>'
 	part1 = MIMEText(text, 'plain')
 	part2 = MIMEText(html, 'html')
 
