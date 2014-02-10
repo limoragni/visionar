@@ -28,6 +28,7 @@ $(document).ready(function() {
 		$("#render").click(function(){
 			if(self.validate()){
 				$("#preview-title").html("Vista Previa")
+				self.save();
 				self.render();	
 			}else{
 				$("#preview-title").html("Por favor, cargue todos los textos e imagenes necesarios")
