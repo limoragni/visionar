@@ -16,6 +16,7 @@
  		var _TEMPLATE_IMAGE_COUNT = "{{media|length}}"
  		var _TEMPLATE_TEXT_NUMBER = "{{project.template.text_number}}";
  		var _TEMPLATE_TEXT_COUNT = texts;
+ 		var _STATIC_PATH = "{% static "" %}"
  	</script>
  	<script src="{% static "visionar/js/vendor/jquery-ui-10.3.js" %}"></script>
  	<script src="{% static "visionar/js/vendor/shapeshift.js" %}"></script>
@@ -74,8 +75,9 @@
 			<div id="preview-button" class="mfp-hide">
                <div class="modal-display">
 	               <h2 id="preview-title">Vista Previa</h2>
+	               <p>Estamos procesando la vista previa de su video. Por favor, aguarde unos minutos.</p>
 	               <div id="video"></div>
-	               <a class="popup-modal-dismiss" href="#">Cerrar</a></p>
+	               <a id="cancel_render" class="popup-modal-dismiss" href="#">Cerrar</a></p>
                </div>
            </div>	
 

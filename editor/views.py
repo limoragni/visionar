@@ -185,7 +185,7 @@ def sendRenderData(data):
 	headers = {'content-type': 'application/json'}
 	try:
 		r = requests.post(env.BLENDER_URL, data=json.dumps(data), headers=headers)
-		message = r.json()
+		message = r.text
 	except requests.ConnectionError, e:
 		logger.error(str(e))
 		message = {'error':True}
@@ -210,6 +210,25 @@ def renderProject(request): #TODO: Agregar parametro QUALITY Cambiar nombre de f
 	response['Content-Disposition'] = 'inline; filename=files.json' 
 	return response  
 
+def cancelRender(request): #TODO: Agregar parametro QUALITY Cambiar nombre de funcion a renderPreview
+	red = redis.StrictRedis(host='localhost', port=6379, db=0)
+	red.delete(request.POST["project"])
+	message = cancelRenderAction(request.POST["project"])
+	response = JSONResponse(message, mimetype=response_mimetype(request))
+	response['Content-Disposition'] = 'inline; filename=files.json' 
+	return response  
+
+def cancelRenderAction(data):
+	headers = {'content-type': 'application/json'}
+	try:
+		r = requests.post(env.BLENDER_CANCEL_URL, data=json.dumps({"project": data}), headers=headers)
+		message = r.text
+	except requests.ConnectionError, e:
+		logger.error(str(e))
+		message = {'error_cancelRenderView':str(e)}
+		pass
+	return message
+
 @login_required(login_url='/users/login/')
 def checkout(request, urlhash):
 	if Project.objects.get(urlhash=str(urlhash)):
@@ -233,14 +252,14 @@ def video(request, urlhash):
 		urls = None
 	return render(request, 'editor/checkout.html', {"project": project, 'urls': urls, 'plans': plans, 'pedidos':pedidos})	
 
-def sendToBlender(data):
-	js = simplejson.dumps(data)
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect(('127.0.0.1', 13373))
-	s.send(js)
-	result = json.loads(s.recv(1024))
-	s.close()
-	return result
+# def sendToBlender(data):
+# 	js = simplejson.dumps(data)
+# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 	s.connect(('127.0.0.1', 13373))
+# 	s.send(js)
+# 	result = json.loads(s.recv(1024))
+# 	s.close()
+# 	return result
 
 def renderDone(request):
 	try:

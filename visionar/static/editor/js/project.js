@@ -28,12 +28,15 @@ $(document).ready(function() {
 		$("#render").click(function(){
 			if(self.validate()){
 				$("#preview-title").html("Vista Previa")
-				self.save(self.render);
-					
+				self.render();	
 			}else{
 				$("#preview-title").html("Por favor, cargue todos los textos e imagenes necesarios")
 			}
 		})
+
+		$("#cancel_render").click(function(){
+			self.cancelRender();
+		});
 
 		$("#delete-text").click(function(){
 			var entry = $($(".entry-selected")[0]);
@@ -48,7 +51,6 @@ $(document).ready(function() {
 				self.deleteMedia();
 			}
 		});
-
 
 		$("#save-project").click(function(){
 			self.save();
@@ -111,7 +113,7 @@ $(document).ready(function() {
 		var element = $(e)
 		element.css("display", "none")
 		element.siblings().css("display", "none")
-		element.parent().append("<h4>Loading...</h4>")
+		element.parent().append("<img src='"+ _STATIC_PATH +"visionar/images/loader.gif'>")
 		element.parent().removeAttr('data-mediatype')
 	}
 
@@ -201,7 +203,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	Project.prototype.save = function(onSuccess){
+	Project.prototype.save = function(){
 		var self = this;
 		$.ajax({
 	    	url: "/project/save/",
@@ -215,22 +217,17 @@ $(document).ready(function() {
 
 	       	},
 	        success: function(data, status, xhr) {
-	        	if(onSuccess){
-	        		onSuccess();
-	        	}else{
-	        		if(data.response){
-		        		$('#save-project-tag').fadeOut(500, function() {
-					        var self = this;
-					        var text = $(this).text();
-					    	$(this).text('Proyecto guardado con exito!').fadeIn(500);
-					        $('#close-save-project').click(function(){
-					        	$(self).text(text)
-					        	console.log(text)
-					        })
-					    });
-		        	}
+	        	if(data.response){
+	        		$('#save-project-tag').fadeOut(500, function() {
+				        var self = this;
+				        var text = $(this).text();
+				    	$(this).text('Proyecto guardado con exito!').fadeIn(500);
+				        $('#close-save-project').click(function(){
+				        	$(self).text(text)
+				        	console.log(text)
+				        })
+				    });
 	        	}
-	        	
 	        },
 	        error: function(xhr, errmsg, err){
 	    		/*console.log(errmsg);
@@ -250,7 +247,7 @@ $(document).ready(function() {
 
 	Project.prototype.render = function(){
 		var self = this;
-		$("#video").html("Loading....");
+		$("#video").html("<img style='margin-bottom:10px;'src='"+ _STATIC_PATH +"visionar/images/loader.gif'>");
 		$.ajax({
 	    	url: "/project/render/",
 	       	type: 'POST',
@@ -267,6 +264,23 @@ $(document).ready(function() {
 		       			self.askPreview();
 		       		}, 1000)
 	       		}
+	        },
+	        error: self.logErros,
+	    }); 
+	}
+
+	Project.prototype.cancelRender = function(){
+		var self = this;
+		$.ajax({
+	    	url: "/project/cancelRender/",
+	       	type: 'POST',
+	       	data: {
+	       		project: self.urlhash,
+	       		user: _USER,
+	       		csrfmiddlewaretoken: _csrftoken
+			},
+	        success: function(data, status, xhr) {
+	       		console.log(data);
 	        },
 	        error: self.logErros,
 	    }); 
