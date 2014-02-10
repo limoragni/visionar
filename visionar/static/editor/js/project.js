@@ -28,8 +28,8 @@ $(document).ready(function() {
 		$("#render").click(function(){
 			if(self.validate()){
 				$("#preview-title").html("Vista Previa")
-				self.save();
-				self.render();	
+				self.save(self.render);
+					
 			}else{
 				$("#preview-title").html("Por favor, cargue todos los textos e imagenes necesarios")
 			}
@@ -201,7 +201,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	Project.prototype.save = function(){
+	Project.prototype.save = function(onSuccess){
 		var self = this;
 		$.ajax({
 	    	url: "/project/save/",
@@ -215,17 +215,22 @@ $(document).ready(function() {
 
 	       	},
 	        success: function(data, status, xhr) {
-	        	if(data.response){
-	        		$('#save-project-tag').fadeOut(500, function() {
-				        var self = this;
-				        var text = $(this).text();
-				    	$(this).text('Proyecto guardado con exito!').fadeIn(500);
-				        $('#close-save-project').click(function(){
-				        	$(self).text(text)
-				        	console.log(text)
-				        })
-				    });
+	        	if(onSuccess){
+	        		onSuccess();
+	        	}else{
+	        		if(data.response){
+		        		$('#save-project-tag').fadeOut(500, function() {
+					        var self = this;
+					        var text = $(this).text();
+					    	$(this).text('Proyecto guardado con exito!').fadeIn(500);
+					        $('#close-save-project').click(function(){
+					        	$(self).text(text)
+					        	console.log(text)
+					        })
+					    });
+		        	}
 	        	}
+	        	
 	        },
 	        error: function(xhr, errmsg, err){
 	    		/*console.log(errmsg);
