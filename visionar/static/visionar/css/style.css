@@ -774,6 +774,18 @@ padding-bottom:0px;
 .contact-message ul li {
 	margin-bottom:10px;
 }
+
+.contact-message ul li[class="pedidos-item"] {
+	margin-bottom:0px;
+}
+
+.pedidos-item-cont{
+	float:left; 
+	background-color: #eee; 
+	padding: 10px; 
+	color:#444; 
+	width:90%;
+}
 .contact-form-holder {
 	padding:20px;
 	background: rgba(255, 255, 255, 0.7);
@@ -1830,5 +1842,10 @@ table th[class*="span"],
 }
 
 .error-field{
-            border: solid 1px #EE4400 !important;
+            background-color: #e52881 !important;
+            color:#ffffff !important;
+        }
+
+.validation-error{
+            color:#e52881 !important;
         }

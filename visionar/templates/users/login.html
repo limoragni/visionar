@@ -73,10 +73,10 @@
                 <li><input class="name" type="text" name="username" placeholder="Usuario"></li>
                 <li><input class="password" type="password" name="password" placeholder="Password:"></li>
                 {% if failed %}
-                    <div class="validation-error">Usuario o contraseña incorrectos!</div>
+                    <div class="validation-error"><i class="icon-exclamation-sign"></i> Usuario o contraseña incorrectos!</div>
                 {% endif %}
                 {% if no_confirm %}
-                    <div class="validation-error">La cuenta no a sido certificada!</div>
+                    <div class="validation-error"><i class="icon-exclamation-sign"></i> La cuenta no a sido certificada!</div>
                 {% endif %}
                 <li><a href="/users/recover"><i class="icon-lock"></i> Olvidaste tu password?</a></li>
         	</ul>
