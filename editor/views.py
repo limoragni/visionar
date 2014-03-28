@@ -284,7 +284,7 @@ def renderDone(request):
 		return HttpResponse(e)
 
 def sendRenderNotification(title, key, username, email):
-	sender = 'info@visionar.com.ar'
+	sender = 'info@rendovideo.com'
 	receivers = [email]
 	msg = MIMEMultipart('alternative')
 	msg['Subject'] = u"Su render a finalizado"

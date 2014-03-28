@@ -61,7 +61,7 @@ def recover(request):
             pass_key = Password_Recovery(user=user)
             pass_key.save()
             
-            sender = 'info@visionar.com.ar'
+            sender = 'info@rendovideo.com'
             receivers = [email]
             msg = MIMEMultipart('alternative')
             msg['Subject'] = "Recuperar password"
@@ -72,7 +72,7 @@ def recover(request):
             url = env.HOST + "users/recover_pass/" + user.username + "/" + pass_key .key
 
             text = "Ingrese a el siguiente link para cambiar el pass... " + url
-            html = u'<html><head></head><body><h3>Recuperación de contraseña en visionar.com.ar</h3><p>Hola, <strong>' + user.username + u'<strong></p><p>Dirigite a <a href="' + url + u'">este link</a> para recuperar tu contraseña.</p></body></html>'
+            html = u'<html><head></head><body><h3>Recuperación de contraseña enwww.rendovideo.com</h3><p>Hola, <strong>' + user.username + u'<strong></p><p>Dirigite a <a href="' + url + u'">este link</a> para recuperar tu contraseña.</p></body></html>'
             part1 = MIMEText(text, 'plain')
             part2 = MIMEText(html, 'html', 'utf-8')
 
@@ -130,7 +130,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
     key = Email_Confirmation(user=user)
     key.save()
     
-    sender = 'info@visionar.com.ar'
+    sender = 'info@rendovideo.com'
     receivers = [email]
     msg = MIMEMultipart('alternative')
     msg['Subject'] = u"Confirmación de email"
@@ -141,7 +141,7 @@ def create_user(username, email, password, first_name, last_name, company, phone
     url = env.HOST + "users/validate/" + username + "/" + key.key
 
     text = "Ingrese a el siguiente link para activar su cuenta... " + url
-    html = '<html><head></head><body><h3>Confirmacion de mail visionar.com.ar</h3><p>Hola, <strong>' + username + '<strong></p><p>Dirigite a <a href="' + url + '">este link</a> para activar tu cuenta.</p><p>Si no solicitaste una cuenta en visionar.com.ar podes obviar este mail</p></body></html>'.decode("utf-8")
+    html = '<html><head></head><body><h3>Confirmacion de mail www.rendovideo.com</h3><p>Hola, <strong>' + username + '<strong></p><p>Dirigite a <a href="' + url + '">este link</a> para activar tu cuenta.</p><p>Si no solicitaste una cuenta en rendovideo.com podes obviar este mail</p></body></html>'.decode("utf-8")
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
 
